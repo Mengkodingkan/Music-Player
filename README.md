@@ -2,7 +2,7 @@
 A simple music player, written in PHP (backend) and Ionic (frontend).
 
 ## Database Structure
-![Database Structure](frontend/public/assets/img/erd.png)
+![Database Structure](backend/public/assets/img/erd.png)
 
 ## Features
 - Play music with a simple web interface
