@@ -2,7 +2,7 @@
 A simple music player, written in PHP (backend) and Ionic (frontend).
 
 ## Database Structure
-![Database Structure](public/assets/img/erd.png)
+![Database Structure](frontend/public/assets/img/erd.png)
 
 ## Features
 - Play music with a simple web interface
@@ -15,12 +15,18 @@ A simple music player, written in PHP (backend) and Ionic (frontend).
 ## Requirements
 - PHP 7.3 or higher
 - Composer
+- NodeJS (V18 or higher)
 
-## Installation
+## Installation (Backend)
 1. Clone the repository
 2. type `composer install` in the root folder
 3. Edit `.env` and set database credentials
 4. run `php artisan serve` to start the server [dev only]
+
+## Installation (Frontend)
+1. type `npm install` in the root folder
+2. edit `config.json` and set the backend url
+3. run `ionic serve` to start the server [dev only]
 
 **Note:** The application is not yet ready for production.
 
