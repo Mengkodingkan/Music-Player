@@ -1,5 +1,5 @@
 # Music Player
-A simple music player, written in PHP (backend) and JavaScript (frontend).
+A simple music player, written in PHP (backend) and Ionic (frontend).
 
 ## Database Structure
 ![Database Structure](public/assets/img/erd.png)
