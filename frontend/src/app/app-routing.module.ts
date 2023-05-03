@@ -11,6 +11,23 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'playlists',
+    loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
+  {
+    path: 'discovered',
+    loadChildren: () => import('./discovered/discovered.module').then(m => m.DiscoveredPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./users/login/login.module').then(m => m.LoginPageModule)
+  },
+
 ];
 
 @NgModule({
