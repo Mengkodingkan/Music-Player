@@ -10,17 +10,22 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'playlists',
-    loadChildren: () => import('./playlists/playlists.module').then( m => m.PlaylistsPageModule)
+    loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsPageModule)
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+    path: 'discovered',
+    loadChildren: () => import('./discovered/discovered.module').then(m => m.DiscoveredPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./users/login/login.module').then(m => m.LoginPageModule)
   },
 
 ];
