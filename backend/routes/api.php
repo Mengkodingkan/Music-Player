@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::get('/', function () {
     return response()->json([
@@ -26,10 +26,19 @@ Route::get('/', function () {
 });
 
 Route::post('/auth', 'App\Http\Controllers\AuthController@login');
+Route::middleware('api.admin')->prefix('/admin')->group(function () {
+    Route::get('/', function () {
+        return response()->json([
+            'message' => 'Welcome to the admin API',
+            'statusCode' => 200,
+        ], 200);
+    });
 
-Route::middleware('api.user')->group(function () {
-    Route::get('/user', 'App\Http\Controllers\UserController@getUser');
-    Route::post('/user', 'App\Http\Controllers\UserController@createUser');
-    Route::put('/user', 'App\Http\Controllers\UserController@updateUser');
-    Route::delete('/user', 'App\Http\Controllers\UserController@deleteUser');
+    Route::prefix('/users')->group(function () {
+        Route::get('/', 'App\Http\Controllers\UserManagementController@get_all_users');
+        Route::get('/{id}', 'App\Http\Controllers\UserManagementController@get_user_by_id');
+        Route::post('/', 'App\Http\Controllers\UserManagementController@create_user');
+        Route::put('/{id}', 'App\Http\Controllers\UserManagementController@update_user');
+        Route::delete('/{id}', 'App\Http\Controllers\UserManagementController@delete_user');
+    });
 });

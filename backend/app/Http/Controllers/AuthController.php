@@ -30,7 +30,7 @@ class AuthController extends Controller
 
             $payload = [
                 'name' => Auth::user()->name,
-                'role' => Auth::user()->role,
+                'role' => strtolower(Auth::user()->role),
                 'iat' => time(),
                 'exp' => time() + 60 * 60 * 24 * 7,
             ];
@@ -40,6 +40,7 @@ class AuthController extends Controller
                 'message' => 'Login successful',
                 'statusCode' => 200,
                 'token' => $token,
+                'role' => strtolower(Auth::user()->role),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
