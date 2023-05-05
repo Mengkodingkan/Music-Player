@@ -33,6 +33,13 @@ class AdminAuth
                 ], 401);
             }
 
+            $request->request->add([
+                'userauth' => [
+                    'id' => $decoded->id,
+                    'name' => $decoded->name,
+                    'role' => $decoded->role,
+                ]
+            ]);
             return $next($request);
         } catch (SignatureInvalidException $e) {
             return response()->json([

@@ -17,7 +17,7 @@ class UserManagementController extends Controller
     }
 
     public function get_user_by_id($id) {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         if (!$user) {
             return response()->json([
                 'message' => 'User not found',
@@ -49,6 +49,14 @@ class UserManagementController extends Controller
             ], 400);
         }
 
+        $email_exists = User::where('email', $data['email'])->first();
+        if ($email_exists) {
+            return response()->json([
+                'message' => 'Email already exists',
+                'statusCode' => 400,
+            ], 400);
+        }
+
         $user = User::create($data);
 
         return response()->json([
@@ -58,17 +66,61 @@ class UserManagementController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, $id) {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
+    public function update_user(Request $request, $id) {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+                'statusCode' => 404,
+            ], 404);
+        }
 
-        return $user;
+        $v = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string',
+            'birthday' => 'required|date',
+            'role' => 'required|in:admin,user'
+        ]);
+
+        if ($v->fails()) {
+            return response()->json([
+                'message' => 'Invalid data',
+                'statusCode' => 400,
+            ], 400);
+        }
+
+
+        $user->update($request->all());
+        return response()->json([
+            'message' => 'Update user successful',
+            'statusCode' => 200,
+            'data' => $user,
+        ], 200);
     }
 
-    public function delete(Request $request, $id) {
-        $user = User::findOrFail($id);
+    public function delete_user(Request $request, $id) {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        // if user same with token user
+        if ($user->id == $request->userauth['id']) {
+            return response()->json([
+                'message' => 'You cannot delete yourself',
+                'statusCode' => 400,
+            ], 400);
+        }
+
         $user->delete();
 
-        return 204;
+        return response()->json([
+            'message' => 'Delete user successful',
+            'statusCode' => 200,
+        ], 200);
     }
 }

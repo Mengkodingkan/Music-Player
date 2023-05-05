@@ -24,11 +24,12 @@ class AuthController extends Controller
             }
 
             if (!Auth::attempt($v->validated())) return response()->json([
-                'message' => 'Invalid credentials',
+                'message' => 'Email or password is incorrect',
                 'statusCode' => 400,
             ], 400);
 
             $payload = [
+                'id' => Auth::user()->id,
                 'name' => Auth::user()->name,
                 'role' => strtolower(Auth::user()->role),
                 'iat' => time(),
@@ -43,6 +44,7 @@ class AuthController extends Controller
                 'role' => strtolower(Auth::user()->role),
             ], 200);
         } catch (\Exception $e) {
+            var_dump($e->getMessage());
             return response()->json([
                 'message' => 'Login failed',
                 'statusCode' => 500,
