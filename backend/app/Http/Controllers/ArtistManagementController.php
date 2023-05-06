@@ -52,10 +52,6 @@ class ArtistManagementController extends Controller
             ], 400);
         }
 
-        $thumb = $request->file('image');
-        $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
-        $thumb->move(public_path('images'), $thumb_name);
-        $data['image'] = $thumb_name;
 
         $email_exists = Artist::where('email', $data['email'])->first();
         if ($email_exists) {
@@ -64,6 +60,11 @@ class ArtistManagementController extends Controller
                 'statusCode' => 400,
             ], 400);
         }
+
+        $thumb = $request->file('image');
+        $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
+        $thumb->move(public_path('images'), $thumb_name);
+        $data['image'] = $thumb_name;
 
         $artist = Artist::create($data);
         return response()->json([
@@ -83,6 +84,38 @@ class ArtistManagementController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
+
+        $v = Validator::make($data, [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'website' => 'required|string',
+            'image' => 'required|image|mimes:png',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json([
+                'message' => 'Invalid data',
+                'statusCode' => 400,
+            ], 400);
+        }
+
+        $email_exists = Artist::where('email', $data['email'])->first();
+        if ($email_exists && $email_exists->id != $id) {
+            return response()->json([
+                'message' => 'Email already exists',
+                'statusCode' => 400,
+            ], 400);
+        }
+
+        // delete old image
+        $old_image = $artist->image;
+        $old_image_path = public_path('images') . '/' . $old_image;
+        unlink($old_image_path);
+
+        $thumb = $request->file('image');
+        $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
+        $thumb->move(public_path('images'), $thumb_name);
+        $data['image'] = $thumb_name;
 
         $artist->update($data);
         return response()->json([

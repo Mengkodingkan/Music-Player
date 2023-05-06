@@ -41,4 +41,44 @@ Route::middleware('api.admin')->prefix('/admin')->group(function () {
         Route::put('/{id}', 'App\Http\Controllers\UserManagementController@update_user');
         Route::delete('/{id}', 'App\Http\Controllers\UserManagementController@delete_user');
     });
+
+    Route::prefix('/artists')->group(function () {
+        Route::get('/', 'App\Http\Controllers\ArtistManagementController@get_all_artists');
+        Route::get('/{id}', 'App\Http\Controllers\ArtistManagementController@get_artist_by_id');
+        Route::post('/', 'App\Http\Controllers\ArtistManagementController@create_artist');
+        Route::put('/{id}', 'App\Http\Controllers\ArtistManagementController@update_artist');
+        Route::delete('/{id}', 'App\Http\Controllers\ArtistManagementController@delete_artist');
+    });
+
+    Route::prefix('/albums')->group(function () {
+        Route::get('/', 'App\Http\Controllers\AlbumManagementController@get_all_albums');
+        Route::get('/{id}', 'App\Http\Controllers\AlbumManagementController@get_album_by_id');
+        Route::post('/', 'App\Http\Controllers\AlbumManagementController@create_album');
+        Route::put('/{id}', 'App\Http\Controllers\AlbumManagementController@update_album');
+        Route::delete('/{id}', 'App\Http\Controllers\AlbumManagementController@delete_album');
+    });
+
+    Route::prefix('/songs')->group(function () {
+        Route::get('/', 'App\Http\Controllers\SongManagementController@get_all_songs');
+        Route::get('/{id}', 'App\Http\Controllers\SongManagementController@get_song_by_id');
+        Route::post('/', 'App\Http\Controllers\SongManagementController@create_song');
+        Route::put('/{id}', 'App\Http\Controllers\SongManagementController@update_song');
+        Route::delete('/{id}', 'App\Http\Controllers\SongManagementController@delete_song');
+    });
+
+    Route::prefix('/playlists')->group(function () {
+        Route::get('/', 'App\Http\Controllers\PlaylistManagementController@get_all_playlists');
+        Route::get('/{id}', 'App\Http\Controllers\PlaylistManagementController@get_playlist_by_id');
+        Route::post('/', 'App\Http\Controllers\PlaylistManagementController@create_playlist');
+        Route::put('/{id}', 'App\Http\Controllers\PlaylistManagementController@update_playlist');
+        Route::delete('/{id}', 'App\Http\Controllers\PlaylistManagementController@delete_playlist');
+    });
+
+    Route::prefix('/genres')->group(function () {
+        Route::get('/', 'App\Http\Controllers\GenreManagementController@get_all_genres');
+        Route::get('/{id}', 'App\Http\Controllers\GenreManagementController@get_genre_by_id');
+        Route::post('/', 'App\Http\Controllers\GenreManagementController@create_genre');
+        Route::put('/{id}', 'App\Http\Controllers\GenreManagementController@update_genre');
+        Route::delete('/{id}', 'App\Http\Controllers\GenreManagementController@delete_genre');
+    });
 });
