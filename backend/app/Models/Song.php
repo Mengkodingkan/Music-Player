@@ -8,4 +8,45 @@ use Illuminate\Database\Eloquent\Model;
 class Song extends Model
 {
     use HasFactory;
+
+    protected $table = 'song';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'image',
+        'genre_id',
+        'album_id',
+        'artist_id',
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
+     * Get the genre that owns the song.
+     */
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
+
+    /**
+     * Get the album that owns the song.
+     */
+    public function album()
+    {
+        return $this->belongsTo(Album::class);
+    }
+
+    /**
+     * Get the artist that owns the song.
+     */
+    public function artist()
+    {
+        return $this->belongsTo(Artist::class);
+    }
 }

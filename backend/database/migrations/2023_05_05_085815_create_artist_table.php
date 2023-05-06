@@ -25,10 +25,7 @@ class CreateArtistTable extends Migration
             $table->string('image');
             $table->string('about');
             $table->unsignedBigInteger('user_id')->unique();
-            $table->dateTime('created_at')->default(now());
-            $table->dateTime('updated_at')->default(now());
-            $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
         });
     }
 

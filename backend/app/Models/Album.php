@@ -5,39 +5,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Artist extends Model
+class Album extends Model
 {
     use HasFactory;
 
-    protected $table = 'artist';
+    protected $table = 'album';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'instagram',
-        'facebook',
-        'twitter',
-        'website',
+        'title',
         'image',
-        'about',
+        'category',
+        'release_date',
+        'artist_id',
         'created_at',
         'updated_at',
     ];
 
     /**
-     * Get the albums for the artist.
+     * Get the user that owns the album.
      */
-    public function albums()
+    public function artist()
     {
-        return $this->hasMany(Album::class);
+        return $this->belongsTo(Artist::class);
     }
 
     /**
-     * Get the songs for the artist.
+     * Get the songs for the album.
      */
     public function songs()
     {
