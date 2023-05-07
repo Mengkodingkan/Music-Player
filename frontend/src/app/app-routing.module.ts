@@ -12,10 +12,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'playlists',
-    loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsPageModule)
-  },
-  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
