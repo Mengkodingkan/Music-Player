@@ -1,0 +1,18 @@
+<ion-tabs #tabs (ionTabsDidChange)="setSelectedTab()">
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="discovered">
+      <ion-icon [name]="selected === 'discovered' ? 'home': 'home-outline'"></ion-icon>
+      <ion-label>Discover</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="search">
+      <ion-icon [name]="selected === 'search' ? 'search': 'search-outline'"></ion-icon>
+      <ion-label>Search</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="musics">
+      <ion-icon [name]="selected === 'musics' ? 'copy': 'copy-outline'"></ion-icon>
+      <ion-label>Music</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

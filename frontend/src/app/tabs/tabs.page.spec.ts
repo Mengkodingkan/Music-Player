@@ -1,12 +1,12 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {DiscoveredPage} from './discovered.page';
+import {TabsPage} from './tabs.page';
 
-describe('DiscoveredPage', () => {
-  let component: DiscoveredPage;
-  let fixture: ComponentFixture<DiscoveredPage>;
+describe('TabsPage', () => {
+  let component: TabsPage;
+  let fixture: ComponentFixture<TabsPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(DiscoveredPage);
+    fixture = TestBed.createComponent(TabsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
