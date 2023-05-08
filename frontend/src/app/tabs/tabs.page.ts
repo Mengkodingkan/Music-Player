@@ -7,11 +7,8 @@ import {IonTabs} from "@ionic/angular";
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage {
-  @ViewChild(IonTabs) tabs: IonTabs = TabsPage.prototype.tabs;
-  selected: string | undefined = '';
-
-  constructor() {
-  }
+  @ViewChild(IonTabs) tabs: any;
+  selected: any;
 
   setSelectedTab() {
     console.log('CALLED')
