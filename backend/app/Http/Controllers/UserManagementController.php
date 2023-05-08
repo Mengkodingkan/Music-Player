@@ -90,6 +90,15 @@ class UserManagementController extends Controller
             ], 400);
         }
 
+        if ($user->email != $request->email) {
+            $email_exists = User::where('email', $request->email)->first();
+            if ($email_exists) {
+                return response()->json([
+                    'message' => 'Email already exists',
+                    'statusCode' => 400,
+                ], 400);
+            }
+        }
 
         $user->update($request->all());
         return response()->json([

@@ -18,12 +18,12 @@ class CreateArtistTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('instagram');
-            $table->string('facebook');
-            $table->string('twitter');
-            $table->string('website');
-            $table->string('image');
-            $table->string('about');
+            $table->string('instagram')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('website')->nullable();
+            $table->string('image')->nullable();
+            $table->string('about')->nullable();
             $table->unsignedBigInteger('user_id')->unique();
             $table->timestamps();
         });
