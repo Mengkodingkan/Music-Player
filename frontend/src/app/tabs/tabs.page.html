@@ -1,5 +1,23 @@
 <ion-tabs #tabs (ionTabsDidChange)="setSelectedTab()">
 
+  <div class="player">
+    <div class="progress-bar">
+      <div [style.width]="progress + '%'" class="progress"></div>
+    </div>
+    <ion-row>
+      <ion-col class="ion-no-padding" size="2">
+        <img alt="" src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
+      </ion-col>
+      <ion-col size="8">
+        <b>Cobaoba Cobacoba</b><br>
+        <span>Cobain</span>
+      </ion-col>
+      <ion-col size="2">
+        <ion-icon color="light" name="play-sharp" size="large"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="discovered">
       <ion-icon [name]="selected === 'discovered' ? 'home': 'home-outline'"></ion-icon>
