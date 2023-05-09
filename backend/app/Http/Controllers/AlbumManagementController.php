@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Artist;
+use App\Models\Playlist;
+use App\Models\TRX_Playlist;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,21 +14,27 @@ class AlbumManagementController extends Controller
 {
     public function get_all_albums()
     {
-        $album = Album::all();
-        // get all song
-        $album->load('artist', 'songs');
+        $albums = Album::with('artist', 'songs')->get();
+        $albums->makeHidden('artist_id');
+        $albums->load('songs.genre');
+
+        foreach ($albums as $album) $album->songs->makeHidden(['artist_id', 'album_id', 'genre_id']);
+
         return response()->json([
             'message' => 'Get all albums successful',
             'statusCode' => 200,
-            'data' => $album,
+            'data' => $albums,
         ], 200);
     }
 
     public function get_album_by_id($id)
     {
-        $album = Album::find($id);
-        // get all song
-        $album->load('artist', 'songs');
+        $album = Album::with('artist', 'songs')->find($id);
+        $album->makeHidden('artist_id');
+        $album->load('songs.genre');
+        // hidden artist_id on songs
+        $album->songs->makeHidden(['artist_id', 'album_id', 'genre_id']);
+
         if (!$album) {
             return response()->json([
                 'message' => 'Album not found',

@@ -15,6 +15,10 @@ class CreateTrxPlaylistTable extends Migration
     {
         Schema::create('trx_playlist', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('playlist_id');
+            $table->unsignedBigInteger('song_id');
+            $table->foreign('song_id')->references('id')->on('song');
+            $table->foreign('playlist_id')->references('id')->on('playlist');
             $table->timestamps();
         });
     }
