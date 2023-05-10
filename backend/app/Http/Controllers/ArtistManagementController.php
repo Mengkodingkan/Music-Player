@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Artist;
 use Exception;
 use Illuminate\Support\Facades\Validator;
-use PDO;
-
-use function GuzzleHttp\Promise\unwrap;
 
 class ArtistManagementController extends Controller
 {

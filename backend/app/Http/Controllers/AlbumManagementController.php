@@ -129,6 +129,7 @@ class AlbumManagementController extends Controller
 
         try {
             $album->update($data);
+            unlink(public_path('images/album/' . $album->image));
             return response()->json([
                 'message' => 'Update album successful',
                 'statusCode' => 200,
