@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
 import {TabsPage} from './tabs.page';
+import * as path from "path";
 
 const routes: Routes = [
   {
@@ -10,37 +11,29 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/tabs/discover',
+        redirectTo: '/tabs/home',
         pathMatch: 'full'
       },
       {
-        path: 'discover',
+        path: 'home',
         children: [
           {
             path: '',
-            loadChildren: () => import('../discover/discover.module').then(m => m.DiscoverPageModule)
+            loadChildren: () => import('../home/home.module').then(m => m.HomePageModule),
           },
           {
             path: ':albumTitle',
             loadChildren: () => import('../album/album.module').then(m => m.AlbumPageModule)
           }
-        ]
-      },
-      {
-        path: 'musics',
-        loadChildren: () => import('../musics/musics.module').then(m => m.MusicsPageModule)
-      },
+        ],
 
+      },
       {
-        path: 'album',
-        loadChildren: () => import('../album/album.module').then(m => m.AlbumPageModule)
+        path: 'search',
+        loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule)
       },
     ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/discover',
-    pathMatch: 'full'
+
   }
 ];
 

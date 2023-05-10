@@ -1,36 +1,47 @@
 <ion-tabs (ionTabsDidChange)="setSelectedTab()">
 
-  <div class="player">
-    <div class="progress-bar">
-      <div [style.width]="progress + '%'" class="progress"></div>
-    </div>
-    <ion-row>
-      <ion-col class="ion-no-padding" size="2">
-        <img alt="" src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
-      </ion-col>
-      <ion-col size="8">
-        <b>Cobaoba Cobacoba</b><br>
-        <span>Cobain</span>
-      </ion-col>
-      <ion-col size="2">
-        <ion-icon color="dark" name="play-sharp" size="large"></ion-icon>
-      </ion-col>
-
-    </ion-row>
-  </div>
+  <ion-card color="warning">
+    <ion-card-content>
+      <ion-row class="ion-align-items-center">
+        <ion-col class="ion-no-padding" size="2">
+          <img alt="" src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
+        </ion-col>
+        <ion-col size="6">
+          <span class="player-title">Song Title</span><br>
+          <span class="player-artist">Artist Name</span>
+        </ion-col>
+        <ion-row>
+          <ion-col size="4">
+            <ion-icon name="play-skip-back-circle" size="large"></ion-icon>
+          </ion-col>
+          <ion-col size="4">
+            <ion-icon name="play-circle" size="large"></ion-icon>
+          </ion-col>
+          <ion-col size="4">
+            <ion-icon name="play-skip-forward-circle" size="large"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-row>
+      <ion-progress-bar [value]="progress" color="tertiary"></ion-progress-bar>
+    </ion-card-content>
+  </ion-card>
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="discover">
-      <ion-icon [name]="selected === 'discover' ? 'home': 'home-outline'"></ion-icon>
+    <ion-tab-button tab="home">
+      <ion-icon [name]="selected === 'home' ? 'home': 'home-outline'"></ion-icon>
       <ion-label>Discover</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="search">
       <ion-icon [name]="selected === 'search' ? 'search': 'search-outline'"></ion-icon>
       <ion-label>Search</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="musics">
-      <ion-icon [name]="selected === 'musics' ? 'copy': 'copy-outline'"></ion-icon>
-      <ion-label>Music</ion-label>
+    <ion-tab-button tab="playlists">
+      <ion-icon [name]="selected === 'playlists' ? 'musical-notes': 'musical-notes-outline'"></ion-icon>
+      <ion-label>Playlists</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="liked">
+      <ion-icon [name]="selected === 'liked' ? 'heart': 'heart-outline'"></ion-icon>
+      <ion-label>Liked</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 

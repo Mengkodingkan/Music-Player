@@ -1,23 +1,12 @@
-.player {
-  height: 55px;
-  background: #ffffff;
+.player-title {
+  font-size: large;
+  font-weight: bold;
+}
 
-  img {
-    height: 55px;
-  }
-
-  font-family: 'Spotify', serif;
-  color: #000000;
+.player-artist {
   font-size: small;
+}
 
-  .progress-bar {
-    height: 2px;
-    width: 100%;
-    background: #707070;
-
-    .progress {
-      background: var(--ion-color-primary);
-      height: 100%;
-    }
-  }
+ion-card-content {
+  padding: 7px;
 }

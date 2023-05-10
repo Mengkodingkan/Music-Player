@@ -12,7 +12,6 @@ export class TabsPage {
   progress = 42;
 
   setSelectedTab() {
-    console.log('CALLED')
     this.selected = this.tabs.getSelected();
   }
 }
