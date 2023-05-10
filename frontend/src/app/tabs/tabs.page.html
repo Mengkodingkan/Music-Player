@@ -1,4 +1,4 @@
-<ion-tabs #tabs (ionTabsDidChange)="setSelectedTab()">
+<ion-tabs (ionTabsDidChange)="setSelectedTab()">
 
   <div class="player">
     <div class="progress-bar">
@@ -13,14 +13,15 @@
         <span>Cobain</span>
       </ion-col>
       <ion-col size="2">
-        <ion-icon color="light" name="play-sharp" size="large"></ion-icon>
+        <ion-icon color="dark" name="play-sharp" size="large"></ion-icon>
       </ion-col>
+
     </ion-row>
   </div>
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="discovered">
-      <ion-icon [name]="selected === 'discovered' ? 'home': 'home-outline'"></ion-icon>
+    <ion-tab-button tab="discover">
+      <ion-icon [name]="selected === 'discover' ? 'home': 'home-outline'"></ion-icon>
       <ion-label>Discover</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="search">

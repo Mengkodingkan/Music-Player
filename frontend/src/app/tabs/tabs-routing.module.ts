@@ -9,23 +9,37 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'discovered',
-        loadChildren: () => import('../discovered/discovered.module').then(m => m.DiscoveredPageModule)
+        path: '',
+        redirectTo: '/tabs/discover',
+        pathMatch: 'full'
+      },
+      {
+        path: 'discover',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../discover/discover.module').then(m => m.DiscoverPageModule)
+          },
+          {
+            path: ':albumTitle',
+            loadChildren: () => import('../album/album.module').then(m => m.AlbumPageModule)
+          }
+        ]
       },
       {
         path: 'musics',
         loadChildren: () => import('../musics/musics.module').then(m => m.MusicsPageModule)
       },
+
       {
-        path: '',
-        redirectTo: '/tabs/discovered',
-        pathMatch: 'full'
-      }
+        path: 'album',
+        loadChildren: () => import('../album/album.module').then(m => m.AlbumPageModule)
+      },
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/discovered',
+    redirectTo: '/tabs/discover',
     pathMatch: 'full'
   }
 ];

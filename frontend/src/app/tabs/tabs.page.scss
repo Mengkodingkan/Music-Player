@@ -1,13 +1,13 @@
 .player {
   height: 55px;
-  background: var(--ion-color-medium);
+  background: #ffffff;
 
   img {
     height: 55px;
   }
 
   font-family: 'Spotify', serif;
-  color: #fff;
+  color: #000000;
   font-size: small;
 
   .progress-bar {
@@ -16,7 +16,7 @@
     background: #707070;
 
     .progress {
-      background: #fff;
+      background: var(--ion-color-primary);
       height: 100%;
     }
   }

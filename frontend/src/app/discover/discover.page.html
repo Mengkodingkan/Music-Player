@@ -1,0 +1,19 @@
+<h2 class="section-header">Music Player</h2>
+
+<ion-content>
+
+  <ion-row *ngFor="let entry of data; let isFirst = first" class="ion-no-padding">
+
+    <ion-col size="9">
+      <h2 class="section-header">{{ entry.title }}</h2>
+    </ion-col>
+
+    <ion-slides [options]="slideOption">
+      <ion-slide (click)="openAlbum(album)" *ngFor="let album of entry.albums" tappable>
+        <img [src]="'/assets/images/albums/' + getImageName(album.image)+'.jpg'">
+        <span class="title">{{ album.title }}</span>
+      </ion-slide>
+    </ion-slides>
+  </ion-row>
+
+</ion-content>
