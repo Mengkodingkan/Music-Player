@@ -63,4 +63,21 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function song()
+    {
+        return $this->hasMany(Song::class, 'user_id');
+    }
+
+    public function playlist()
+    {
+        return $this->hasMany(Playlist::class, 'user_id');
+    }
+
+    public function trx_playlist()
+    {
+        return $this->hasMany(TRX_Playlist::class, 'user_id');
+    }
+
+
 }

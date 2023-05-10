@@ -24,8 +24,6 @@ class Artist extends Model
         'website',
         'image',
         'about',
-        'created_at',
-        'updated_at',
     ];
 
     /**
