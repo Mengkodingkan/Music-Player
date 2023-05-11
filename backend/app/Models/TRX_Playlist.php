@@ -18,6 +18,16 @@ class TRX_Playlist extends Model
      */
     protected $fillable = [
         'playlist_id',
+        'song_id'
+    ];
+
+    /**
+     * The hidden attributes
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'playlist_id',
         'song_id',
     ];
 

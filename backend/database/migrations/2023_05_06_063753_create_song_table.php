@@ -25,7 +25,7 @@ class CreateSongTable extends Migration
             $table->unsignedBigInteger('album_id')->nullable()->default(null);
             $table->unsignedBigInteger('genre_id');
             $table->foreign('artist_id')->references('id')->on('artist');
-            $table->foreign('album_id')->references('id')->on('album');
+            $table->foreign('album_id')->references('id')->on('album')->onDelete('set null');
             $table->foreign('genre_id')->references('id')->on('genre');
             $table->timestamps();
         });
