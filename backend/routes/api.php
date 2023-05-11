@@ -46,7 +46,7 @@ Route::middleware('api.admin')->prefix('/admin')->group(function () {
         Route::get('/', 'App\Http\Controllers\ArtistManagementController@get_all_artists');
         Route::get('/{id}', 'App\Http\Controllers\ArtistManagementController@get_artist_by_id');
         Route::post('/', 'App\Http\Controllers\ArtistManagementController@create_artist');
-        Route::put('/{id}', 'App\Http\Controllers\ArtistManagementController@update_artist');
+        Route::post('/{id}', 'App\Http\Controllers\ArtistManagementController@update_artist');
         Route::delete('/{id}', 'App\Http\Controllers\ArtistManagementController@delete_artist');
     });
 
@@ -54,7 +54,7 @@ Route::middleware('api.admin')->prefix('/admin')->group(function () {
         Route::get('/', 'App\Http\Controllers\AlbumManagementController@get_all_albums');
         Route::get('/{id}', 'App\Http\Controllers\AlbumManagementController@get_album_by_id');
         Route::post('/', 'App\Http\Controllers\AlbumManagementController@create_album');
-        Route::put('/{id}', 'App\Http\Controllers\AlbumManagementController@update_album');
+        Route::post('/{id}', 'App\Http\Controllers\AlbumManagementController@update_album');
         Route::delete('/{id}', 'App\Http\Controllers\AlbumManagementController@delete_album');
     });
 
