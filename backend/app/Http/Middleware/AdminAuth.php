@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use ErrorException;
 use Illuminate\Http\Request;
 use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
@@ -52,6 +53,11 @@ class AdminAuth
                 'statusCode' => 401,
             ], 401);
         } catch (TypeError $e) {
+            return response()->json([
+                'message' => 'Invalid token',
+                'statusCode' => 401,
+            ], 401);
+        } catch (ErrorException $e) {
             return response()->json([
                 'message' => 'Invalid token',
                 'statusCode' => 401,

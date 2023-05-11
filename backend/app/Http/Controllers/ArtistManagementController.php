@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Artist;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class ArtistManagementController extends Controller
@@ -42,13 +43,13 @@ class ArtistManagementController extends Controller
             'name' => 'required|string',
             'email' => 'required|email',
             'website' => 'required|string',
-            'image' => 'required|image|mimes:png',
+            'image' => 'required|image|mimes:png,jpg,jpeg',
         ]);
 
         if ($v->fails()) {
             return response()->json([
-                'message' => 'Invalid data',
-                'statusCode' => 400,
+                    'message' => 'Invalid data',
+                    'statusCode' => 400,
             ], 400);
         }
 
@@ -66,12 +67,23 @@ class ArtistManagementController extends Controller
         $thumb->move(public_path('images'), $thumb_name);
         $data['image'] = $thumb_name;
 
-        $artist = Artist::create($data);
-        return response()->json([
-            'message' => 'Create artist successful',
-            'statusCode' => 201,
-            'data' => $artist,
-        ], 201);
+        try {
+            $artist = Artist::create($data);
+            return response()->json([
+                'message' => 'Create artist successful',
+                'statusCode' => 201,
+                'data' => $artist,
+            ], 201);
+        } catch (Exception $e) {
+            // delete temp image
+            $thumb_path = public_path('images') . '/' . $thumb_name;
+            unlink($thumb_path);
+
+            return response()->json([
+                'message' => 'Create artist failed: ' . $e->getMessage(),
+                'statusCode' => 500,
+            ], 500);
+        }
     }
 
     public function update_artist(Request $request, $id)

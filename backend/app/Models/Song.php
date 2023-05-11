@@ -21,9 +21,7 @@ class Song extends Model
         'image',
         'genre_id',
         'album_id',
-        'artist_id',
-        'created_at',
-        'updated_at',
+        'artist_id'
     ];
 
     /**
