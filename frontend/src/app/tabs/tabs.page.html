@@ -1,12 +1,12 @@
 <ion-tabs (ionTabsDidChange)="setSelectedTab()">
 
-  <ion-card color="warning">
+  <ion-card>
     <ion-card-content>
       <ion-row class="ion-align-items-center">
         <ion-col class="ion-no-padding" size="2">
           <img alt="" src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
         </ion-col>
-        <ion-col size="6">
+        <ion-col class="ion-padding-start" size="6">
           <span class="player-title">Song Title</span><br>
           <span class="player-artist">Artist Name</span>
         </ion-col>
@@ -22,7 +22,7 @@
           </ion-col>
         </ion-row>
       </ion-row>
-      <ion-progress-bar [value]="progress" color="tertiary"></ion-progress-bar>
+      <ion-progress-bar [value]="progress"></ion-progress-bar>
     </ion-card-content>
   </ion-card>
 

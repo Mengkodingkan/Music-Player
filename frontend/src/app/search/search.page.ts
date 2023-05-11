@@ -7,10 +7,15 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SearchPage implements OnInit {
 
+  isModalOpen = false;
+
   constructor() {
   }
 
   ngOnInit() {
   }
 
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 }
