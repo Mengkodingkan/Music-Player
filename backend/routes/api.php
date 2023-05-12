@@ -26,6 +26,15 @@ Route::get('/', function () {
 });
 
 Route::post('/auth', 'App\Http\Controllers\AuthController@login');
+
+Route::middleware('api.user')->prefix('/user')->group(function () {
+    Route::get('/discovery', 'App\Http\Controllers\UserController@get_discovery');
+    Route::get('/search', 'App\Http\Controllers\UserController@search');
+    Route::get('/play/{id}', 'App\Http\Controllers\UserController@play');
+    Route::get('/playlist/{id}', 'App\Http\Controllers\UserController@get_playlist_by_id');
+    Route::get('/playlist/{id}/songs', 'App\Http\Controllers\UserController@get_songs_by_playlist_id');
+});
+
 Route::middleware('api.admin')->prefix('/admin')->group(function () {
     Route::get('/', function () {
         return response()->json([
