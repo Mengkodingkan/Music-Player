@@ -19,7 +19,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../home/home.module').then(m => m.HomePageModule),
+            loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
           },
           {
             path: ':albumTitle',
@@ -30,11 +30,16 @@ const routes: Routes = [
       },
       {
         path: 'search',
-        loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule)
+        loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
       },
+      {
+        path: 'playlists',
+        loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsPageModule)
+      }
     ]
 
-  }
+  },
+
 ];
 
 @NgModule({
