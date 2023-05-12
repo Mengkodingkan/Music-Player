@@ -18,7 +18,7 @@ class CreateViewSongTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('song_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('song_id')->references('id')->on('songs');
+            $table->foreign('song_id')->references('id')->on('song');
             $table->timestamps();
         });
     }

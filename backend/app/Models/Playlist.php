@@ -39,7 +39,7 @@ class Playlist extends Model
         return $this->belongsToMany(Song::class, 'trx_playlist', 'playlist_id', 'song_id');
     }
 
-    public function trx_playlist()
+    public function tracks()
     {
         return $this->hasMany(TRX_Playlist::class, 'playlist_id');
     }

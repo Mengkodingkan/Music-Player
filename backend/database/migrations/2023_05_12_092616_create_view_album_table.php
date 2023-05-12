@@ -17,6 +17,8 @@ class CreateViewAlbumTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('album_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('album_id')->references('id')->on('album');
             $table->timestamps();
         });
     }
