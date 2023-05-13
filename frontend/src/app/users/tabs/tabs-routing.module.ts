@@ -6,16 +6,16 @@ import * as path from "path";
 
 const routes: Routes = [
   {
-    path: '/tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/users/tabs/home',
         pathMatch: 'full'
       },
       {
-        path: '/home',
+        path: 'home',
         children: [
           {
             path: '',
@@ -29,15 +29,15 @@ const routes: Routes = [
 
       },
       {
-        path: '/search',
+        path: 'search',
         loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
       },
       {
-        path: '/playlists',
+        path: 'playlists',
         loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsPageModule)
       },
       {
-        path: '/followed',
+        path: 'followed',
         loadChildren: () => import('./followed/followed.module').then(m => m.FollowedPageModule)
       },
     ]

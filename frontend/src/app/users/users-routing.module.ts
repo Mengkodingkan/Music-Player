@@ -5,7 +5,8 @@ import {UsersPage} from "./users.page";
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    redirectTo: '/users/tabs/home',
+    pathMatch: 'full'
   },
   {
     path: 'account',
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'privacy-security',
     loadChildren: () => import('./privacy-security/privacy-security.module').then(m => m.PrivacySecurityPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
 ];
 
