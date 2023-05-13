@@ -125,4 +125,31 @@ class UserController extends Controller
         $data = file_get_contents($path);
         return response($data)->header('Content-Type', 'audio/' . $type);
     }
+
+    public function get_playlist(Request $request, $id) {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $playlist = Playlist::with('user', 'tracks.song')->find($id);
+        if (!$playlist) {
+            return response()->json([
+                'message' => 'Playlist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        // filter public only and private with user_id
+        if ($playlist['user_id'] != $user_id && $playlist['status'] != 'public') {
+            return response()->json([
+                'message' => 'Playlist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Get playlist successful',
+            'statusCode' => 200,
+            'data' => $playlist,
+        ], 200);
+    }
 }
