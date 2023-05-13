@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center">
+    <ion-title>Liked songs</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-alert [buttons]="alertButtons" header="Wanna remove the Song Title from liked songs?" mode="ios"
+             trigger="confirmation-delete"
+  ></ion-alert>
+  <ion-list>
+    <ion-list-header>
+
+    </ion-list-header>
+
+
+    <ion-item>
+      <ion-thumbnail slot="start" style="width: 40px; height: 40px;">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg"/>
+      </ion-thumbnail>
+      <ion-label>
+        <h2><strong>Song Title</strong></h2>
+        <small>Artist Name</small>
+      </ion-label>
+      <ion-label>4 : 50</ion-label>
+      <ion-button fill="clear" id="confirmation-delete" slot="end">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

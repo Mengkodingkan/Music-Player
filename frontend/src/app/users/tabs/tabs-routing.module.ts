@@ -6,7 +6,7 @@ import * as path from "path";
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '/tabs',
     component: TabsPage,
     children: [
       {
@@ -15,7 +15,7 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'home',
+        path: '/home',
         children: [
           {
             path: '',
@@ -23,19 +23,23 @@ const routes: Routes = [
           },
           {
             path: ':albumTitle',
-            loadChildren: () => import('../album/album.module').then(m => m.AlbumPageModule)
+            loadChildren: () => import('../../album/album.module').then(m => m.AlbumPageModule)
           }
         ],
 
       },
       {
-        path: 'search',
+        path: '/search',
         loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
       },
       {
-        path: 'playlists',
+        path: '/playlists',
         loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsPageModule)
-      }
+      },
+      {
+        path: '/followed',
+        loadChildren: () => import('./followed/followed.module').then(m => m.FollowedPageModule)
+      },
     ]
 
   },

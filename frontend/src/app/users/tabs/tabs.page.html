@@ -1,6 +1,6 @@
 <ion-tabs (ionTabsDidChange)="setSelectedTab()">
 
-  <ion-card>
+  <ion-card color="dark">
     <ion-card-content>
       <ion-grid>
         <ion-row class="ion-align-items-center">
@@ -59,7 +59,11 @@
     </ion-tab-button>
     <ion-tab-button tab="playlists">
       <ion-icon [name]="selected === 'playlists' ? 'musical-notes': 'musical-notes-outline'"></ion-icon>
-      <ion-label>Playlists</ion-label>
+      <ion-label>Liked songs</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="followed">
+      <ion-icon [name]="selected === 'followed' ? 'heart': 'heart-outline'"></ion-icon>
+      <ion-label>Followed</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 
