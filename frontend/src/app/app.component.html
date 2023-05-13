@@ -14,15 +14,18 @@
       <ion-card>
         <ion-card-content>
           <ion-list lines="none">
-            <ion-item [routerLink]="'/users/account'" detail="false" routerDirection="root" routerLinkActive="selected">
-              <ion-icon name="person" slot="start"></ion-icon>
-              <ion-label><strong>Account</strong></ion-label>
-            </ion-item>
-            <ion-item [routerLink]="'/users/privacy-security'" detail="false" routerDirection="root"
-                      routerLinkActive="selected">
-              <ion-icon name="shield" slot="start"></ion-icon>
-              <ion-label><strong>Privacy and Security</strong></ion-label>
-            </ion-item>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item [routerLink]="'/users/account'" detail="false" routerDirection="root"
+                        routerLinkActive="selected">
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-label><strong>Account</strong></ion-label>
+              </ion-item>
+              <ion-item [routerLink]="'/users/privacy-security'" detail="false" routerDirection="root"
+                        routerLinkActive="selected">
+                <ion-icon name="shield" slot="start"></ion-icon>
+                <ion-label><strong>Privacy and Security</strong></ion-label>
+              </ion-item>
+            </ion-menu-toggle>
           </ion-list>
         </ion-card-content>
       </ion-card>
