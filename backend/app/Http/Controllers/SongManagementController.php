@@ -273,4 +273,72 @@ class SongManagementController extends Controller
             ], 500);
         }
     }
+
+    public function approve_song($id) {
+        $song = Song::find($id);
+        if (!$song) {
+            return response()->json([
+                'message' => 'Song not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        // check if song already approved
+        if ($song->status == 'published') {
+            return response()->json([
+                'message' => 'Song already approved',
+                'statusCode' => 400,
+            ], 400);
+        }
+
+        try {
+            $song->update([
+                'status' => 'published',
+            ]);
+
+            return response()->json([
+                'message' => 'Approve song successful',
+                'statusCode' => 200,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Approve song failed',
+                'statusCode' => 500,
+            ], 500);
+        }
+    }
+
+    public function reject_song($id) {
+        $song = Song::find($id);
+        if (!$song) {
+            return response()->json([
+                'message' => 'Song not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        // check if song already rejected
+        if ($song->status == 'rejected') {
+            return response()->json([
+                'message' => 'Song already rejected',
+                'statusCode' => 400,
+            ], 400);
+        }
+
+        try {
+            $song->update([
+                'status' => 'rejected',
+            ]);
+
+            return response()->json([
+                'message' => 'Reject song successful',
+                'statusCode' => 200,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Reject song failed',
+                'statusCode' => 500,
+            ], 500);
+        }
+    }
 }

@@ -18,7 +18,7 @@ class CreateTrxPlaylistTable extends Migration
             $table->unsignedBigInteger('playlist_id');
             $table->unsignedBigInteger('song_id');
             $table->foreign('song_id')->references('id')->on('song')->onDelete('cascade');
-            $table->foreign('playlist_id')->references('id')->on('playlist');
+            $table->foreign('playlist_id')->references('id')->on('playlist')->onDelete('cascade');
             $table->timestamps();
         });
     }
