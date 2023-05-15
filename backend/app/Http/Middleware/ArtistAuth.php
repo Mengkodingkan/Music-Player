@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Artist;
 use Closure;
 use ErrorException;
 use Illuminate\Http\Request;
@@ -30,6 +31,15 @@ class ArtistAuth
             if ($decoded->role !== 'artist') {
                 return response()->json([
                     'message' => 'Invalid token',
+                    'statusCode' => 401,
+                ], 401);
+            }
+
+            // check if artist exists
+            $artist = Artist::where('user_id', $decoded->id)->first();
+            if (!$artist) {
+                return response()->json([
+                    'message' => 'This account not registered as artist, please register as artist first',
                     'statusCode' => 401,
                 ], 401);
             }

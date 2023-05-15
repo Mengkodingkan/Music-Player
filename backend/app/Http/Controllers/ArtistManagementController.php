@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ArtistManagementController extends Controller
 {
-    public function get_all_artists()
+    public function get_all_artists(Request $request)
     {
         $artists = Artist::all();
         foreach ($artists as $artist) $artist['image'] = url('images/artist/' . $artist['image']);

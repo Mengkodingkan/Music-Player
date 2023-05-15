@@ -17,7 +17,7 @@ class CreatePlaylistTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->text('image');
+            $table->text('image')->default('default.png');
             $table->enum('status', ['private', 'public']);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

@@ -16,7 +16,7 @@ class CreateSongTable extends Migration
         Schema::create('song', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('image');
+            $table->text('image')->default('default.png');
             $table->text('audio');
             $table->time('duration');
             $table->date('release_date');

@@ -18,7 +18,7 @@ class CreateFollowedTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('artist_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('artist_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('artist_id')->references('id')->on('artist')->onDelete('cascade');
             $table->timestamps();
         });
     }

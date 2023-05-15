@@ -42,12 +42,11 @@ class UserController extends Controller
         $albums->load(['artist', 'songs']);
 
         // get all playlist
-        $playlist = Playlist::with('user', 'tracks.song')->get();
-        $playlist->load(['tracks.song.artist', 'tracks.song.album', 'tracks.song.genre']);
-        // filter public only and private with user_id
-        $playlist = $playlist->filter(function ($value, $key) use ($user_id) {
-            return $value['user_id'] == $user_id || $value['status'] == 'public';
-        });
+        $playlist = Playlist::with('user', 'tracks')
+            ->where('status', 'public')
+            ->orWhere('user_id', $user_id)
+            ->get();
+        $playlist->load(['tracks.artist', 'tracks.album', 'tracks.genre']);
 
         return response()->json([
             'message' => 'Get discovery successful',
@@ -85,13 +84,22 @@ class UserController extends Controller
 
         $artists = Artist::whereRaw('LOWER(name) LIKE ?', ["%{$keyword}%"])->get();
 
-        $playlists = Playlist::with('user', 'tracks.song')->where('name', 'LIKE', "%{$keyword}%")->get();
-        $playlists->load(['tracks.song.artist', 'tracks.song.album', 'tracks.song.genre']);
-        // filter public only and private with user_id
-        $playlists = $playlists->filter(function ($value, $key) use ($user_id) {
-            return $value['user_id'] == $user_id || $value['status'] == 'public';
-        });
-        $playlists = $playlists->values()->all();
+        $playlists = Playlist::with('user', 'tracks')
+            ->where('name', 'LIKE', "%{$keyword}%")
+            ->where('status', 'public')
+            ->orWhere('user_id', $user_id)
+            ->get();
+
+        $playlists->load(['tracks.artist', 'tracks.album', 'tracks.genre']);
+        // $playlists
+        // ->tracks()
+        // ->where('status', 'public')
+        // ->orWhere('user_id', $user_id);
+        // // filter public only and private with user_id
+        // $playlists = $playlists->filter(function ($value, $key) use ($user_id) {
+        //     return $value['user_id'] == $user_id || $value['status'] == 'public';
+        // });
+        // $playlists = $playlists->values()->all();
 
         return response()->json([
             'message' => 'Search successful',
@@ -135,8 +143,8 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        $playlist = Playlist::with('user', 'tracks.song')->where('user_id', $user_id)->get();
-        $playlist->load(['tracks.song.artist', 'tracks.song.album', 'tracks.song.genre']);
+        $playlist = Playlist::with('user', 'tracks')->where('user_id', $user_id)->get();
+        $playlist->load(['tracks.artist', 'tracks.album', 'tracks.genre']);
 
         return response()->json([
             'message' => 'Get my playlist successful',
@@ -150,7 +158,11 @@ class UserController extends Controller
         $user_id = $user['id'];
 
         // filter song public only and private with user_id, and song published on tracks.song
-        $playlist = Playlist::with('user', 'tracks.song')->where('id', $id)->first();
+        $playlist = Playlist::with('user', 'tracks')
+            ->where('id', $id)
+            ->where('status', 'public')
+            ->orWhere('user_id', $user_id)
+            ->first();
 
         if (!$playlist) {
             return response()->json([
@@ -159,27 +171,7 @@ class UserController extends Controller
             ], 404);
         }
 
-        $playlist->load(['tracks.song.artist', 'tracks.song.album', 'tracks.song.genre']);
-
-        // filter public only and private with user_id
-        if ($playlist['user_id'] != $user_id && $playlist['status'] != 'public') {
-            return response()->json([
-                'message' => 'Playlist not found',
-                'statusCode' => 404,
-            ], 404);
-        }
-
-        $songs = [];
-        foreach ($playlist['tracks'] as $key => $value) {
-            if ($value['song']['status'] != 'published') continue;
-            $songs[] = $value['song'];
-        }
-
-
-        // remove tracks collection
-        unset($playlist['tracks']);
-
-        $playlist['tracks'] = $songs;
+        $playlist->load(['tracks.artist', 'tracks.album', 'tracks.genre']);
 
         return response()->json([
             'message' => 'Get playlist successful',
@@ -497,6 +489,14 @@ class UserController extends Controller
             ], 404);
         }
 
+        // if artist it's yourself
+        if ($artist['user_id'] == $user_id) {
+            return response()->json([
+                'message' => 'You cannot follow yourself',
+                'statusCode' => 400,
+            ], 400);
+        }
+
         // check if artist already followed
         $check = Followed::where('user_id', $user_id)->where('artist_id', $id)->first();
         if ($check) {
@@ -610,10 +610,16 @@ class UserController extends Controller
         // check if song already liked
         $check = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->first();
         if (!$check) {
-            return response()->json([
-                'message' => 'Liked Songs not found',
-                'statusCode' => 404,
-            ], 404);
+            // create playlist
+            $playlist = new Playlist();
+            $playlist->user_id = $user_id;
+            $playlist->name = 'Liked Songs';
+            $playlist->status = 'private';
+            $playlist->image = 'default.png';
+            $playlist->description = 'Liked Songs';
+            $playlist->save();
+
+            $check = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->first();
         }
 
         $check = $check->song()->where('song_id', $id)->first();

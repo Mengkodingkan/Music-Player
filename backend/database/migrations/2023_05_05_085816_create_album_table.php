@@ -16,7 +16,7 @@ class CreateAlbumTable extends Migration
         Schema::create('album', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('image');
+            $table->string('image')->default('default.png');
             $table->enum('category', ['album', 'single', 'ep']);
             $table->date('release_date');
             $table->unsignedBigInteger('artist_id');

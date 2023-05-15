@@ -60,20 +60,27 @@ Route::middleware('api.user')->group(function () {
 });
 
 Route::middleware('api.artist')->prefix('/artist')->group(function () {
+    Route::get('/', function () {
+        return response()->json([
+            'message' => 'Welcome to the artist API',
+            'statusCode' => 200,
+        ], 200);
+    });
+
     Route::post('/register', 'App\Http\Controllers\ArtistController@register');
-    Route::get('/albums', 'App\Http\Controllers\ArtistController@get_all_albums');
-    Route::get('/albums/{id}', 'App\Http\Controllers\ArtistController@get_album_by_id');
-    Route::get('/songs', 'App\Http\Controllers\ArtistController@get_all_songs');
-    Route::get('/songs/{id}', 'App\Http\Controllers\ArtistController@get_song_by_id');
     Route::get('/followers', 'App\Http\Controllers\ArtistController@get_followers');
     Route::get('/followers/{id}', 'App\Http\Controllers\ArtistController@get_follower_by_id');
 
-    // create, update, delete album
+    // create, read, update, delete album
+    Route::get('/albums', 'App\Http\Controllers\ArtistController@get_all_albums');
+    Route::get('/albums/{id}', 'App\Http\Controllers\ArtistController@get_album_by_id');
     Route::post('/album', 'App\Http\Controllers\ArtistController@create_album');
     Route::put('/album/{id}', 'App\Http\Controllers\ArtistController@update_album');
     Route::delete('/album/{id}', 'App\Http\Controllers\ArtistController@delete_album');
 
-    // create, update, delete song
+    // create, read, update, delete song
+    Route::get('/songs', 'App\Http\Controllers\ArtistController@get_all_songs');
+    Route::get('/songs/{id}', 'App\Http\Controllers\ArtistController@get_song_by_id');
     Route::post('/song', 'App\Http\Controllers\ArtistController@create_song');
     Route::put('/song/{id}', 'App\Http\Controllers\ArtistController@update_song');
     Route::delete('/song/{id}', 'App\Http\Controllers\ArtistController@delete_song');

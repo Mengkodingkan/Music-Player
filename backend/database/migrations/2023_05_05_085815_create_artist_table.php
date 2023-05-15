@@ -21,7 +21,7 @@ class CreateArtistTable extends Migration
             $table->string('facebook')->nullable()->default(null);
             $table->string('twitter')->nullable()->default(null);
             $table->string('website')->nullable()->default(null);
-            $table->string('image')->nullable()->default(null);
+            $table->string('image')->nullable()->default('default.png');
             $table->string('about')->nullable()->default(null);
             $table->timestamps();
         });

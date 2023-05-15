@@ -10,7 +10,7 @@ class ArtistController extends Controller
 {
     public function register(Request $request) {
         $user = $request['userauth'];
-        $user_id = $user->id;
+        $user_id = $user['id'];
 
         $user = Artist::where('user_id', $user_id)->first();
         if ($user) {
@@ -22,13 +22,8 @@ class ArtistController extends Controller
 
         $v = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:artists,email',
+            'email' => 'required|email|unique:artist,email',
             'image' => 'required|mimes:jpg,jpeg,png',
-            'instagram' => 'required|string',
-            'facebook' => 'required|string',
-            'twitter' => 'required|string',
-            'website' => 'required|string',
-            'about' => 'required|string',
         ]);
 
         if ($v->fails()) {
@@ -48,11 +43,11 @@ class ArtistController extends Controller
             $artist->name = $request['name'];
             $artist->email = $request['email'];
             $artist->image = $image_name;
-            $artist->instagram = $request['instagram'];
-            $artist->facebook = $request['facebook'];
-            $artist->twitter = $request['twitter'];
-            $artist->website = $request['website'];
-            $artist->about = $request['about'];
+            $artist->instagram = $request['instagram'] ?? null;
+            $artist->facebook = $request['facebook'] ?? null;
+            $artist->twitter = $request['twitter'] ?? null;
+            $artist->website = $request['website'] ?? null;
+            $artist->about = $request['about'] ?? null;
             $artist->save();
 
             return response()->json([
@@ -69,5 +64,74 @@ class ArtistController extends Controller
                 'statusCode' => 500,
             ], 500);
         }
+    }
+
+    public function get_followers(Request $request) {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $artist = Artist::where('user_id', $user_id)->first();
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        $followers = $artist->load('followers');
+
+        return response()->json([
+            'message' => 'Get followers successful',
+            'statusCode' => 200,
+            'data' => $followers,
+        ], 200);
+    }
+
+    public function get_follower_by_id(Request $request, $id) {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $artist = Artist::where('user_id', $user_id)->first();
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        $follower = $artist->followers()->where('user_id', $id)->first();
+        if (!$follower) {
+            return response()->json([
+                'message' => 'Follower not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Get follower successful',
+            'statusCode' => 200,
+            'data' => $follower,
+        ], 200);
+    }
+
+    public function get_all_albums(Request $request) {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $artist = Artist::where('user_id', $user_id)->first();
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        $albums = $artist->albums()->get();
+
+        return response()->json([
+            'message' => 'Get all albums successful',
+            'statusCode' => 200,
+            'data' => $albums,
+        ], 200);
     }
 }

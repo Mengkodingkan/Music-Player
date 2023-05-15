@@ -11,7 +11,7 @@ class PlaylistManagementController extends Controller
     public function get_all_playlists()
     {
         $playlists = Playlist::all();
-        $playlists->load(['user', 'tracks.song']);
+        $playlists->load(['user', 'tracks']);
 
         foreach ($playlists as $playlist) {
             $playlist['image'] ? $playlist['image'] = url('images/playlist/' . $playlist['image']) : null;
@@ -34,7 +34,7 @@ class PlaylistManagementController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
-        $playlist->load(['user', 'tracks.song']);
+        $playlist->load(['user', 'tracks']);
         $playlist->makeHidden(['user_id']);
 
         return response()->json([

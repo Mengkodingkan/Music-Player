@@ -41,6 +41,6 @@ class Playlist extends Model
 
     public function tracks()
     {
-        return $this->hasMany(TRX_Playlist::class, 'playlist_id');
+        return $this->hasManyThrough(Song::class, TRX_Playlist::class, 'playlist_id', 'id', 'id', 'song_id');
     }
 }
