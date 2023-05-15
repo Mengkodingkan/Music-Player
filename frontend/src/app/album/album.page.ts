@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
+import data from '../../assets/data/data.json';
 
 @Component({
   selector: 'app-album',
@@ -7,10 +10,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AlbumPage implements OnInit {
 
-  constructor() {
+  albumData = null;
+
+  constructor(private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
+    const title = this.activatedRoute.snapshot.paramMap.get('albumId');
+    // this.albumData =
   }
 
 }

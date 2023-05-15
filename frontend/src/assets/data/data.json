@@ -1,0 +1,90 @@
+[
+  {
+    "artistId": 1,
+    "name": "Anjirlah",
+    "album": [
+      {
+        "id": 1,
+        "title": "Anjay Banget",
+        "image": "/assets/images/albums/born-to-die.jpg",
+        "createdAt": "2022",
+        "tracks": [
+          {
+            "id": 1,
+            "title": "Born To Die",
+            "songUrl": "/assets/musics/Coldplay - TheScientist.mp3",
+            "duration": 123,
+            "like": 221,
+            "release": 2022
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "artistId": 2,
+    "name": "Kurang Tau",
+    "album": [
+      {
+        "id": 2,
+        "title": "Kemarin Ketemu Alay",
+        "image": "/assets/images/albums/ex-re.jpg",
+        "createdAt": "2021",
+        "tracks": [
+          {
+            "id": 2,
+            "title": "Ex:Re",
+            "songUrl": "/assets/musics/Radiohead - No Surprises.mp3",
+            "duration": 123,
+            "like": 30,
+            "release": "2010"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "artistId": 3,
+    "name": "Ho'oh",
+    "album": [
+      {
+        "id": 3,
+        "title": "Dia Beli Makanan",
+        "image": "/assets/images/albums/swimming.jpg",
+        "createdAt": "2002",
+        "tracks": [
+          {
+            "id": 3,
+            "title": "Ex:Re",
+            "songUrl": "/assets/musics/The Walters -- I Love You So.mp3",
+            "duration": 123,
+            "like": 600,
+            "release": "2003"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "artistId": 4,
+    "name": "Asu Asu",
+    "album": [
+      {
+        "id": 4,
+        "title": "Apaan Tuh",
+        "image": "/assets/images/albums/the-creek-drank.jpg",
+        "createdAt": "2023",
+        "tracks": [
+          {
+            "id": 4,
+            "title": "The Creek Drank",
+            "songUrl": "/assets/musics/Disenchanted.mp3",
+            "duration": 123,
+            "like": 100,
+            "release": "2023"
+          }
+        ]
+      }
+    ]
+  }
+]

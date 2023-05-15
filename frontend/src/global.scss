@@ -26,7 +26,11 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 // Costume scss
-button.alert-button.delete-it {
-  background-color: var(--ion-color-danger);
-  color: var(--ion-color-dark);
+button.alert-button.cancel {
+  background-color: var(--ion-color-primary-shade);
+  color: var(--ion-color-dark-shade);
+}
+
+button.alert-button.delete {
+  color: var(--ion-color-dark-shade);
 }

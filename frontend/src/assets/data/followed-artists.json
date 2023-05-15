@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Born To Die",
+    "image": "/assets/images/artists/born-to-die.jpg",
+    "followers": 123,
+    "followAt": "2023/09/21 20:20:20"
+  },
+  {
+    "id": 2,
+    "name": "Ex:Re",
+    "image": "/assets/images/artists/ex-re.jpg",
+    "followers": 444,
+    "followAt": "2023/09/21 20:20:20"
+  },
+  {
+    "id": 3,
+    "name": "Ex:Re",
+    "image": "/assets/images/artists/swimming.jpg",
+    "followers": 1000,
+    "followAt": "2023/09/21 20:20:20"
+  },
+  {
+    "id": 4,
+    "name": "The Creek Drank",
+    "image": "/assets/images/artists/the-creek-drank.jpg",
+    "followers": 2000,
+    "followAt": "2023/09/21 20:20:20"
+  }
+]

@@ -10,16 +10,16 @@
     </ion-list-header>
 
 
-    <ion-item>
+    <ion-item *ngFor="let artist of data;" button="">
       <ion-avatar slot="start" style="width: 40px; height: 40px;">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+        <img [src]="artist.image" alt="Silhouette of a person's head"/>
       </ion-avatar>
       <ion-label>
-        <h2><strong>Artist Name</strong></h2>
-        <small>12k follower</small>
+        <h2><strong>{{artist.name}}</strong></h2>
+        <small>{{artist.followers}} followers</small>
       </ion-label>
-      <ion-button fill="clear" slot="end">
-        <ion-text>Unfollow</ion-text>
+      <ion-button fill="clear" mode="ios" slot="end">
+        Unfollow
       </ion-button>
     </ion-item>
   </ion-list>

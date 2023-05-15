@@ -11,25 +11,14 @@
   </ion-header>
 
   <ion-content>
-    <ion-row>
+    <ion-row *ngFor="let entry of data;">
       <ion-col size="12">
-        <h2 class="ion-padding-start"><strong>Top Music</strong></h2>
+        <h2 class="ion-padding-start"><strong>{{ entry.title }}</strong></h2>
+
         <swiper-container [freeMode]="true" [slidesOffsetBefore]="20" [slidesPerView]="2.4" [spaceBetween]="20">
-          <swiper-slide>
-            <img src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
-            <small>Anjay Bisa</small>
-          </swiper-slide>
-          <swiper-slide>
-            <img src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
-            <small class="title">Anjay Bisa</small>
-          </swiper-slide>
-          <swiper-slide>
-            <img src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
-            <small class="title">Anjay Bisa</small>
-          </swiper-slide>
-          <swiper-slide>
-            <img src="https://astah.net/wp-content/uploads/2019/12/notation3.png">
-            <small class="title">Anjay Bisa</small>
+          <swiper-slide *ngFor="let music of entry.playlists">
+            <img [src]="music.albumImage" alt="{{music.title}}">
+            <small>{{music.title}}</small>
           </swiper-slide>
         </swiper-container>
       </ion-col>

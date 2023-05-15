@@ -22,7 +22,7 @@ const routes: Routes = [
             loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
           },
           {
-            path: ':albumTitle',
+            path: ':albumId',
             loadChildren: () => import('../../album/album.module').then(m => m.AlbumPageModule)
           }
         ],

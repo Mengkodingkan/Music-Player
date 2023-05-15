@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {FollowingArtistService} from "../../services/following-artist.service";
 
 @Component({
   selector: 'app-followed',
@@ -7,7 +8,9 @@ import {Component, OnInit} from '@angular/core';
 })
 export class FollowedPage implements OnInit {
 
-  constructor() {
+  data = this.followingArtistService.getAllFollowingArtist();
+
+  constructor(private followingArtistService: FollowingArtistService) {
   }
 
   ngOnInit() {

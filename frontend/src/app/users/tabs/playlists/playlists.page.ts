@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {PlaylistService} from "../../services/playlist.service";
 
 @Component({
   selector: 'app-playlists',
@@ -13,6 +14,7 @@ export class PlaylistsPage implements OnInit {
     {
       text: 'Cancel',
       role: 'cancel',
+      cssClass: 'cancel',
       handler: () => {
         this.handlerMessage = 'Alert canceled';
       },
@@ -20,14 +22,16 @@ export class PlaylistsPage implements OnInit {
     {
       text: 'Yes, delete it',
       role: 'confirm',
-      cssClass: 'delete-it',
+      cssClass: 'delete',
       handler: () => {
         this.handlerMessage = 'Alert confirmed';
       },
     },
   ];
 
-  constructor() {
+  likeSongs: any[] = this.playlistService.getLikeSongs();
+
+  constructor(private playlistService: PlaylistService) {
   }
 
   ngOnInit() {
