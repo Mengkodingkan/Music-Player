@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center">
+    <ion-title>Liked songs</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+
+    </ion-list-header>
+    <ion-item *ngFor="let like of likeSongs;" button="">
+      <ion-alert [buttons]="alertButtons" header="Wanna remove the {{like.title}} from liked songs?" mode="ios"
+                 trigger="confirmation-delete-track{{like.id}}"></ion-alert>
+      <ion-thumbnail slot="start" style="width: 40px; height: 40px;">
+        <img [src]="like.albumImage" alt="Silhouette of mountains"/>
+      </ion-thumbnail>
+      <ion-label class="ion-text-wrap">
+        <h2><strong>{{like.title}}</strong></h2>
+        <small>{{like.artist.name}}</small> 🟡 {{like.duration}}
+      </ion-label>
+      <ion-button fill="clear" id="confirmation-delete-track{{like.id}}" slot="end">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

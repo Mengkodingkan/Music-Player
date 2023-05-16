@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Born To Die",
+    "albumImage": "/assets/images/albums/born-to-die.jpg",
+    "songUrl": "/assets/musics/Coldplay - TheScientist.mp3",
+    "duration": 123,
+    "like": 221,
+    "release": 2022
+  },
+  {
+    "id": 2,
+    "title": "Ex:Re",
+    "albumImage": "/assets/images/albums/ex-re.jpg",
+    "songUrl": "/assets/musics/Radiohead - No Surprises.mp3",
+    "duration": 123,
+    "like": 30,
+    "release": "2010"
+  },
+  {
+    "id": 3,
+    "title": "Ex:Re",
+    "albumImage": "/assets/images/albums/swimming.jpg",
+    "songUrl": "/assets/musics/The Walters -- I Love You So.mp3",
+    "duration": 123,
+    "like": 600,
+    "release": "2003"
+  },
+  {
+    "id": 4,
+    "title": "The Creek Drank",
+    "albumImage": "/assets/images/albums/the-creek-drank.jpg",
+    "songUrl": "/assets/musics/Disenchanted.mp3",
+    "duration": 123,
+    "like": 100,
+    "release": "2023"
+  }
+]
