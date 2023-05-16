@@ -12,6 +12,7 @@ use Exception;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Crisu83\ShortId\ShortId;
 
 class ArtistController extends Controller
 {
@@ -443,8 +444,10 @@ class ArtistController extends Controller
         $image_name = time() . '.' . $image->extension();
         $image->move(public_path('images/song'), $image_name);
 
+        $shortid = ShortId::create();
         try {
             $song = new Song();
+            $song->s_id = $shortid->generate();
             $song->title = $request['title'];
             $song->release_date = $request['release_date'] ?? $date->format('Y-m-d');
             $song->genre_id = $request['genre_id'];

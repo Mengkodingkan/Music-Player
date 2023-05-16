@@ -118,7 +118,7 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        $song = Song::find($id);
+        $song = Song::where('s_id', $id)->first();
         if (!$song) {
             return response()->json([
                 'message' => 'Song not found',
