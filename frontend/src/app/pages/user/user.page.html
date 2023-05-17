@@ -1,0 +1,120 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Settings</ion-title>
+      <ion-buttons slot="end">
+        <ion-button color="danger">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-card>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerLink]="'/user/account'" detail="false" routerDirection="root"
+                      routerLinkActive="selected">
+              <ion-icon name="person" slot="start"></ion-icon>
+              <ion-label><strong>Account</strong></ion-label>
+            </ion-item>
+            <ion-item [routerLink]="'/user/privacy-security'" detail="false" routerDirection="root"
+                      routerLinkActive="selected">
+              <ion-icon name="shield" slot="start"></ion-icon>
+              <ion-label><strong>Privacy and Security</strong></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</ion-menu>
+
+<ion-tabs (ionTabsDidChange)="setSelectedTab()" id="main-content">
+
+  <ion-card color="dark">
+    <ion-card-content class="ion-no-padding">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="2">
+            <ion-img [src]="track.albumImage"></ion-img>
+          </ion-col>
+          <ion-col class="ion-padding-start" size-md="6" size-sm="4">
+            <h2><strong>{{track.title}}</strong></h2>
+            <small>Artist Name</small>
+          </ion-col>
+          <ion-col size-md="4">
+            <ion-row class="ion-text-center ion-justify-content-end">
+              <ion-col class="ion-no-padding" size="4">
+                <ion-button class="ion-no-padding" fill="clear">
+                  <ion-icon name="heart-outline" size="large"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col size="12">
+            <ion-row class="ion-justify-content-between">
+              <ion-col size="1">
+                <ion-button fill="clear">
+                  <ion-icon name="repeat-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button fill="clear">
+                  <ion-icon name="play-skip-back-circle" size="large"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button fill="clear">
+                  <ion-icon name="play-circle" size="large"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button fill="clear">
+                  <ion-icon name="play-skip-forward-circle" size="large"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button fill="clear">
+                  <ion-icon name="repeat-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center ion-justify-content-between">
+              <ion-col size="auto">
+                3:12
+              </ion-col>
+              <ion-col size-md="10" size-sm="9">
+                <ion-progress-bar [value]="0.2"></ion-progress-bar>
+              </ion-col>
+              <ion-col size="auto">
+                5:00
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon [name]="selected === 'home' ? 'home': 'home-outline'"></ion-icon>
+      <ion-label>Discover</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="search">
+      <ion-icon [name]="selected === 'search' ? 'search': 'search-outline'"></ion-icon>
+      <ion-label>Search</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="playlist">
+      <ion-icon [name]="selected === 'playlist' ? 'musical-notes': 'musical-notes-outline'"></ion-icon>
+      <ion-label>Liked songs</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="followed">
+      <ion-icon [name]="selected === 'followed' ? 'heart': 'heart-outline'"></ion-icon>
+      <ion-label>Followed</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

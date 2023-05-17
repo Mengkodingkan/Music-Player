@@ -6,7 +6,8 @@
     "songUrl": "/assets/musics/Coldplay - TheScientist.mp3",
     "duration": 123,
     "like": 221,
-    "release": 2022
+    "release": 2022,
+    "artistName": "Gala Gala"
   },
   {
     "id": 2,
