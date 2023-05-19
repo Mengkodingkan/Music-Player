@@ -1,0 +1,27 @@
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button>
+          <ion-icon name="settings-outline"></ion-icon>
+        </ion-menu-button>
+      </ion-buttons>
+      <ion-title>Music Player</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-row>
+      <ion-col size="12">
+        <h2 class="ion-padding-start"><strong>Top Music</strong></h2>
+
+        <swiper-container [freeMode]="true" [slidesOffsetBefore]="20" [slidesPerView]="2.4" [spaceBetween]="20">
+          <swiper-slide *ngFor="let playlist of topSongs">
+            <img [src]="playlist.album.albumImage" alt="{{playlist.album.id}}">
+            <small>{{playlist.songTitle}}</small>
+          </swiper-slide>
+        </swiper-container>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</div>
