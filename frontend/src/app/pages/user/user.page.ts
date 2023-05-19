@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonTabs} from "@ionic/angular";
-import {TrackService} from "../../services/track.service";
-import {TopMusicModel} from "../../models/top-music.model";
+import {SongService} from "../../services/song.service";
+import {SongModel} from "../../models/song.model";
+import {AlbumModel} from "../../models/album.model";
 
 @Component({
   selector: 'app-user',
@@ -10,20 +11,16 @@ import {TopMusicModel} from "../../models/top-music.model";
 })
 export class UserPage implements OnInit {
   @ViewChild(IonTabs) tabs: IonTabs;
-  selected: any;
+  selectedTab: any;
 
-  track: TopMusicModel;
-
-  constructor(
-    private trackService: TrackService
-  ) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.trackService.currentTrack.subscribe(t => this.track = t)
+
   }
 
   setSelectedTab() {
-    this.selected = this.tabs.getSelected();
+    this.selectedTab = this.tabs.getSelected();
   }
 }

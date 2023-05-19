@@ -8,17 +8,17 @@
     <ion-list-header>
 
     </ion-list-header>
-    <ion-item *ngFor="let like of data;" button="">
-      <ion-alert [buttons]="alertButtons" header="Wanna remove the {{like.title}} from liked songs?" mode="ios"
-                 trigger="confirmation-delete-track{{like.id}}"></ion-alert>
+    <ion-item *ngFor="let song of playlists;" button="">
+      <ion-alert [buttons]="alertButtons" header="Wanna remove the {{song.songTitle}} from liked songs?" mode="ios"
+                 trigger="confirmation-delete-track{{song.id}}"></ion-alert>
       <ion-thumbnail slot="start" style="width: 40px; height: 40px;">
-        <img [src]="like.albumImage" alt="Silhouette of mountains"/>
+        <img [src]="song.album.albumImage" alt="Silhouette of mountains"/>
       </ion-thumbnail>
       <ion-label class="ion-text-wrap">
-        <h2><strong>{{like.title}}</strong></h2>
-        <small>{{like.artist.name}}</small> 🟡 {{like.duration}}
+        <h2><strong>{{song.songTitle}}</strong></h2>
+        <small>{{song.artist.artistName}}</small> 🟡 {{song.duration}}
       </ion-label>
-      <ion-button fill="clear" id="confirmation-delete-track{{like.id}}" slot="end">
+      <ion-button fill="clear" id="confirmation-delete-track{{song.id}}" slot="end">
         <ion-icon name="trash-outline"></ion-icon>
       </ion-button>
     </ion-item>

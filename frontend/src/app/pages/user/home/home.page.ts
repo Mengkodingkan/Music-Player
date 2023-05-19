@@ -1,14 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Howl} from "howler";
 
 import {register} from 'swiper/element/bundle';
 
-register();
+import {SongService} from "../../../services/song.service";
+import {SongModel} from "../../../models/song.model";
+import {AlbumService} from "../../../services/album.service";
 
-import topMusic from '../../../../assets/data/topMusic.json'
-import {TrackService} from "../../../services/track.service";
-import {TopMusicModel} from "../../../models/top-music.model";
-import likedSong from '../../../../assets/data/likedSongs.json'
+register();
 
 @Component({
   selector: 'app-home',
@@ -16,24 +14,25 @@ import likedSong from '../../../../assets/data/likedSongs.json'
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  topSongs: any[] = [];
 
-  data = [{title: "Top Music", playlists: likedSong}]
+  loadedTopSongs: SongModel[];
 
   constructor(
-    private trackService: TrackService
+    private songService: SongService,
+    private albumService: AlbumService
   ) {
   }
 
   ngOnInit() {
-    console.log(this.trackService.currentTrack)
-  }
+    this.loadedTopSongs = this.songService.topSongs;
 
-  onCLick(track: TopMusicModel) {
-    this.trackService.nextTrack(track)
-    let player = new Howl({
-      src: [track.songUrl],
-      html5: true
+    this.topSongs = this.loadedTopSongs.map(song => {
+      const album = this.albumService.getAlbumById(song.idAlbumId);
+      return {
+        ...song,
+        album: album
+      }
     });
-    player.play();
   }
 }
