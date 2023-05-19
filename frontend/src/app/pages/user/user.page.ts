@@ -1,8 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonTabs} from "@ionic/angular";
-import {SongService} from "../../services/song.service";
-import {SongModel} from "../../models/song.model";
-import {AlbumModel} from "../../models/album.model";
 
 @Component({
   selector: 'app-user',

@@ -2,9 +2,6 @@ import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
 
-import {SongService} from "../../../services/song.service";
-import {SongModel} from "../../../models/song.model";
-import {AlbumService} from "../../../services/album.service";
 
 register();
 
@@ -14,25 +11,11 @@ register();
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  topSongs: any[] = [];
+  topSongs: any;
 
-  loadedTopSongs: SongModel[];
-
-  constructor(
-    private songService: SongService,
-    private albumService: AlbumService
-  ) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.loadedTopSongs = this.songService.topSongs;
-
-    this.topSongs = this.loadedTopSongs.map(song => {
-      const album = this.albumService.getAlbumById(song.idAlbumId);
-      return {
-        ...song,
-        album: album
-      }
-    });
   }
 }
