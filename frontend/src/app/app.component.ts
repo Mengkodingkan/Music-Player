@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  static API_URL = "https://ionic-booking-app-1-default-rtdb.firebaseio.com";
 
   constructor() {
   }

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
+import {HomeService} from "./home.service";
+import {Subscription} from "rxjs";
 
 
 register();
@@ -11,11 +13,23 @@ register();
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  topSongs: any;
+  data: any[];
+  private dataSub: Subscription;
 
-  constructor() {
+  constructor(
+    private homeService: HomeService
+  ) {
   }
 
   ngOnInit() {
+    this.homeService.fetchData().subscribe()
+    this.dataSub = this.homeService.data.subscribe(res => {
+      this.data = res;
+      console.log(this.data)
+    })
+
+  }
+
+  ionViewWillEnter() {
   }
 }
