@@ -1,15 +1,8 @@
 {
   "data": [
     {
-      "title": "Top Music",
       "songs": [
         {
-          "song_id": 1,
-          "song_title": "The Creek Drank",
-          "song_url": "assets/songs/d4vd - Here With Me (Official Audio).mp3",
-          "duration": 123,
-          "release_date": "2021",
-          "like_count": 123,
           "album": {
             "album_id": 1,
             "album_image": "assets/images/albums/the-creek-drank.jpg"
@@ -17,15 +10,15 @@
           "artist": {
             "artist_id": 1,
             "artist_name": "Naila Anjay"
-          }
+          },
+          "duration": 123,
+          "like_count": 123,
+          "release_date": "2021",
+          "song_id": 1,
+          "song_title": "The Creek Drank",
+          "song_url": "assets/songs/d4vd - Here With Me (Official Audio).mp3"
         },
         {
-          "song_id": 2,
-          "song_title": "Swimming",
-          "song_url": "assets/songs/d4vd - Romantic Homicide (Official Music Video).mp3",
-          "duration": 123,
-          "release_date": "2002",
-          "like_count": 123,
           "album": {
             "album_id": 2,
             "album_image": "assets/images/albums/swimming.jpg"
@@ -33,15 +26,15 @@
           "artist": {
             "artist_id": 2,
             "artist_name": "Baku Hantam"
-          }
+          },
+          "duration": 123,
+          "like_count": 123,
+          "release_date": "2002",
+          "song_id": 2,
+          "song_title": "Swimming",
+          "song_url": "assets/songs/d4vd - Romantic Homicide (Official Music Video).mp3"
         },
         {
-          "song_id": 3,
-          "song_title": "Ex:Re",
-          "song_url": "assets/songs/Los Retros - Someone To Spend Time With.mp3",
-          "duration": 123,
-          "release_date": "2010",
-          "like_count": 123,
           "album": {
             "album_id": 3,
             "album_image": "assets/images/albums/ex-re.jpg"
@@ -49,15 +42,15 @@
           "artist": {
             "artist_id": 3,
             "artist_name": "Karawang"
-          }
+          },
+          "duration": 123,
+          "like_count": 123,
+          "release_date": "2010",
+          "song_id": 3,
+          "song_title": "Ex:Re",
+          "song_url": "assets/songs/Los Retros - Someone To Spend Time With.mp3"
         },
         {
-          "song_id": 4,
-          "song_title": "Born To Die",
-          "song_url": "assets/songs/The Walters -- I Love You So.mp3",
-          "duration": 123,
-          "release_date": "2010",
-          "like_count": 123,
           "album": {
             "album_id": 4,
             "album_image": "assets/images/albums/born-to-die.jpg"
@@ -65,34 +58,41 @@
           "artist": {
             "artist_id": 4,
             "artist_name": "Jakarta"
-          }
+          },
+          "duration": 123,
+          "like_count": 123,
+          "release_date": "2010",
+          "song_id": 4,
+          "song_title": "Born To Die",
+          "song_url": "assets/songs/The Walters -- I Love You So.mp3"
         }
-      ]
+      ],
+      "title": "Top Music"
     },
     {
-      "title": "Popular Artists",
       "artists": [
         {
           "artist_id": 1,
-          "artist_name": "Karawang",
-          "artist_image": "assets/images/albums/born-to-die.jpg"
+          "artist_image": "assets/images/albums/born-to-die.jpg",
+          "artist_name": "Karawang"
         },
         {
           "artist_id": 2,
-          "artist_name": "Pasti Bisa",
-          "artist_image": "assets/images/albums/ex-re.jpg"
+          "artist_image": "assets/images/albums/ex-re.jpg",
+          "artist_name": "Pasti Bisa"
         },
         {
           "artist_id": 3,
-          "artist_name": "Iya Dong",
-          "artist_image": "assets/images/albums/swimming.jpg"
+          "artist_image": "assets/images/albums/swimming.jpg",
+          "artist_name": "Iya Dong"
         },
         {
           "artist_id": 4,
-          "artist_name": "Bisa Banget",
-          "artist_image": "assets/images/albums/the-creek-drank.jpg"
+          "artist_image": "assets/images/albums/the-creek-drank.jpg",
+          "artist_name": "Bisa Banget"
         }
-      ]
+      ],
+      "title": "Popular Artists"
     }
   ]
 }

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
-import {HomeService} from "./home.service";
-import {Subscription} from "rxjs";
-
+import {HowlerJsService} from "../../../services/howler-js.service";
+import song from "../../../../assets/file.json"
+import {PlayerCtrlComponent} from "../player-ctrl/player-ctrl.component";
 
 register();
 
@@ -13,23 +13,29 @@ register();
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  data: any[];
-  private dataSub: Subscription;
+  data: any;
+  songOnPlay: any;
 
   constructor(
-    private homeService: HomeService
+    private howler: HowlerJsService
   ) {
   }
 
   ngOnInit() {
-    this.homeService.fetchData().subscribe()
-    this.dataSub = this.homeService.data.subscribe(res => {
-      this.data = res;
-      console.log(this.data)
-    })
-
+    this.data = song.data;
   }
 
-  ionViewWillEnter() {
+  // onClick(songs: any, song: any){
+  //   const arr = [...songs];
+  //   const index = arr.findIndex((item: any) => item.id === song.id);
+  //   arr.splice(index, 1);
+  //   arr.unshift(song);
+  //
+  //   this.howler.addToQueueAndPlay(arr)
+  // }
+
+  onStartSong(song: any) {
+    this.howler.startSong(song);
+    this.songOnPlay = song;
   }
 }

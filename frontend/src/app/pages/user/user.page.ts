@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonTabs} from "@ionic/angular";
+import {HowlerJsService} from "../../services/howler-js.service";
 
 @Component({
   selector: 'app-user',
@@ -9,8 +10,11 @@ import {IonTabs} from "@ionic/angular";
 export class UserPage implements OnInit {
   @ViewChild(IonTabs) tabs: IonTabs;
   selectedTab: any;
+  song: any;
 
-  constructor() {
+  constructor(
+    private howler: HowlerJsService,
+  ) {
   }
 
   ngOnInit() {
@@ -20,4 +24,5 @@ export class UserPage implements OnInit {
   setSelectedTab() {
     this.selectedTab = this.tabs.getSelected();
   }
+
 }

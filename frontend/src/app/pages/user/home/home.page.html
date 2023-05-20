@@ -12,13 +12,22 @@
 
   <ion-content>
     <ion-row>
-      <ion-col *ngFor="let item of data" size="12">
-        <h2 class="ion-padding-start"><strong>{{item.id}}</strong></h2>
+      <ion-col *ngFor="let d of data" size="12">
+        <h2 class="ion-padding-start"><strong>{{d.title}}</strong></h2>
 
-        <swiper-container [freeMode]="true" [slidesOffsetBefore]="20" [slidesPerView]="2.4" [spaceBetween]="20">
-          <swiper-slide>
-            <img [src]="" alt="">
-            <small></small>
+        <swiper-container *ngIf="d.title === 'Top Music'" [freeMode]="true" [slidesOffsetBefore]="20"
+                          [slidesPerView]="2.4" [spaceBetween]="20">
+          <swiper-slide (click)="onStartSong(song)" *ngFor="let song of d.songs">
+            <img [alt]="song.song_title" [src]="song.album.album_image">
+            <ion-text [color]="song === songOnPlay ? 'success' : 'dark'"><small>{{song.song_title}}</small></ion-text>
+          </swiper-slide>
+        </swiper-container>
+
+        <swiper-container *ngIf="d.title === 'Popular Artists'" [freeMode]="true" [slidesOffsetBefore]="20"
+                          [slidesPerView]="2.4" [spaceBetween]="20">
+          <swiper-slide *ngFor="let artist of d.artists">
+            <ion-img [alt]="artist.artist_image" [src]="artist.artist_image"></ion-img>
+            <small>{{artist.artist_name}}</small>
           </swiper-slide>
         </swiper-container>
       </ion-col>
