@@ -1,8 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonTabs} from "@ionic/angular";
-import {SongService} from "../../services/song.service";
-import {SongModel} from "../../models/song.model";
-import {AlbumModel} from "../../models/album.model";
+import {IonProgressBar, IonTabs} from "@ionic/angular";
+import {HowlerJsService} from "../../services/howler-js.service";
 
 @Component({
   selector: 'app-user',
@@ -11,9 +9,11 @@ import {AlbumModel} from "../../models/album.model";
 })
 export class UserPage implements OnInit {
   @ViewChild(IonTabs) tabs: IonTabs;
+
   selectedTab: any;
 
   constructor() {
+
   }
 
   ngOnInit() {
@@ -23,4 +23,5 @@ export class UserPage implements OnInit {
   setSelectedTab() {
     this.selectedTab = this.tabs.getSelected();
   }
+
 }

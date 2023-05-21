@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 import {UserPageRoutingModule} from './user-routing.module';
 
 import {UserPage} from './user.page';
+import {PlayerCtrlComponent} from "./player-ctrl/player-ctrl.component";
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import {UserPage} from './user.page';
     IonicModule,
     UserPageRoutingModule
   ],
-  declarations: [UserPage]
+  declarations: [UserPage, PlayerCtrlComponent]
 })
 export class UserPageModule {
 }

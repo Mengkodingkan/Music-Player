@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
-
-import {SongService} from "../../../services/song.service";
-import {SongModel} from "../../../models/song.model";
-import {AlbumService} from "../../../services/album.service";
+import {HowlerJsService} from "../../../services/howler-js.service";
+import {HomeService} from "./home.service";
+import {findIndex} from "rxjs";
 
 register();
 
@@ -14,25 +13,27 @@ register();
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  topSongs: any[] = [];
-
-  loadedTopSongs: SongModel[];
+  data: any;
+  currentSong: any;
+  protected readonly findIndex = findIndex;
 
   constructor(
-    private songService: SongService,
-    private albumService: AlbumService
+    private howler: HowlerJsService,
+    private homeService: HomeService
   ) {
   }
 
   ngOnInit() {
-    this.loadedTopSongs = this.songService.topSongs;
+    this.data = this.homeService.getData();
+    this.howler.currentSong.subscribe(song => this.currentSong = song);
+  }
 
-    this.topSongs = this.loadedTopSongs.map(song => {
-      const album = this.albumService.getAlbumById(song.idAlbumId);
-      return {
-        ...song,
-        album: album
-      }
-    });
+  onAddToQueue(song: any) {
+    // const arr = [...song];
+    // const index = arr.findIndex((item: any) => item.id === song.id);
+    // arr.splice(index, 1);
+    // arr.unshift(song);
+
+    this.howler.addToQueue(song);
   }
 }
