@@ -53,6 +53,12 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'audio' => [
+            'driver' => 'local',
+            'root' => public_path('audio'),
+            'url' => env('APP_URL').'/public/audio',
+            'visibility' => 'public',
+        ]
     ],
 
     /*

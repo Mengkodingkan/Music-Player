@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TRX_Playlist extends Model
+class Followed extends Model
 {
     use HasFactory;
 
-    protected $table = 'trx_playlist';
+    protected $table = 'followed';
 
     /**
      * The attributes that are mass assignable.
@@ -17,28 +17,18 @@ class TRX_Playlist extends Model
      * @var array
      */
     protected $fillable = [
-        'playlist_id',
-        'song_id'
+        'artist_id',
+        'user_id',
     ];
 
-    /**
-     * The hidden attributes
-     */
     protected $hidden = [
         'created_at',
         'updated_at',
-        'playlist_id',
-        'song_id',
     ];
 
-    public function playlist()
+    public function artist()
     {
-        return $this->belongsTo(Playlist::class, 'playlist_id');
-    }
-
-    public function song()
-    {
-        return $this->belongsTo(Song::class, 'song_id');
+        return $this->belongsTo(User::class, 'artist_id');
     }
 
     public function user()

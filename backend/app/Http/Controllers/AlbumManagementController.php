@@ -18,7 +18,10 @@ class AlbumManagementController extends Controller
         $albums->makeHidden('artist_id');
         $albums->load('songs.genre');
 
-        foreach ($albums as $album) $album->songs->makeHidden(['artist_id', 'album_id', 'genre_id']);
+        foreach ($albums as $album) {
+            $album['image'] = url('images/album/' . $album['image']);
+            $album->songs->makeHidden(['artist_id', 'album_id', 'genre_id']);
+        }
 
         return response()->json([
             'message' => 'Get all albums successful',
@@ -30,17 +33,17 @@ class AlbumManagementController extends Controller
     public function get_album_by_id($id)
     {
         $album = Album::with('artist', 'songs')->find($id);
-        $album->makeHidden('artist_id');
-        $album->load('songs.genre');
-        // hidden artist_id on songs
-        $album->songs->makeHidden(['artist_id', 'album_id', 'genre_id']);
-
         if (!$album) {
             return response()->json([
                 'message' => 'Album not found',
                 'statusCode' => 404,
             ], 404);
         }
+
+        $album->makeHidden('artist_id');
+        $album->load('songs.genre');
+        $album->songs->makeHidden(['artist_id', 'album_id', 'genre_id']);
+        $album['image'] = url('images/album/' . $album['image']);
 
         return response()->json([
             'message' => 'Get album successful',
@@ -82,13 +85,13 @@ class AlbumManagementController extends Controller
 
         try {
             $album = Album::create($data);
+            $album['image'] = url('images/album/' . $album['image']);
             return response()->json([
                 'message' => 'Create album successful',
                 'statusCode' => 201,
                 'data' => $album,
             ], 201);
         } catch (Exception $e) {
-            var_dump($e->getMessage());
             unlink(public_path('images/album/' . $image_name));
             return response()->json([
                 'message' => 'Create album failed',
@@ -100,11 +103,12 @@ class AlbumManagementController extends Controller
     public function update_album(Request $request, $id) {
         $data = $request->all();
         $v = Validator::make($data, [
-            'title' => 'required|string',
+            'title' => 'string',
             'image' => 'image|mimes:png,jpg,jpeg',
-            'release_date' => 'required|date',
+            'release_date' => 'date',
             'category' => 'in:album,single,ep',
-            'artist_id' => 'required|integer',
+            'artist_id' => 'integer',
+            '__method' => 'required|in:PUT,PATCH',
         ]);
 
         if ($v->fails()) {
@@ -123,21 +127,24 @@ class AlbumManagementController extends Controller
         }
 
         $image = $request->file('image');
-        $image_name = time() . '.' . $image->extension();
-        $image->move(public_path('images/album'), $image_name);
-        $data['image'] = $image_name;
+        if ($image->isValid()) {
+            $img_name = time() . '.' . $image->extension();
+            $image->move(public_path('images/album'), $img_name);
+            $data['image'] = $img_name;
+
+            // delete old image
+            unlink(public_path('images/album/' . $album->image));
+        }
 
         try {
             $album->update($data);
-            unlink(public_path('images/album/' . $album->image));
+            $album['image'] = url('images/album/' . $album['image']);
             return response()->json([
                 'message' => 'Update album successful',
                 'statusCode' => 200,
                 'data' => $album,
             ], 200);
         } catch (Exception $e) {
-            unlink(public_path('images/album/' . $image_name));
-
             return response()->json([
                 'message' => 'Update album failed',
                 'statusCode' => 500,
@@ -154,13 +161,24 @@ class AlbumManagementController extends Controller
             ], 404);
         }
 
+        // check this album included in song
+        $songs = $album->songs;
+        if (count($songs) > 0) {
+            return response()->json([
+                'message' => 'Album included in song, set song album to null first',
+                'statusCode' => 400,
+            ], 400);
+        }
+
         try {
             $album->delete();
+            unlink(public_path('images/album/' . $album->image));
             return response()->json([
                 'message' => 'Delete album successful',
                 'statusCode' => 200,
             ], 200);
         } catch (Exception $e) {
+            var_dump($e->getMessage());
             return response()->json([
                 'message' => 'Delete album failed',
                 'statusCode' => 500,
