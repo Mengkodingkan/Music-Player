@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonTabs} from "@ionic/angular";
+import {IonProgressBar, IonTabs} from "@ionic/angular";
 import {HowlerJsService} from "../../services/howler-js.service";
 
 @Component({
@@ -9,12 +9,11 @@ import {HowlerJsService} from "../../services/howler-js.service";
 })
 export class UserPage implements OnInit {
   @ViewChild(IonTabs) tabs: IonTabs;
-  selectedTab: any;
-  song: any;
 
-  constructor(
-    private howler: HowlerJsService,
-  ) {
+  selectedTab: any;
+
+  constructor() {
+
   }
 
   ngOnInit() {

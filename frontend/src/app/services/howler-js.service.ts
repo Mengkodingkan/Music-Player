@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Howl} from 'howler';
 import {BehaviorSubject} from "rxjs";
+import {HomeService} from "../pages/user/home/home.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HowlerJsService {
-  // queues: any;
-  // howler: any;
-  // eventActive = false
+
+  queues: any[] = [];
 
   // @ts-ignore
   howlPlayer: Howl = null;
-
+  //
   // playSong() {
   //   // check queues
   //   const s = this.queues;
@@ -57,35 +57,61 @@ export class HowlerJsService {
   //   });
   //   this.eventActive = true;
   // }
-  activeSong: any = null;
-  isPlaying = false;
 
-  constructor() {
-    // this.queues = [];
+  private _activeSong = new BehaviorSubject<any>(null);
+  currentSong = this._activeSong.asObservable();
+
+  private _defaultIsPause = new BehaviorSubject<boolean>(false);
+  isPause = this._defaultIsPause.asObservable();
+
+  private _progressBar = new BehaviorSubject<number>(0);
+  progressBar = this._progressBar.asObservable();
+
+  private _start = new BehaviorSubject<number>(0);
+  start = this._start.asObservable();
+
+  private _end = new BehaviorSubject<number>(0);
+  end = this._end.asObservable();
+
+  private progressInterval: any;
+  private currentIndex: number = 0;
+  private playlist: any;
+
+  constructor(
+    private homeService: HomeService
+  ) {
+    this.playlist = this.homeService.getData();
   }
 
-  startSong(song: any) {
-    if (this.howlPlayer) {
-      this.howlPlayer.stop();
+  addToQueue(song: any) {
+    if (this._activeSong.getValue() === song) {
+      return;
+    } else {
+      this.howlPlayer?.stop();
     }
 
     this.howlPlayer = new Howl({
       src: [song.song_url],
       html5: true,
       onplay: () => {
-        this.isPlaying = true;
-        this.activeSong = song;
+        this._defaultIsPause.next(false);
+        this._activeSong.next(song);
+        this._end.next(Math.round(this.howlPlayer.duration()));
+        this._start.next(Math.round(this.howlPlayer.seek()));
+        this.startProgressInterval();
       },
       onend: () => {
-        this.isPlaying = false;
+        this._defaultIsPause.next(true);
+        this.stopProgressInterval();
       }
     });
     this.howlPlayer.play();
+
   }
 
-  togglePlayPause(play: boolean) {
-    this.isPlaying = !play;
-    if (play) {
+  togglePlayer(pause: boolean) {
+    this._defaultIsPause.next(!pause);
+    if (pause) {
       this.howlPlayer.pause();
     } else {
       this.howlPlayer.play();
@@ -100,9 +126,24 @@ export class HowlerJsService {
 
   }
 
-  updateProgress() {
-
+  seekTo(event: any) {
+    const seekTo = (event.target.value / 100) * this.howlPlayer.duration();
+    this._start.next(Math.round(seekTo));
+    this.howlPlayer.seek(seekTo);
   }
 
+  startProgressInterval() {
+    this.progressInterval = setInterval(() => {
+      const seek = this.howlPlayer.seek() || 0;
+      this._start.next(Math.round(seek));
+      this._progressBar.next(
+        seek / this.howlPlayer.duration() * 100
+      );
+    }, 1);
+  }
+
+  stopProgressInterval() {
+    clearInterval(this.progressInterval);
+  }
 
 }

@@ -12,14 +12,14 @@
 
   <ion-content>
     <ion-row>
-      <ion-col *ngFor="let d of data" size="12">
-        <h2 class="ion-padding-start"><strong>{{d.title}}</strong></h2>
+      <ion-col *ngFor="let d of data.data" size="12">
+        <h2 class="ion-padding-start"><span><b>{{d.title}}</b></span></h2>
 
         <swiper-container *ngIf="d.title === 'Top Music'" [freeMode]="true" [slidesOffsetBefore]="20"
                           [slidesPerView]="2.4" [spaceBetween]="20">
-          <swiper-slide (click)="onStartSong(song)" *ngFor="let song of d.songs">
-            <img [alt]="song.song_title" [src]="song.album.album_image">
-            <ion-text [color]="song === songOnPlay ? 'success' : 'dark'"><small>{{song.song_title}}</small></ion-text>
+          <swiper-slide (click)="onAddToQueue(song)" *ngFor="let song of d.songs">
+            <ion-img [alt]="song.song_title" [src]="song.album.album_image"></ion-img>
+            <ion-text [color]="song === currentSong ? 'success' : 'dark'"><small>{{song.song_title}}</small></ion-text>
           </swiper-slide>
         </swiper-container>
 

@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
 import {HowlerJsService} from "../../../services/howler-js.service";
-import song from "../../../../assets/file.json"
-import {PlayerCtrlComponent} from "../player-ctrl/player-ctrl.component";
+import {HomeService} from "./home.service";
+import {findIndex} from "rxjs";
 
 register();
 
@@ -14,28 +14,26 @@ register();
 })
 export class HomePage implements OnInit {
   data: any;
-  songOnPlay: any;
+  currentSong: any;
+  protected readonly findIndex = findIndex;
 
   constructor(
-    private howler: HowlerJsService
+    private howler: HowlerJsService,
+    private homeService: HomeService
   ) {
   }
 
   ngOnInit() {
-    this.data = song.data;
+    this.data = this.homeService.getData();
+    this.howler.currentSong.subscribe(song => this.currentSong = song);
   }
 
-  // onClick(songs: any, song: any){
-  //   const arr = [...songs];
-  //   const index = arr.findIndex((item: any) => item.id === song.id);
-  //   arr.splice(index, 1);
-  //   arr.unshift(song);
-  //
-  //   this.howler.addToQueueAndPlay(arr)
-  // }
+  onAddToQueue(song: any) {
+    // const arr = [...song];
+    // const index = arr.findIndex((item: any) => item.id === song.id);
+    // arr.splice(index, 1);
+    // arr.unshift(song);
 
-  onStartSong(song: any) {
-    this.howler.startSong(song);
-    this.songOnPlay = song;
+    this.howler.addToQueue(song);
   }
 }

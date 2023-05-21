@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
-import {AppComponent} from "../../../app.component";
-import {BehaviorSubject, map, tap} from "rxjs";
+import data from "../../../../assets/file.json";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
 
-  data: any;
-
   constructor() {
+  }
+
+  getData() {
+    return data;
   }
 }

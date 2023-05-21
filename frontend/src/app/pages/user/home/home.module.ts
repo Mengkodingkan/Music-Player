@@ -7,7 +7,6 @@ import {IonicModule} from '@ionic/angular';
 import {HomePageRoutingModule} from './home-routing.module';
 
 import {HomePage} from './home.page';
-import {PlayerCtrlComponent} from "../player-ctrl/player-ctrl.component";
 
 @NgModule({
   imports: [
