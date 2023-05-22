@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PlaylistService} from "./playlist.service";
-import {AlertController, ToastController} from "@ionic/angular";
+import {AlertController, IonItemSliding, ToastController} from "@ionic/angular";
 import {HowlerJsService} from "../../../services/howler-js.service";
 
 @Component({
@@ -34,11 +34,8 @@ export class PlaylistPage implements OnInit {
     console.log(this.data);
   }
 
-  onAddToQueue(song: any) {
-    this.howler.addToQueue(song);
-  }
 
-  async onDelete(song: any) {
+  async onDelete(song: any, itemSliding: IonItemSliding) {
 
     const alert = await this.alertCtrl.create({
       mode: 'ios',
@@ -50,6 +47,7 @@ export class PlaylistPage implements OnInit {
           cssClass: 'cancel',
           handler: () => {
             this.alertMessage = 'Alert canceled';
+            itemSliding.close();
           },
         },
         {
@@ -59,7 +57,7 @@ export class PlaylistPage implements OnInit {
           handler: () => {
             this.alertMessage = 'Song removed!';
             this.playlistService.deleteSong(song.song_id);
-
+            itemSliding.close();
             this.toastCtrl.create({
               message: this.alertMessage,
               duration: 1500,
@@ -72,7 +70,6 @@ export class PlaylistPage implements OnInit {
         },
       ]
     });
-
     await alert.present();
   }
 

@@ -6,19 +6,19 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      :v
-    </ion-list-header>
-    <ion-item (click)="onAddToQueue(song)" *ngFor="let song of data.songs" button="">
-      <ion-thumbnail slot="start" style="width: 40px; height: 40px;">
-        <ion-img [alt]="song.song_title" [src]="song.album.album_image"></ion-img>
-      </ion-thumbnail>
-      <ion-label [color]="song === currentSong ? 'success' : 'dark'" class="ion-text-wrap">
-        <h2><strong>{{song.song_title}}</strong></h2>
-        <small>{{song.artist.artist_name}}</small>
+      <ion-label class="ion-text-end ion-padding">
+        <small><span>Help</span> : Swipe left to remove a song</small>
       </ion-label>
-      <ion-button (click)="onDelete(song)" fill="clear" id="confirmation-delete-track-{{song.song_id}}" slot="end">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
+    </ion-list-header>
+
+    <ion-item-sliding #itemSliding *ngFor="let song of data.songs">
+      <app-playlist-item [song]="song"></app-playlist-item>
+      <ion-item-options>
+        <ion-item-option (click)="onDelete(song, itemSliding)" color="light">
+          <ion-icon color="primary" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
   </ion-list>
 </ion-content>
