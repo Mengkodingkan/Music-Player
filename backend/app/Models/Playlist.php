@@ -24,6 +24,11 @@ class Playlist extends Model
         'user_id',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -34,8 +39,8 @@ class Playlist extends Model
         return $this->belongsToMany(Song::class, 'trx_playlist', 'playlist_id', 'song_id');
     }
 
-    public function trx_playlist()
+    public function tracks()
     {
-        return $this->hasMany(TRX_Playlist::class, 'playlist_id');
+        return $this->hasManyThrough(Song::class, TRX_Playlist::class, 'playlist_id', 'id', 'id', 'song_id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,43 @@ class AuthController extends Controller
             var_dump($e->getMessage());
             return response()->json([
                 'message' => 'Login failed',
+                'statusCode' => 500,
+            ], 500);
+        }
+    }
+
+    public function register(Request $request) {
+        try {
+            $v = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users,email',
+                'birthday' => 'required|date',
+                'password' => 'required|string',
+                'role' => 'required|string|in:artist,user',
+            ]);
+
+            if ($v->fails()) {
+                return response()->json([
+                    'message' => $v->errors()->first(),
+                    'statusCode' => 400,
+                ], 400);
+            }
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+
+            $user->role = $request->role;
+            $user->password = $request->password;
+            $user->save();
+
+            return response()->json([
+                'message' => 'Register successful',
+                'statusCode' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Register failed',
                 'statusCode' => 500,
             ], 500);
         }

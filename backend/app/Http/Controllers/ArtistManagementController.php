@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ArtistManagementController extends Controller
 {
-    public function get_all_artists()
+    public function get_all_artists(Request $request)
     {
         $artists = Artist::all();
+        foreach ($artists as $artist) $artist['image'] = url('images/artist/' . $artist['image']);
+
         return response()->json([
             'message' => 'Get all artists successful',
             'statusCode' => 200,
@@ -28,6 +30,8 @@ class ArtistManagementController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
+
+        $artist['image'] = url('images/artist/' . $artist['image']);
 
         return response()->json([
             'message' => 'Get artist successful',
@@ -64,11 +68,13 @@ class ArtistManagementController extends Controller
 
         $thumb = $request->file('image');
         $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
-        $thumb->move(public_path('images'), $thumb_name);
+        $thumb->move(public_path('images/artist'), $thumb_name);
         $data['image'] = $thumb_name;
 
         try {
             $artist = Artist::create($data);
+            $artist['image'] = url('images/artist/' . $artist['image']);
+
             return response()->json([
                 'message' => 'Create artist successful',
                 'statusCode' => 201,
@@ -76,7 +82,7 @@ class ArtistManagementController extends Controller
             ], 201);
         } catch (Exception $e) {
             // delete temp image
-            $thumb_path = public_path('images') . '/' . $thumb_name;
+            $thumb_path = public_path('images/artist/' . $thumb_name);
             unlink($thumb_path);
 
             return response()->json([
@@ -98,10 +104,10 @@ class ArtistManagementController extends Controller
         }
 
         $v = Validator::make($data, [
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'website' => 'required|string',
-            'image' => 'required|image|mimes:png',
+            'name' => 'string',
+            'email' => 'email',
+            'website' => 'string',
+            'image' => 'image|mimes:png,jpg,jpeg',
         ]);
 
         if ($v->fails()) {
@@ -119,22 +125,33 @@ class ArtistManagementController extends Controller
             ], 400);
         }
 
-        // delete old image
-        $old_image = $artist->image;
-        $old_image_path = public_path('images') . '/' . $old_image;
-        unlink($old_image_path);
-
         $thumb = $request->file('image');
-        $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
-        $thumb->move(public_path('images'), $thumb_name);
-        $data['image'] = $thumb_name;
+        if ($thumb) {
+            // delete old image
+            $thumb_path = public_path('images/artist/' . $artist->image);
+            if (file_exists($thumb_path)) unlink($thumb_path);
 
-        $artist->update($data);
-        return response()->json([
-            'message' => 'Update artist successful',
-            'statusCode' => 200,
-            'data' => $artist,
-        ], 200);
+            // upload new image
+            $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
+            $thumb->move(public_path('images/artist'), $thumb_name);
+            $data['image'] = $thumb_name;
+        }
+
+        try {
+            $artist->update($data);
+            $artist['image'] = url('images/artist/' . $artist['image']);
+
+            return response()->json([
+                'message' => 'Update artist successful',
+                'statusCode' => 200,
+                'data' => $artist,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Update artist failed: ' . $e->getMessage(),
+                'statusCode' => 500,
+            ], 500);
+        }
     }
 
     public function delete_artist($id)
@@ -146,8 +163,20 @@ class ArtistManagementController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
+        // check if artist has any album
+        $albums = $artist->albums;
+        if (count($albums) > 0) {
+            return response()->json([
+                'message' => 'Album with artist exists, cannot delete artist',
+                'statusCode' => 400,
+            ], 400);
+        }
 
         $artist->delete();
+
+        // delete image
+        $thumb_path = public_path('images/artist/' . $artist->image);
+        if (file_exists($thumb_path)) unlink($thumb_path);
         return response()->json([
             'message' => 'Delete artist successful',
             'statusCode' => 200,

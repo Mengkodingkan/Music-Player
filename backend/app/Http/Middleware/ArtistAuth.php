@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Artist;
 use Closure;
 use ErrorException;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Firebase\JWT\ExpiredException;
 use Firebase\JWT\Key;
 use TypeError;
 
-class UserAuth
+class ArtistAuth
 {
     /**
      * Handle an incoming request.
@@ -27,9 +28,18 @@ class UserAuth
             $key = new Key(env('JWT_SECRET'), 'HS256');
 
             $decoded = JWT::decode($jwt, $key);
-            if ($decoded->role !== 'user') {
+            if ($decoded->role !== 'artist') {
                 return response()->json([
                     'message' => 'Invalid token',
+                    'statusCode' => 401,
+                ], 401);
+            }
+
+            // check if artist exists
+            $artist = Artist::where('user_id', $decoded->id)->first();
+            if (!$artist) {
+                return response()->json([
+                    'message' => 'This account not registered as artist, please register as artist first',
                     'statusCode' => 401,
                 ], 401);
             }

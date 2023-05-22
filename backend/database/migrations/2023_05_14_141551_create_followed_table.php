@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlbumTable extends Migration
+class CreateFollowedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateAlbumTable extends Migration
      */
     public function up()
     {
-        Schema::create('album', function (Blueprint $table) {
+        Schema::create('followed', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('image')->default('default.png');
-            $table->enum('category', ['album', 'single', 'ep']);
-            $table->date('release_date');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('artist_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('artist_id')->references('id')->on('artist')->onDelete('cascade');
             $table->timestamps();
-            $table->foreign('artist_id')->references('id')->on('artist');
         });
     }
 
@@ -32,6 +30,6 @@ class CreateAlbumTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('album');
+        Schema::dropIfExists('followed');
     }
 }
