@@ -24,8 +24,15 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.data = this.homeService.getData();
+    this.homeService.fetchData();
     this.howler.currentSong.subscribe(song => this.currentSong = song);
+    this.homeService.data.subscribe(data => {
+      this.data = data;
+    });
+  }
+
+  ionViewWillEnter() {
+    console.log(this.data);
   }
 
   onAddToQueue(song: any) {
