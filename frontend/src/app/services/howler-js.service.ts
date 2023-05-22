@@ -78,9 +78,7 @@ export class HowlerJsService {
   private playlist: any;
 
   constructor(
-    private homeService: HomeService
   ) {
-    this.playlist = this.homeService.getData();
   }
 
   addToQueue(song: any) {

@@ -11,9 +11,11 @@
             "artist_id": 5,
             "artist_name": "Wut Da Hell"
           },
+          "playlist": {
+            "id": 1,
+            "user_id": 1
+          },
           "like_count": 123,
-          "release_date": "2021",
-          "duration": 8,
           "song_id": 5,
           "song_title": "The Creek Drank",
           "song_url": "assets/songs/Wut da heeeeeeeeeeeeeeel Oooh maa gaaaad No waaayyaayyaaaaae - Sound Effects (HD).mp3"
@@ -27,8 +29,11 @@
             "artist_id": 1,
             "artist_name": "Reni Widya"
           },
+          "playlist": {
+            "id": 1,
+            "user_id": 1
+          },
           "like_count": 123,
-          "release_date": "2021",
           "song_id": 1,
           "song_title": "The Creek Drank",
           "song_url": "assets/songs/d4vd - Here With Me (Official Audio).mp3"
@@ -43,7 +48,6 @@
             "artist_name": "Baku Hantam"
           },
           "like_count": 123,
-          "release_date": "2002",
           "song_id": 2,
           "song_title": "Swimming",
           "song_url": "assets/songs/d4vd - Romantic Homicide (Official Music Video).mp3"
@@ -57,8 +61,11 @@
             "artist_id": 3,
             "artist_name": "Karawang"
           },
+          "playlist": {
+            "id": 1,
+            "user_id": 1
+          },
           "like_count": 123,
-          "release_date": "2010",
           "song_id": 3,
           "song_title": "Ex:Re",
           "song_url": "assets/songs/Los Retros - Someone To Spend Time With.mp3"
@@ -73,7 +80,6 @@
             "artist_name": "Jakarta"
           },
           "like_count": 123,
-          "release_date": "2010",
           "song_id": 4,
           "song_title": "Born To Die",
           "song_url": "assets/songs/The Walters -- I Love You So.mp3"
