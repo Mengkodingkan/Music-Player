@@ -12,7 +12,7 @@
             "artist_name": "Wut Da Hell"
           },
           "playlist": {
-            "id": 1,
+            "playlist_id": 1,
             "user_id": 1
           },
           "like_count": 123,
@@ -30,7 +30,7 @@
             "artist_name": "Reni Widya"
           },
           "playlist": {
-            "id": 1,
+            "playlist_id": 1,
             "user_id": 1
           },
           "like_count": 123,
@@ -62,7 +62,7 @@
             "artist_name": "Karawang"
           },
           "playlist": {
-            "id": 1,
+            "playlist_id": 1,
             "user_id": 1
           },
           "like_count": 123,

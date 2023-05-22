@@ -12,6 +12,7 @@ export class PlayerCtrlComponent implements OnInit {
   progressBar: number;
   start: number;
   end: number;
+  isLike: boolean;
 
   constructor(
     private howler: HowlerJsService,
@@ -48,6 +49,13 @@ export class PlayerCtrlComponent implements OnInit {
 
   onPrevious() {
     this.howler.previous();
+  }
+
+
+  // TODO onLike
+  onLike(like: boolean) {
+    this.isLike = !like;
+
   }
 
 }
