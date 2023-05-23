@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HowlerJsService} from "../../../services/howler-js.service";
+import {SongModel} from "../../../model/song.model";
 
 @Component({
   selector: 'app-player-ctrl',
@@ -7,7 +8,7 @@ import {HowlerJsService} from "../../../services/howler-js.service";
   styleUrls: ['./player-ctrl.component.scss'],
 })
 export class PlayerCtrlComponent implements OnInit {
-  activeSong: any;
+  activeSong: SongModel;
   isPlaying: boolean;
   progressBar: number;
   start: number;
@@ -20,7 +21,7 @@ export class PlayerCtrlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.howler.currentSong.subscribe(activeSong => this.activeSong = activeSong);
+    this.howler.activeSong.subscribe(activeSong => this.activeSong = activeSong);
     this.howler.progressBar.subscribe(progressBar => this.progressBar = progressBar);
     this.howler.isPause.subscribe(isPlaying => this.isPlaying = isPlaying);
     this.howler.start.subscribe(start => this.start = start);

@@ -10,7 +10,22 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+
+          },
+          {
+            path: 'artists/:artistId',
+            loadChildren: () => import('./artist-profile/artist-profile.module').then(m => m.ArtistProfilePageModule)
+          },
+
+          {
+            path: 'albums/:albumId',
+            loadChildren: () => import('./album/album.module').then(m => m.AlbumPageModule)
+          }
+        ]
       },
       {
         path: 'playlist',
@@ -18,7 +33,12 @@ const routes: Routes = [
       },
       {
         path: 'search',
-        loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
+          }
+        ],
       },
       {
         path: 'followed',

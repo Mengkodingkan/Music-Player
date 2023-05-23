@@ -12,22 +12,26 @@
 
   <ion-content>
     <ion-row>
-      <ion-col *ngFor="let d of data.data" size="12">
-        <h2 class="ion-padding-start"><span><b>{{d.title}}</b></span></h2>
 
-        <swiper-container *ngIf="d.title === 'Top Music'" [freeMode]="true" [slidesOffsetBefore]="20"
-                          [slidesPerView]="2.4" [spaceBetween]="20">
-          <swiper-slide (click)="onAddToQueue(song)" *ngFor="let song of d.songs">
-            <ion-img [alt]="song.song_title" [src]="song.album.album_image"></ion-img>
-            <ion-text [color]="song === currentSong ? 'success' : 'dark'"><small>{{song.song_title}}</small></ion-text>
+      <ion-col size="12">
+        <h2 class="ion-padding-start"><span><b>Top Music</b></span></h2>
+
+        <swiper-container [freeMode]="true" [slidesOffsetBefore]="20" [slidesPerView]="2.4" [spaceBetween]="20">
+          <swiper-slide (click)="onAddToQueue(song)" *ngFor="let song of songs">
+            <ion-img [alt]="song.title" [src]="song.albumImage"></ion-img>
+            <ion-text [color]="song === activeSong ? 'success' : 'dark'"><small>{{song.title}}</small></ion-text>
           </swiper-slide>
         </swiper-container>
+      </ion-col>
 
-        <swiper-container *ngIf="d.title === 'Popular Artists'" [freeMode]="true" [slidesOffsetBefore]="20"
-                          [slidesPerView]="2.4" [spaceBetween]="20">
-          <swiper-slide *ngFor="let artist of d.artists">
-            <ion-img [alt]="artist.artist_image" [src]="artist.artist_image"></ion-img>
-            <small>{{artist.artist_name}}</small>
+      <ion-col size="12">
+        <h2 class="ion-padding-start"><span><b>Popular Artist</b></span></h2>
+
+        <swiper-container [freeMode]="true" [slidesOffsetBefore]="20" [slidesPerView]="2.4" [spaceBetween]="20">
+          <swiper-slide *ngFor="let artist of artists"
+                        [routerLink]="['/', 'user', 'tabs', 'home', 'artists', artist.id]">
+            <ion-img [alt]="artist.image" [src]="artist.image"></ion-img>
+            <small>{{artist.name}}</small>
           </swiper-slide>
         </swiper-container>
       </ion-col>
