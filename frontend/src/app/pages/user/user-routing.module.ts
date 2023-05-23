@@ -18,7 +18,16 @@ const routes: Routes = [
       },
       {
         path: 'search',
-        loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
+          },
+          {
+            path: 'artists/:artistId',
+            loadChildren: () => import('./artist-profile/artist-profile.module').then(m => m.ArtistProfilePageModule)
+          }
+        ],
       },
       {
         path: 'followed',

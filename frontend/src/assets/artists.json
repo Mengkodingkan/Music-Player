@@ -1,0 +1,130 @@
+{
+  "data": {
+    "artists": [
+      {
+        "artist_id": 0,
+        "artist_image": "assets/images/albums/born-to-die.jpg",
+        "artist_name": "Karawang",
+        "albums": [
+          {
+            "album_id": 0,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 1,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 2,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 3,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          }
+        ]
+      },
+      {
+        "artist_id": 1,
+        "artist_image": "assets/images/albums/ex-re.jpg",
+        "artist_name": "Pasti Bisa",
+        "albums": [
+          {
+            "album_id": 4,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 5,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 6,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 7,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          }
+        ]
+      },
+      {
+        "artist_id": 2,
+        "artist_image": "assets/images/albums/swimming.jpg",
+        "artist_name": "Iya Dong",
+        "albums": [
+          {
+            "album_id": 8,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 9,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 10,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 11,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          }
+        ]
+      },
+      {
+        "artist_id": 3,
+        "artist_image": "assets/images/albums/the-creek-drank.jpg",
+        "artist_name": "Bisa Banget",
+        "albums": [
+          {
+            "album_id": 12,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 13,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 14,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          },
+          {
+            "album_id": 15,
+            "album_title": "Album Title",
+            "publish_date": "2022",
+            "album_image": "assets/images/albums/born-to-die.jpg"
+          }
+        ]
+      }
+    ]
+  }
+}

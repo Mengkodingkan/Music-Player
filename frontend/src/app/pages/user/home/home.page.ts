@@ -3,7 +3,6 @@ import {Component, OnInit} from '@angular/core';
 import {register} from 'swiper/element/bundle';
 import {HowlerJsService} from "../../../services/howler-js.service";
 import {HomeService} from "./home.service";
-import {findIndex} from "rxjs";
 
 register();
 
@@ -15,7 +14,7 @@ register();
 export class HomePage implements OnInit {
   data: any;
   currentSong: any;
-  protected readonly findIndex = findIndex;
+  index: any;
 
   constructor(
     private howler: HowlerJsService,
@@ -29,10 +28,6 @@ export class HomePage implements OnInit {
     this.homeService.data.subscribe(data => {
       this.data = data;
     });
-  }
-
-  ionViewWillEnter() {
-    console.log(this.data);
   }
 
   onAddToQueue(song: any) {

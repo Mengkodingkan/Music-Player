@@ -58,6 +58,9 @@ export class HowlerJsService {
   //   this.eventActive = true;
   // }
 
+  private _isLiked = new BehaviorSubject<boolean>(false);
+  isLiked = this._isLiked.asObservable();
+
   private _activeSong = new BehaviorSubject<any>(null);
   currentSong = this._activeSong.asObservable();
 
@@ -142,6 +145,10 @@ export class HowlerJsService {
 
   stopProgressInterval() {
     clearInterval(this.progressInterval);
+  }
+
+  toggleLike(unlike: boolean) {
+    this._isLiked.next(!unlike);
   }
 
 }

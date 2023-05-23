@@ -25,7 +25,8 @@
 
         <swiper-container *ngIf="d.title === 'Popular Artists'" [freeMode]="true" [slidesOffsetBefore]="20"
                           [slidesPerView]="2.4" [spaceBetween]="20">
-          <swiper-slide *ngFor="let artist of d.artists">
+          <swiper-slide *ngFor="let artist of d.artists"
+                        [routerLink]="['/', 'user', 'tabs', 'search', 'artists', artist.artist_id]">
             <ion-img [alt]="artist.artist_image" [src]="artist.artist_image"></ion-img>
             <small>{{artist.artist_name}}</small>
           </swiper-slide>
