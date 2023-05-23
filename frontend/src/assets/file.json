@@ -90,22 +90,22 @@
     {
       "artists": [
         {
-          "artist_id": 1,
+          "artist_id": 0,
           "artist_image": "assets/images/albums/born-to-die.jpg",
           "artist_name": "Karawang"
         },
         {
-          "artist_id": 2,
+          "artist_id": 1,
           "artist_image": "assets/images/albums/ex-re.jpg",
           "artist_name": "Pasti Bisa"
         },
         {
-          "artist_id": 3,
+          "artist_id": 2,
           "artist_image": "assets/images/albums/swimming.jpg",
           "artist_name": "Iya Dong"
         },
         {
-          "artist_id": 4,
+          "artist_id": 3,
           "artist_image": "assets/images/albums/the-creek-drank.jpg",
           "artist_name": "Bisa Banget"
         }

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HowlerJsService} from "../../../services/howler-js.service";
+import {SongModel} from "../../../model/song.model";
 
 @Component({
   selector: 'app-playlist-item',
@@ -7,9 +8,9 @@ import {HowlerJsService} from "../../../services/howler-js.service";
   styleUrls: ['./playlist-item.component.scss'],
 })
 export class PlaylistItemComponent implements OnInit {
-  @Input() song: any;
+  @Input() song: SongModel;
 
-  currentSong: any;
+  activeSong: SongModel;
 
   constructor(
     private howler: HowlerJsService
@@ -17,11 +18,11 @@ export class PlaylistItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.howler.currentSong.subscribe(song => this.currentSong = song);
+    this.howler.activeSong.subscribe(song => this.activeSong = song);
 
   }
 
-  onAddToQueue(song: any) {
+  onAddToQueue(song: SongModel) {
     this.howler.addToQueue(song);
   }
 }

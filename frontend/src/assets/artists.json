@@ -5,6 +5,10 @@
         "artist_id": 0,
         "artist_image": "assets/images/albums/born-to-die.jpg",
         "artist_name": "Karawang",
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi etiam dignissim diam.",
+        "ig_url": "http://example.com/",
+        "fb_url": "http://example.com/",
+        "web_url": "http://example.com/",
         "albums": [
           {
             "album_id": 0,
@@ -36,6 +40,10 @@
         "artist_id": 1,
         "artist_image": "assets/images/albums/ex-re.jpg",
         "artist_name": "Pasti Bisa",
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi etiam dignissim diam.",
+        "ig_url": "http://example.com/",
+        "fb_url": "http://example.com/",
+        "web_url": "http://example.com/",
         "albums": [
           {
             "album_id": 4,
@@ -67,6 +75,10 @@
         "artist_id": 2,
         "artist_image": "assets/images/albums/swimming.jpg",
         "artist_name": "Iya Dong",
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi etiam dignissim diam.",
+        "ig_url": "http://example.com/",
+        "fb_url": "http://example.com/",
+        "web_url": "http://example.com/",
         "albums": [
           {
             "album_id": 8,
@@ -98,6 +110,10 @@
         "artist_id": 3,
         "artist_image": "assets/images/albums/the-creek-drank.jpg",
         "artist_name": "Bisa Banget",
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi etiam dignissim diam.",
+        "ig_url": "http://example.com/",
+        "fb_url": "http://example.com/",
+        "web_url": "http://example.com/",
         "albums": [
           {
             "album_id": 12,

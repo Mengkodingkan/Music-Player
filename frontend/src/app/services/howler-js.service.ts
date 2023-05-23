@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Howl} from 'howler';
 import {BehaviorSubject} from "rxjs";
-import {HomeService} from "../pages/user/home/home.service";
+import {HomeService} from "./home.service";
+import {SongModel} from "../model/song.model";
 
 @Injectable({
   providedIn: 'root'
@@ -59,32 +60,45 @@ export class HowlerJsService {
   // }
 
   private _isLiked = new BehaviorSubject<boolean>(false);
-  isLiked = this._isLiked.asObservable();
-
   private _activeSong = new BehaviorSubject<any>(null);
-  currentSong = this._activeSong.asObservable();
-
   private _defaultIsPause = new BehaviorSubject<boolean>(false);
-  isPause = this._defaultIsPause.asObservable();
-
   private _progressBar = new BehaviorSubject<number>(0);
-  progressBar = this._progressBar.asObservable();
-
   private _start = new BehaviorSubject<number>(0);
-  start = this._start.asObservable();
-
   private _end = new BehaviorSubject<number>(0);
-  end = this._end.asObservable();
 
   private progressInterval: any;
   private currentIndex: number = 0;
   private playlist: any;
 
-  constructor(
-  ) {
+  constructor() {
+
   }
 
-  addToQueue(song: any) {
+  get isLiked() {
+    return this._isLiked.asObservable();
+  }
+
+  get activeSong() {
+    return this._activeSong.asObservable();
+  }
+
+  get isPause() {
+    return this._defaultIsPause.asObservable();
+  }
+
+  get progressBar() {
+    return this._progressBar.asObservable();
+  }
+
+  get start() {
+    return this._start.asObservable();
+  }
+
+  get end() {
+    return this._end.asObservable();
+  }
+
+  addToQueue(song: SongModel) {
     if (this._activeSong.getValue() === song) {
       return;
     } else {
@@ -92,7 +106,7 @@ export class HowlerJsService {
     }
 
     this.howlPlayer = new Howl({
-      src: [song.song_url],
+      src: [song.url],
       html5: true,
       onplay: () => {
         this._defaultIsPause.next(false);
