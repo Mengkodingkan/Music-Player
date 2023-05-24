@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IonTabs} from "@ionic/angular";
 
 @Component({
   selector: 'app-artist',
@@ -6,11 +7,19 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./artist.page.scss'],
 })
 export class ArtistPage implements OnInit {
+  @ViewChild(IonTabs) tabs: IonTabs;
+
+  selectedTab: any;
 
   constructor() {
+
   }
 
   ngOnInit() {
+
   }
 
+  setSelectedTab() {
+    this.selectedTab = this.tabs.getSelected();
+  }
 }
