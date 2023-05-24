@@ -22,6 +22,19 @@ const routes: Routes = [
           {
             path: 'create-album',
             loadChildren: () => import('./create-album/create-album.module').then(m => m.CreateAlbumPageModule)
+          },
+          {
+            path: 'album-detail',
+            loadChildren: () => import('./album-detail/album-detail.module').then(m => m.AlbumDetailPageModule)
+          },
+          {
+            path: 'album-detail',
+            loadChildren: () => import('./album-detail/album-detail.module').then(m => m.AlbumDetailPageModule)
+          },
+
+          {
+            path: 'song',
+            loadChildren: () => import('./song/song.module').then(m => m.SongPageModule)
           }
         ]
       },
