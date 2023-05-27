@@ -1,37 +1,36 @@
 <ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-back-button [defaultHref]=""></ion-back-button>
-  </ion-buttons>
-  <ion-title></ion-title>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/artist/tabs/albums'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Album Title</ion-title>
+  </ion-toolbar>
 </ion-toolbar>
 
 <ion-content>
-  <ion-img [alt]="" [src]=""></ion-img>
+  <ion-img [alt]="" [src]="'https://docs-demo.ionic.io/assets/madison.jpg'"></ion-img>
   <div class="ion-padding">
-    <ion-text> •
+    <ion-text>Album Title • 2022
     </ion-text>
   </div>
   <ion-list>
     <ion-list-header>
       <h2>Songs</h2>
     </ion-list-header>
-    <ion-item>
+    <ion-item button="">
       <ion-label>
         <ion-row>
           <ion-col>
-
+            <h2>Song Title</h2>
           </ion-col>
           <ion-col class="ion-text-center">
             <small>2:20</small>
           </ion-col>
           <ion-col class="ion-text-center">
-            <small></small>
+            <small>02 - 02 - 2020</small>
           </ion-col>
         </ion-row>
       </ion-label>
-      <ion-button fill="clear" slot="end">
-        <ion-icon name="heart-outline"></ion-icon>
-      </ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

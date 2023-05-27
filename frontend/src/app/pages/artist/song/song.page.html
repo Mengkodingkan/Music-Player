@@ -1,12 +1,25 @@
-<ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-back-button [defaultHref]=""></ion-back-button>
-  </ion-buttons>
-  <ion-title></ion-title>
-</ion-toolbar>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/artist/tabs/albums"></ion-back-button>
+    </ion-buttons>
 
+    <ion-title>Song Title</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
   <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Song Name : Song Name
+        <br>
+        Album Name : Album Title
+        <br>
+        Like Count : 123
+        <br>
+        Publish On : 21212
+      </ion-card-subtitle>
+    </ion-card-header>
     <ion-card-content class="ion-text-center">
       <ion-button></ion-button>
     </ion-card-content>

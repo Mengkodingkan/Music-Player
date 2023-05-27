@@ -10,27 +10,27 @@
 <ion-content class="ion-padding">
 
   <ion-list-header>
-    <h3>Album Title</h3>
+    <h3 routerLink="0">Album Title</h3>
     <ion-label class="ion-text-end ion-padding">
-      <ion-button [routerLink]="['create-album']" mode="ios">Create new</ion-button>
+      <ion-button (click)="onCreateModal()" mode="ios">Create new</ion-button>
     </ion-label>
   </ion-list-header>
 
   <ion-list>
-    <ion-item button="">
-      <ion-row>
-        <ion-col size="auto">
-          <strong>Song Title</strong>
-        </ion-col>
-        <ion-col size="auto">
-          <small>123</small>
-        </ion-col>
-        <ion-col size="auto">
-          <ion-text color="success">
-            <small>Published</small>
-          </ion-text>
-        </ion-col>
-      </ion-row>
+    <ion-item button="" routerLink="song/0">
+      <ion-label>
+        <ion-row>
+          <ion-col>
+            <h2>Song Title</h2>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <small>2:20</small>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <small>02 - 02 - 2020</small>
+          </ion-col>
+        </ion-row>
+      </ion-label>
     </ion-item>
   </ion-list>
 

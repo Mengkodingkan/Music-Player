@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ModalController} from "@ionic/angular";
+import {CreateAlbumComponent} from "../create-album/create-album.component";
 
 @Component({
   selector: 'app-albums',
@@ -7,10 +9,29 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AlbumsPage implements OnInit {
 
-  constructor() {
+  constructor(
+    private modalController: ModalController,
+  ) {
   }
 
   ngOnInit() {
+  }
+
+  onCreateModal() {
+    this.modalController
+      .create({
+        component: CreateAlbumComponent,
+      })
+      .then(modalEl => {
+        modalEl.present();
+        return modalEl.onDidDismiss();
+      })
+      .then(resData => {
+        console.log(resData.data, resData.role);
+        if (resData.role === 'confirm') {
+          console.log('BOOKED!')
+        }
+      })
   }
 
 }
