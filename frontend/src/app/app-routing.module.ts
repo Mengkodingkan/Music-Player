@@ -4,7 +4,7 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/user/tabs/home',
+    redirectTo: '/artist/tabs/dashboard',
     pathMatch: 'full'
   },
   {
@@ -15,7 +15,6 @@ const routes: Routes = [
     path: 'artist',
     loadChildren: () => import('./pages/artist/artist.module').then(m => m.ArtistPageModule)
   }
-
 
 ];
 

@@ -5,8 +5,40 @@ import {ArtistPage} from './artist.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: ArtistPage
+    path: 'tabs',
+    component: ArtistPage,
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+      },
+      {
+        path: 'albums',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./albums/albums.module').then(m => m.AlbumsPageModule)
+          },
+          {
+            path: ':albumId',
+            loadChildren: () => import('./album-detail/album-detail.module').then(m => m.AlbumDetailPageModule)
+          },
+          {
+            path: 'song/:songId',
+            loadChildren: () => import('./song/song.module').then(m => m.SongPageModule)
+          }
+        ]
+      },
+      {
+        path: 'account',
+        loadChildren: () => import('./account/account.module').then(m => m.AccountPageModule)
+      },
+      {
+        path: '',
+        redirectTo: '/artist/tabs/dashboard',
+        pathMatch: 'full'
+      }
+    ]
   }
 ];
 
