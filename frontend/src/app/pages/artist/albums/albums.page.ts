@@ -10,7 +10,7 @@ import {CreateAlbumComponent} from "../create-album/create-album.component";
 export class AlbumsPage implements OnInit {
 
   constructor(
-    private modalController: ModalController,
+    private modalCtrl: ModalController,
   ) {
   }
 
@@ -18,7 +18,7 @@ export class AlbumsPage implements OnInit {
   }
 
   onCreateModal() {
-    this.modalController
+    this.modalCtrl
       .create({
         component: CreateAlbumComponent,
       })
