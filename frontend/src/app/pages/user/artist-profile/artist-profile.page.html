@@ -3,18 +3,18 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/user'"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{artist.name}} - Artist</ion-title>
+    <ion-title>{{artist.fullName}} - Artist</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-card>
-    <ion-img [alt]="artist.name" [src]="artist.image"></ion-img>
+    <ion-img [alt]="artist.fullName" [src]="artist.image"></ion-img>
     <ion-card-header>
       <ion-card-title>
         <ion-row class="ion-justify-content-center">
           <ion-col size="10">
-            <ion-text>{{artist.name}}</ion-text>
+            <ion-text>{{artist.fullName}}</ion-text>
           </ion-col>
           <ion-button class="ion-no-padding" fill="clear" mode="ios" size="small">Follow</ion-button>
         </ion-row>

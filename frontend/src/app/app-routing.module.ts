@@ -4,7 +4,7 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/artist/tabs/dashboard',
+    redirectTo: '/admin/tabs/dashboard',
     pathMatch: 'full'
   },
   {

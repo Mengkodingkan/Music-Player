@@ -31,7 +31,7 @@
           <swiper-slide *ngFor="let artist of artists"
                         [routerLink]="['/', 'user', 'tabs', 'home', 'artists', artist.id]">
             <ion-img [alt]="artist.image" [src]="artist.image"></ion-img>
-            <small>{{artist.name}}</small>
+            <small>{{artist.fullName}}</small>
           </swiper-slide>
         </swiper-container>
       </ion-col>

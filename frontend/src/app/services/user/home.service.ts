@@ -51,7 +51,7 @@ export class HomeService {
               let artistModel = new ArtistModel();
               artistModel.id = artist.artist_id;
               artistModel.image = artist.artist_image;
-              artistModel.name = artist.artist_name;
+              artistModel.fullName = artist.artist_name;
               artists.push(artistModel);
             }
           }

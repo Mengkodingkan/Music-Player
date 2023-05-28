@@ -42,7 +42,7 @@ export class ArtistsService {
         const artistModel = new ArtistModel();
         artistModel.id = resData.artist_id;
         artistModel.image = resData.artist_image;
-        artistModel.name = resData.artist_name;
+        artistModel.fullName = resData.artist_name;
         artistModel.bio = resData.bio;
         artistModel.fbUrl = resData.fb_url;
         artistModel.igUrl = resData.ig_url;

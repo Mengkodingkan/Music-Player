@@ -10,11 +10,29 @@ const routes: Routes = [
     children: [
       {
         path: 'users',
-        loadChildren: () => import('./user-list/user-list.module').then(m => m.UserListPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./user-list/user-list.module').then(m => m.UserListPageModule)
+          },
+          {
+            path: ':userId',
+            loadChildren: () => import('./user-detail/user-detail.module').then(m => m.UserDetailPageModule)
+          }
+        ]
       },
       {
         path: 'artists',
-        loadChildren: () => import('./artist-list/artist-list.module').then(m => m.ArtistListPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./artist-list/artist-list.module').then(m => m.ArtistListPageModule)
+          },
+          {
+            path: ':artistId',
+            loadChildren: () => import('./artist-detail/artist-detail.module').then(m => m.ArtistDetailPageModule)
+          }
+        ]
       },
       {
         path: 'dashboard',
