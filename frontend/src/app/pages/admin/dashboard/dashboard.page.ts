@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ApiAdminService} from "../../../services/admin/api-admin.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -6,11 +7,16 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+  data: any;
 
-  constructor() {
+  constructor(
+    private apiAdmin: ApiAdminService
+  ) {
   }
 
   ngOnInit() {
+    this.apiAdmin.fetchDataDashboard();
+    this.apiAdmin.data.subscribe(data => this.data = data)
   }
 
 }

@@ -1,5 +1,14 @@
 export class ArtistModel {
   private _id: any;
+  private _image: string;
+  private _email: string;
+  private _password: string;
+  private _fullName: string;
+  private _bio: string;
+  private _igUrl: any;
+  private _fbUrl: any;
+  private _webUrl: any;
+  private _registeredAt: string;
 
   get id(): any {
     return this._id;
@@ -9,8 +18,6 @@ export class ArtistModel {
     this._id = value;
   }
 
-  private _image: string;
-
   get image(): string {
     return this._image;
   }
@@ -19,17 +26,22 @@ export class ArtistModel {
     this._image = value;
   }
 
-  private _name: string;
-
-  get name(): string {
-    return this._name;
+  get email(): string {
+    return this._email;
   }
 
-  set name(value: string) {
-    this._name = value;
+  set email(value: string) {
+    this._email = value;
   }
 
-  private _bio: string;
+  get fullName(): string {
+    return this._fullName;
+  }
+
+  set fullName(value: string) {
+    this._fullName = value;
+  }
+
 
   get bio(): string {
     return this._bio;
@@ -39,7 +51,6 @@ export class ArtistModel {
     this._bio = value;
   }
 
-  private _igUrl: any;
 
   get igUrl(): any {
     return this._igUrl;
@@ -49,8 +60,6 @@ export class ArtistModel {
     this._igUrl = value;
   }
 
-  private _fbUrl: any;
-
   get fbUrl(): any {
     return this._fbUrl;
   }
@@ -59,13 +68,28 @@ export class ArtistModel {
     this._fbUrl = value;
   }
 
-  private _webUrl: any;
-
   get webUrl(): any {
     return this._webUrl;
   }
 
   set webUrl(value: any) {
     this._webUrl = value;
+  }
+
+
+  get password(): string {
+    return this._password;
+  }
+
+  set password(value: string) {
+    this._password = value;
+  }
+
+  get registeredAt(): string {
+    return this._registeredAt;
+  }
+
+  set registeredAt(value: string) {
+    this._registeredAt = value;
   }
 }

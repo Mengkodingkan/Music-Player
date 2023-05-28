@@ -4,20 +4,19 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {UserListPageRoutingModule} from './user-list-routing.module';
+import {UserDetailPageRoutingModule} from './user-detail-routing.module';
 
-import {UserListPage} from './user-list.page';
-import {NewUserComponent} from "../new-user/new-user.component";
+import {UserDetailPage} from './user-detail.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    UserListPageRoutingModule,
+    UserDetailPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [UserListPage, NewUserComponent]
+  declarations: [UserDetailPage]
 })
-export class UserListPageModule {
+export class UserDetailPageModule {
 }

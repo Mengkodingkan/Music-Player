@@ -45,7 +45,7 @@ export class AlbumsService {
 
         const artistModel = new ArtistModel();
         artistModel.id = resData.artist.artist_id;
-        artistModel.name = resData.artist.artist_name;
+        artistModel.fullName = resData.artist.artist_name;
 
         const songs = [];
         for (let song of resData.songs) {
