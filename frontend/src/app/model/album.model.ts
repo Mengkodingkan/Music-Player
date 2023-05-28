@@ -1,5 +1,8 @@
 export class AlbumModel {
   private _id: any;
+  private _title: string;
+  private _image: string;
+  private _publishDate: string;
 
   get id(): any {
     return this._id;
@@ -9,8 +12,6 @@ export class AlbumModel {
     this._id = value;
   }
 
-  private _title: string;
-
   get title(): string {
     return this._title;
   }
@@ -19,8 +20,6 @@ export class AlbumModel {
     this._title = value;
   }
 
-  private _image: string;
-
   get image(): string {
     return this._image;
   }
@@ -28,8 +27,6 @@ export class AlbumModel {
   set image(value: string) {
     this._image = value;
   }
-
-  private _publishDate: string;
 
   get publishDate(): string {
     return this._publishDate;

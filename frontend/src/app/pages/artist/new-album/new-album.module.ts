@@ -4,19 +4,19 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {AlbumsPageRoutingModule} from './albums-routing.module';
+import {NewAlbumPageRoutingModule} from './new-album-routing.module';
 
-import {AlbumsPage} from './albums.page';
+import {NewAlbumPage} from './new-album.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AlbumsPageRoutingModule,
+    NewAlbumPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [AlbumsPage]
+  declarations: [NewAlbumPage]
 })
-export class AlbumsPageModule {
+export class NewAlbumPageModule {
 }

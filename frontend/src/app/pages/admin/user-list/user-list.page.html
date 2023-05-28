@@ -1,13 +1,26 @@
-<ion-header [translucent]="true">
+<ion-header>
+  <ion-toolbar class="ion-text-center">
+    <ion-title>Users</ion-title>
+  </ion-toolbar>
   <ion-toolbar>
-    <ion-title>user-list</ion-title>
+    <ion-searchbar animated="true" mode="ios" placeholder="Id, Name"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">user-list</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list class="ion-no-padding" lines="none">
+    <ion-item button="">
+      <ion-row>
+        <ion-col>
+          21416255201201
+        </ion-col>
+        <ion-col>
+          Anjay Banget Dah
+        </ion-col>
+        <ion-col>
+          20-20-2011
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
 </ion-content>

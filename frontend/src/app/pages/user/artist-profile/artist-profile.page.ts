@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NavController} from "@ionic/angular";
-import {ArtistsService} from "../../../services/artists.service";
+import {ArtistsService} from "../../../services/user/artists.service";
 import {ArtistModel} from "../../../model/artist.model";
-import {Subscription} from "rxjs";
 import {AlbumModel} from "../../../model/album.model";
 
 @Component({

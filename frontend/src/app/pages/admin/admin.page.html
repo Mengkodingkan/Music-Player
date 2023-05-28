@@ -1,13 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>admin</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs (ionTabsDidChange)="setSelectedTab()" id="main-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="dashboard">
+      <ion-icon [name]="selectedTab === 'dashboard' ? 'home': 'home-outline'"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="users">
+      <ion-icon [name]="selectedTab === 'users' ? 'person': 'person-outline'"></ion-icon>
+      <ion-label>Users</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="artists">
+      <ion-icon [name]="selectedTab === 'artists' ? 'star-half': 'star-half-outline'"></ion-icon>
+      <ion-label>Artists</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="admin">
+      <ion-icon [name]="selectedTab === 'admin' ? 'cog': 'cog-outline'"></ion-icon>
+      <ion-label>Admin</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

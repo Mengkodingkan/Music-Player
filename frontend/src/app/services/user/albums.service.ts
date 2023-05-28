@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
-import {SongModel} from "../model/song.model";
-import {AlbumModel} from "../model/album.model";
-import {resize} from "ionicons/icons";
-import {ArtistModel} from "../model/artist.model";
+import {SongModel} from "../../model/song.model";
+import {AlbumModel} from "../../model/album.model";
+import {ArtistModel} from "../../model/artist.model";
 
 @Injectable({
   providedIn: 'root'

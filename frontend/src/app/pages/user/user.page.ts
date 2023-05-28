@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonProgressBar, IonTabs} from "@ionic/angular";
-import {HowlerJsService} from "../../services/howler-js.service";
+import {IonTabs} from "@ionic/angular";
 
 @Component({
   selector: 'app-user',

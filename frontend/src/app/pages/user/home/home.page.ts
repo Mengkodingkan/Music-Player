@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
-import {HowlerJsService} from "../../../services/howler-js.service";
-import {HomeService} from "../../../services/home.service";
+import {HowlerJsService} from "../../../services/user/howler-js.service";
+import {HomeService} from "../../../services/user/home.service";
 import {SongModel} from "../../../model/song.model";
 import {ArtistModel} from "../../../model/artist.model";
 

@@ -3,31 +3,34 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/artist/tabs/albums'"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDeleteAlbum()">Del</ion-button>
+    </ion-buttons>
     <ion-title>Album Title</ion-title>
   </ion-toolbar>
 </ion-toolbar>
 
 <ion-content>
-  <ion-img [alt]="" [src]="'https://docs-demo.ionic.io/assets/madison.jpg'"></ion-img>
+  <ion-img [alt]="album.title" [src]="'assets/images/albums/' + album.image"></ion-img>
   <div class="ion-padding">
-    <ion-text>Album Title • 2022
+    <ion-text>{{album.title}} • {{album.publishDate}}
     </ion-text>
   </div>
   <ion-list>
     <ion-list-header>
       <h2>Songs</h2>
     </ion-list-header>
-    <ion-item button="">
+    <ion-item button="" *ngFor="let song of songs">
       <ion-label>
         <ion-row>
           <ion-col>
-            <h2>Song Title</h2>
+            <h2>{{song.title}}</h2>
           </ion-col>
           <ion-col class="ion-text-center">
-            <small>2:20</small>
+            <small>{{song.duration}}</small>
           </ion-col>
           <ion-col class="ion-text-center">
-            <small>02 - 02 - 2020</small>
+            <small>{{song.releaseDate}}</small>
           </ion-col>
         </ion-row>
       </ion-label>

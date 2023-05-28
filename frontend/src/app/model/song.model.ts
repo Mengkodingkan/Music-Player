@@ -1,5 +1,18 @@
 export class SongModel {
   private _id: any;
+  private _title: string;
+  private _url: string;
+  private _likeCount: number;
+  private _releaseDate: string;
+  private _duration: number;
+  private _userId: any;
+  private _albumId: any;
+  private _artistId: any;
+  private _playlistId: any;
+  private _status: string;
+  private _albumImage: string;
+  private _albumTitle: string;
+  private _artistName: string;
 
   get id(): any {
     return this._id;
@@ -9,7 +22,6 @@ export class SongModel {
     this._id = value;
   }
 
-  private _title: string;
 
   get title(): string {
     return this._title;
@@ -19,7 +31,6 @@ export class SongModel {
     this._title = value;
   }
 
-  private _url: string;
 
   get url(): string {
     return this._url;
@@ -29,7 +40,6 @@ export class SongModel {
     this._url = value;
   }
 
-  private _likeCount: number;
 
   get likeCount(): number {
     return this._likeCount;
@@ -39,7 +49,6 @@ export class SongModel {
     this._likeCount = value;
   }
 
-  private _albumImage: string;
 
   get albumImage(): string {
     return this._albumImage;
@@ -49,7 +58,6 @@ export class SongModel {
     this._albumImage = value;
   }
 
-  private _artistName: string;
 
   get artistName(): string {
     return this._artistName;
@@ -59,7 +67,6 @@ export class SongModel {
     this._artistName = value;
   }
 
-  private _albumId: any;
 
   get albumId(): any {
     return this._albumId;
@@ -69,7 +76,6 @@ export class SongModel {
     this._albumId = value;
   }
 
-  private _artistId: any;
 
   get artistId(): any {
     return this._artistId;
@@ -79,7 +85,6 @@ export class SongModel {
     this._artistId = value;
   }
 
-  private _playlistId: any;
 
   get playlistId(): any {
     return this._playlistId;
@@ -89,7 +94,6 @@ export class SongModel {
     this._playlistId = value;
   }
 
-  private _userId: any;
 
   get userId(): any {
     return this._userId;
@@ -99,7 +103,6 @@ export class SongModel {
     this._userId = value;
   }
 
-  private _releaseDate: string;
 
   get releaseDate(): string {
     return this._releaseDate;
@@ -107,5 +110,32 @@ export class SongModel {
 
   set releaseDate(value: string) {
     this._releaseDate = value;
+  }
+
+
+  get status(): string {
+    return this._status;
+  }
+
+  set status(value: string) {
+    this._status = value;
+  }
+
+
+  get albumTitle(): string {
+    return this._albumTitle;
+  }
+
+  set albumTitle(value: string) {
+    this._albumTitle = value;
+  }
+
+
+  get duration(): number {
+    return this._duration;
+  }
+
+  set duration(value: number) {
+    this._duration = value;
   }
 }

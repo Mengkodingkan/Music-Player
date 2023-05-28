@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {CreateAlbumComponent} from "../create-album/create-album.component";
+import {AlbumService} from "../../../services/artist/album.service";
+import {AlbumModel} from "../../../model/album.model";
+import {SongModel} from "../../../model/song.model";
 
 @Component({
   selector: 'app-albums',
@@ -8,30 +10,22 @@ import {CreateAlbumComponent} from "../create-album/create-album.component";
   styleUrls: ['./albums.page.scss'],
 })
 export class AlbumsPage implements OnInit {
+  albums: AlbumModel[];
+  songs: SongModel[];
 
   constructor(
     private modalCtrl: ModalController,
+    private albumService: AlbumService
   ) {
+    // setInterval(() => {
+    //   console.log(this.songs)
+    // }, 1000)
   }
 
   ngOnInit() {
-  }
-
-  onCreateModal() {
-    this.modalCtrl
-      .create({
-        component: CreateAlbumComponent,
-      })
-      .then(modalEl => {
-        modalEl.present();
-        return modalEl.onDidDismiss();
-      })
-      .then(resData => {
-        console.log(resData.data, resData.role);
-        if (resData.role === 'confirm') {
-          console.log('BOOKED!')
-        }
-      })
+    this.albumService.fetchAlbum().subscribe();
+    this.albumService.albums.subscribe(album => this.albums = album);
+    this.albumService.songs.subscribe(songs => this.songs = songs);
   }
 
 }
