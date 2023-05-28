@@ -4,20 +4,20 @@
       <ion-back-button defaultHref="/artist/tabs/albums"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Song Title</ion-title>
+    <ion-title>{{song.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>
-        Song Name : Song Name
+        Song Title : {{song.title}}
         <br>
-        Album Name : Album Title
+        Album Title : {{song.albumTitle}}
         <br>
-        Like Count : 123
+        Like Count : {{song.likeCount}}
         <br>
-        Publish On : 21212
+        Release On : {{song.releaseDate}}
       </ion-card-subtitle>
     </ion-card-header>
     <ion-card-content class="ion-text-center">

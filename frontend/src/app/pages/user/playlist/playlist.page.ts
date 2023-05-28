@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {PlaylistService} from "../../../services/playlist.service";
+import {PlaylistService} from "../../../services/user/playlist.service";
 import {AlertController, IonItemSliding, ToastController} from "@ionic/angular";
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlerJsService} from "../../../services/user/howler-js.service";
 import {SongModel} from "../../../model/song.model";
 
 @Component({

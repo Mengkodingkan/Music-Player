@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {ArtistPage} from './artist.page';
 
@@ -20,12 +20,21 @@ const routes: Routes = [
             loadChildren: () => import('./albums/albums.module').then(m => m.AlbumsPageModule)
           },
           {
-            path: ':albumId',
-            loadChildren: () => import('./album-detail/album-detail.module').then(m => m.AlbumDetailPageModule)
+            path: 'new',
+            loadChildren: () => import('./new-album/new-album.module').then(m => m.NewAlbumPageModule)
           },
           {
-            path: 'song/:songId',
-            loadChildren: () => import('./song/song.module').then(m => m.SongPageModule)
+            path: ':albumId',
+            children: [
+              {
+                path: '',
+                loadChildren: () => import('./album-detail/album-detail.module').then(m => m.AlbumDetailPageModule)
+              },
+              {
+                path: 'song/:songId',
+                loadChildren: () => import('./song/song.module').then(m => m.SongPageModule)
+              }
+            ]
           }
         ]
       },
@@ -40,6 +49,7 @@ const routes: Routes = [
       }
     ]
   }
+
 ];
 
 @NgModule({

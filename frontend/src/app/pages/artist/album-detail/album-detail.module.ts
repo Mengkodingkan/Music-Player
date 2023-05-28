@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 import {AlbumDetailPageRoutingModule} from './album-detail-routing.module';
 
 import {AlbumDetailPage} from './album-detail.page';
+import {RequestSongComponent} from "../request-song/request-song.component";
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import {AlbumDetailPage} from './album-detail.page';
     IonicModule,
     AlbumDetailPageRoutingModule
   ],
-  declarations: [AlbumDetailPage]
+  declarations: [AlbumDetailPage, RequestSongComponent]
 })
 export class AlbumDetailPageModule {
 }

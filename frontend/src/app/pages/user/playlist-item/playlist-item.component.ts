@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlerJsService} from "../../../services/user/howler-js.service";
 import {SongModel} from "../../../model/song.model";
 
 @Component({

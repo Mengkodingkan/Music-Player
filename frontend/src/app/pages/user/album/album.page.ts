@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NavController} from "@ionic/angular";
-import {AlbumsService} from "../../../services/albums.service";
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {AlbumsService} from "../../../services/user/albums.service";
+import {HowlerJsService} from "../../../services/user/howler-js.service";
 import {SongModel} from "../../../model/song.model";
 import {AlbumModel} from "../../../model/album.model";
 import {ArtistModel} from "../../../model/artist.model";
