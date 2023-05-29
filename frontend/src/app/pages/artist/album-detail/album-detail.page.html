@@ -16,11 +16,11 @@
     <ion-text>{{album.title}} • {{album.publishDate}}
     </ion-text>
   </div>
-  <ion-list>
+  <ion-list *ngIf="songs">
     <ion-list-header>
       <h2>Songs</h2>
     </ion-list-header>
-    <ion-item button="" *ngFor="let song of songs">
+    <ion-item button="" *ngFor="let song of songs" [routerLink]="['song', song.id]">
       <ion-label>
         <ion-row>
           <ion-col>
@@ -36,5 +36,5 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <ion-button (click)="onCreateModal()" expand="full" mode="ios">Request Publish Song</ion-button>
+  <ion-button (click)="onCreateSong()" expand="full" mode="ios">Request Publish Song</ion-button>
 </ion-content>

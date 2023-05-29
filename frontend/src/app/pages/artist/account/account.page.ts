@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActionSheetController, ModalController} from "@ionic/angular";
+import {ActionSheetController, AlertController, ModalController} from "@ionic/angular";
+import {ChangePictureComponent} from "../change-picture/change-picture.component";
 
 @Component({
   selector: 'app-account',
@@ -10,7 +11,8 @@ export class AccountPage implements OnInit {
 
   constructor(
     private actionSheetCtrl: ActionSheetController,
-    private modalController: ModalController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) {
   }
 
@@ -32,9 +34,6 @@ export class AccountPage implements OnInit {
         }, {
           text: 'Change Bio',
           handler: () => this.onChangeBio()
-        }, {
-          text: "Change Url's",
-          handler: () => this.onChangeUrl()
         },
         {
           text: 'Cancel',
@@ -47,18 +46,64 @@ export class AccountPage implements OnInit {
   }
 
   onChangePicture() {
-    console.log('Change Picture')
+    this.modalCtrl.create({
+      component: ChangePictureComponent
+    }).then(r => {
+      r.present();
+    });
   }
 
   onChangeName() {
-    console.log('Change Name')
+    this.alertCtrl.create({
+      header: 'Change Name',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'New Name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'destructive'
+        },
+        {
+          text: 'Change',
+          handler: () => {
+            console.log('Change Name')
+          }
+        }
+      ]
+    }).then(r => {
+      r.present();
+    });
   }
 
   onChangeBio() {
-    console.log('Change Bio')
-  }
-
-  onChangeUrl() {
-    console.log('Change Url')
+    this.alertCtrl.create({
+      header: 'Change Bio',
+      inputs: [
+        {
+          name: 'bio',
+          type: 'textarea',
+          placeholder: 'New Bio'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'destructive'
+        },
+        {
+          text: 'Change',
+          handler: () => {
+            console.log('Change Bio')
+          }
+        }
+      ]
+    }).then(r => {
+      r.present();
+    });
   }
 }

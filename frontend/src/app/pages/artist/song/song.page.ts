@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AlbumService} from "../../../services/artist/album.service";
 import {ActivatedRoute} from "@angular/router";
 import {NavController} from "@ionic/angular";
 import {SongModel} from "../../../model/song.model";
+import {ApiArtistService} from "../../../services/api-artist.service";
 
 @Component({
   selector: 'app-song',
@@ -15,14 +15,11 @@ export class SongPage implements OnInit {
   albumId: any;
 
   constructor(
-    private albumService: AlbumService,
+    private apiArtist: ApiArtistService,
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController
   ) {
-    // console.log(this.song)
-    // setInterval(() => {
-    //   this.albumService.fetchSongById(this.albumId, this.songId)
-    // }, 1000)
+
   }
 
   ngOnInit() {
@@ -37,9 +34,9 @@ export class SongPage implements OnInit {
 
     });
 
-    this.albumService.fetchSongById(this.albumId, this.songId);
+    this.apiArtist.fetchSongById(this.albumId, this.songId);
 
-    this.albumService.song.subscribe(songs => this.song = songs);
+    this.apiArtist.song.subscribe(songs => this.song = songs);
   }
 
 }

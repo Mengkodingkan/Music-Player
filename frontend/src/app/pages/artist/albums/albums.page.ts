@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {AlbumService} from "../../../services/artist/album.service";
 import {AlbumModel} from "../../../model/album.model";
 import {SongModel} from "../../../model/song.model";
+import {ApiArtistService} from "../../../services/api-artist.service";
+import {NewAlbumComponent} from "../new-album/new-album.component";
 
 @Component({
   selector: 'app-albums',
@@ -12,20 +13,27 @@ import {SongModel} from "../../../model/song.model";
 export class AlbumsPage implements OnInit {
   albums: AlbumModel[];
   songs: SongModel[];
+  a: any;
 
   constructor(
     private modalCtrl: ModalController,
-    private albumService: AlbumService
+    private apiArtist: ApiArtistService
   ) {
-    // setInterval(() => {
-    //   console.log(this.songs)
-    // }, 1000)
+
   }
 
   ngOnInit() {
-    this.albumService.fetchAlbum().subscribe();
-    this.albumService.albums.subscribe(album => this.albums = album);
-    this.albumService.songs.subscribe(songs => this.songs = songs);
+    this.apiArtist.fetchAllAlbums();
+    this.apiArtist.albums.subscribe(album => this.albums = album);
+    this.apiArtist.songs.subscribe(songs => this.songs = songs);
+  }
+
+  onCreateAlbum() {
+    this.modalCtrl.create({
+      component: NewAlbumComponent
+    }).then(modalEl => {
+      modalEl.present();
+    });
   }
 
 }

@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalController, NavController} from "@ionic/angular";
-import {AlbumService} from "../../../services/artist/album.service";
-import {SongModel} from "../../../model/song.model";
-import {ActivatedRoute} from "@angular/router";
+import {LoadingController, ModalController} from "@ionic/angular";
 import {AlbumModel} from "../../../model/album.model";
+import {ApiArtistService} from "../../../services/api-artist.service";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Howl} from "howler";
+import {SongModel} from "../../../model/song.model";
 
 @Component({
   selector: 'app-request-song',
@@ -11,19 +12,28 @@ import {AlbumModel} from "../../../model/album.model";
   styleUrls: ['./request-song.component.scss'],
 })
 export class RequestSongComponent implements OnInit {
-  @Input() albumId: any;
   @Input() album: AlbumModel;
+
+  form: FormGroup;
+  howl: Howl;
+  fileName: string;
 
   constructor(
     private modalCtrl: ModalController,
-    private albumService: AlbumService,
-    private activatedRoute: ActivatedRoute,
-    private navCtrl: NavController
+    private apiArtist: ApiArtistService,
+    private loadingCtrl: LoadingController,
   ) {
-
   }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        updateOn: 'blur'
+      }),
+      audio: new FormControl(null, {
+        updateOn: 'blur'
+      })
+    });
   }
 
   onCancel() {
@@ -31,16 +41,37 @@ export class RequestSongComponent implements OnInit {
   }
 
   onRequestSong() {
-    let songModel = new SongModel();
-    songModel.id = "1";
-    songModel.title = "Lagu Asd";
-    songModel.url = "assets/songs/Wut da heeeeeeeeeeeeeeel Oooh maa gaaaad No waaayyaayyaaaaae - Sound Effects (HD).mp3";
-    songModel.releaseDate = "20-20-1202";
-    songModel.duration = 123;
-    songModel.likeCount = 123;
-    songModel.albumTitle = this.album.title;
-    songModel.albumId = this.album.id;
+    this.fileName = this.form.value.audio.replace(/^.*[\\\/]/, '');
+    this.howl = new Howl({
+      src: ['assets/songs/' + this.fileName]
+    } as any);
 
-    this.albumService.createSong(this.albumId, songModel).subscribe()
+    this.loadingCtrl.create({
+      message: 'Requesting song'
+    }).then(loadingEl => {
+      loadingEl.present();
+
+      setTimeout(() => {
+        loadingEl.dismiss();
+
+        let songModel = new SongModel();
+        songModel.title = this.form.value.title;
+        songModel.url = this.fileName;
+        songModel.albumId = this.album.id;
+        songModel.duration = Math.ceil(this.howl.duration());
+        songModel.albumTitle = this.album.title;
+        songModel.likeCount = 0;
+        songModel.releaseDate = "2020-01-01";
+        songModel.albumImage = this.album.image;
+        songModel.status = 'pending';
+
+        this.apiArtist.createSong(this.album.id, songModel).subscribe();
+
+
+        this.modalCtrl.dismiss({
+          message: 'Song requested successfully'
+        }, 'confirm');
+      }, 1500);
+    });
   }
 }

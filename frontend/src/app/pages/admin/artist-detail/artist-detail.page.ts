@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {ArtistModel} from "../../../model/artist.model";
-import {ApiAdminService} from "../../../services/admin/api-admin.service";
+import {ApiAdminService} from "../../../services/api-admin.service";
 import {ActivatedRoute} from "@angular/router";
 import {AlertController, LoadingController, NavController} from "@ionic/angular";
 
@@ -34,11 +34,6 @@ export class ArtistDetailPage implements OnInit {
 
       this.artistId = paramMap.get('artistId');
     });
-
-    setInterval(() => {
-      this.apiAdmin.fetchArtistById(this.artistId);
-      this.apiAdmin.artist.subscribe(artist => this.artist = artist);
-    }, 1000);
 
     this.apiAdmin.fetchArtistById(this.artistId);
     this.apiAdmin.artist.subscribe(artist => this.artist = artist);

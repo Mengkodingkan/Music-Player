@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonTabs} from "@ionic/angular";
 
 @Component({
@@ -6,18 +6,10 @@ import {IonTabs} from "@ionic/angular";
   templateUrl: './artist.page.html',
   styleUrls: ['./artist.page.scss'],
 })
-export class ArtistPage implements OnInit {
+export class ArtistPage {
   @ViewChild(IonTabs) tabs: IonTabs;
 
   selectedTab: any;
-
-  constructor() {
-
-  }
-
-  ngOnInit() {
-
-  }
 
   setSelectedTab() {
     this.selectedTab = this.tabs.getSelected();

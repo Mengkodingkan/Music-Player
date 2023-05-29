@@ -11,32 +11,36 @@
 
   <ion-list-header>
     <ion-label class="ion-text-end ion-padding">
-      <ion-button mode="ios" routerLink="/artist/tabs/albums/new">Create new</ion-button>
+      <ion-button mode="ios" (click)="onCreateAlbum()">Create new</ion-button>
     </ion-label>
   </ion-list-header>
 
-  <ng-container *ngFor="let album of albums">
-    <h3 routerLink="{{album.id}}">{{album.title}}</h3>
-    <ng-container *ngFor="let song of songs">
+  <ion-card *ngFor="let album of albums">
+    <ion-card-header>
+      <h3 routerLink="{{album.id}}">{{album.title}}</h3>
+    </ion-card-header>
 
-      <ion-list *ngIf="song.albumId === album.id">
-        <ion-item button="" [routerLink]="[album.id, 'song', song.id]">
-          <ion-label>
-            <ion-row>
-              <ion-col>
-                <h2>{{song.title}}</h2>
-              </ion-col>
-              <ion-col class="ion-text-center">
-                <small>{{song.duration}}</small>
-              </ion-col>
-              <ion-col class="ion-text-center">
-                <small>{{song.releaseDate}}</small>
-              </ion-col>
-            </ion-row>
-          </ion-label>
-        </ion-item>
+    <ion-card-content class="ion-no-padding">
+      <ion-list>
+        <div *ngFor="let song of songs">
+          <ion-item button="" [routerLink]="[album.id, 'song', song.id]" *ngIf="song.albumId === album.id">
+            <ion-label>
+              <ion-row>
+                <ion-col>
+                  <h2>{{song.title}}</h2>
+                </ion-col>
+                <ion-col class="ion-text-center">
+                  <small>{{song.duration}}</small>
+                </ion-col>
+                <ion-col class="ion-text-center">
+                  <small>{{song.releaseDate}}</small>
+                </ion-col>
+              </ion-row>
+            </ion-label>
+          </ion-item>
+        </div>
       </ion-list>
-    </ng-container>
-  </ng-container>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

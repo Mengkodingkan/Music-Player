@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, switchMap, take, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
-import {UserModel} from "../../model/user.model";
-import {ArtistModel} from "../../model/artist.model";
+import {environment} from "../../environments/environment";
+import {UserModel} from "../model/user.model";
+import {ArtistModel} from "../model/artist.model";
 
 @Injectable({
   providedIn: 'root'
@@ -48,16 +48,16 @@ export class ApiAdminService {
   }
 
   fetchAllUsers() {
-    return this.http.get(environment.ApiURL + '/users/-NWXjOxog-BHN5y-YQXs.json', {})
+    return this.http.get(environment.ApiURL + '/users.json', {})
       .subscribe((resData: any) => {
         let users: UserModel[] = [];
-        for (let key in resData.data.users) {
+        for (let key in resData) {
           let userModel = new UserModel();
           userModel.id = key;
-          userModel.email = resData.data.users[key].email;
-          userModel.password = resData.data.users[key].password;
-          userModel.fullName = resData.data.users[key].full_name;
-          userModel.registeredAt = resData.data.users[key].registered_at;
+          userModel.email = resData[key].email;
+          userModel.password = resData[key].password;
+          userModel.fullName = resData[key].full_name;
+          userModel.registeredAt = resData[key].registered_at;
           users.push(userModel);
         }
         this._users.next(users);
@@ -65,7 +65,7 @@ export class ApiAdminService {
   }
 
   fetchUserById(userId: string) {
-    return this.http.get(environment.ApiURL + '/users/-NWXjOxog-BHN5y-YQXs/data/users/' + userId + '.json', {})
+    return this.http.get(environment.ApiURL + '/users/' + userId + '.json', {})
       .subscribe((resData: any) => {
         let userModel = new UserModel();
         userModel.id = userId;
@@ -78,7 +78,7 @@ export class ApiAdminService {
   }
 
   createUser(user: UserModel) {
-    return this.http.post<{ name: string }>(environment.ApiURL + '/users/-NWXjOxog-BHN5y-YQXs/data/users.json', {
+    return this.http.post<{ name: string }>(environment.ApiURL + '/users.json', {
       email: user.email,
       password: user.password,
       full_name: user.fullName,
@@ -97,11 +97,10 @@ export class ApiAdminService {
   }
 
   updateUser(user: UserModel) {
-    return this.http.patch(environment.ApiURL + '/users/-NWXjOxog-BHN5y-YQXs/data/users/' + user.id + '.json', {
+    return this.http.patch(environment.ApiURL + '/users/' + user.id + '.json', {
       email: user.email,
       password: user.password
     })
-      // sync with user details
       .pipe(
         switchMap(resData => {
           console.log(resData);
@@ -115,9 +114,8 @@ export class ApiAdminService {
   }
 
   deleteUser(userId: string) {
-    return this.http.delete(environment.ApiURL + '/users/-NWXjOxog-BHN5y-YQXs/data/users/' + userId + '.json').pipe(
-      switchMap(resData => {
-        console.log(resData);
+    return this.http.delete(environment.ApiURL + '/users/' + userId + '.json').pipe(
+      switchMap(() => {
         return this.users
       }),
       take(1),
@@ -128,20 +126,17 @@ export class ApiAdminService {
   }
 
   fetchAllArtists() {
-    return this.http.get(environment.ApiURL + '/artists/-NWXnLf-sUgSlXIjvThF.json', {})
+    return this.http.get(environment.ApiURL + '/artists.json', {})
       .subscribe((resData: any) => {
         let artists: ArtistModel[] = [];
-        for (let key in resData.data.artists) {
+        for (let key in resData) {
           let artistModel = new ArtistModel();
           artistModel.id = key;
-          artistModel.email = resData.data.artists[key].artist_email;
-          artistModel.password = resData.data.artists[key].password;
-          artistModel.fullName = resData.data.artists[key].full_name;
-          artistModel.registeredAt = resData.data.artists[key].registered_at;
-          artistModel.bio = resData.data.artists[key].bio;
-          artistModel.igUrl = resData.data.artists[key].ig_url;
-          artistModel.fbUrl = resData.data.artists[key].fb_url;
-          artistModel.webUrl = resData.data.artists[key].web_url;
+          artistModel.email = resData[key].artist_email;
+          artistModel.password = resData[key].password;
+          artistModel.fullName = resData[key].full_name;
+          artistModel.registeredAt = resData[key].registered_at;
+          artistModel.bio = resData[key].bio;
           artists.push(artistModel);
         }
         this._artists.next(artists);
@@ -149,7 +144,7 @@ export class ApiAdminService {
   }
 
   fetchArtistById(artistId: string) {
-    return this.http.get(environment.ApiURL + '/artists/-NWXnLf-sUgSlXIjvThF/data/artists/' + artistId + '.json', {})
+    return this.http.get(environment.ApiURL + '/artists/' + artistId + '.json', {})
       .subscribe((resData: any) => {
         let artistModel = new ArtistModel();
         artistModel.id = artistId;
@@ -158,23 +153,17 @@ export class ApiAdminService {
         artistModel.fullName = resData.full_name;
         artistModel.registeredAt = resData.registered_at;
         artistModel.bio = resData.bio;
-        artistModel.igUrl = resData.ig_url;
-        artistModel.fbUrl = resData.fb_url;
-        artistModel.webUrl = resData.web_url;
         this._artist.next(artistModel);
       });
   }
 
   createArtist(artist: ArtistModel) {
-    return this.http.post<{ name: string }>(environment.ApiURL + '/artists/-NWXnLf-sUgSlXIjvThF/data/artists.json', {
+    return this.http.post<{ name: string }>(environment.ApiURL + '/artists.json', {
       artist_email: artist.email,
       password: artist.password,
       full_name: artist.fullName,
       registered_at: artist.registeredAt,
       bio: artist.bio,
-      ig_url: artist.igUrl,
-      fb_url: artist.fbUrl,
-      web_url: artist.webUrl,
       artist_id: artist.id
     }).pipe(
       switchMap(resData => {
@@ -189,13 +178,10 @@ export class ApiAdminService {
   }
 
   updateArtist(artist: ArtistModel) {
-    return this.http.patch(environment.ApiURL + '/artists/-NWXnLf-sUgSlXIjvThF/data/artists/' + artist.id + '.json', {
+    return this.http.patch(environment.ApiURL + '/artists/' + artist.id + '.json', {
       artist_email: artist.email,
       password: artist.password,
       bio: artist.bio,
-      ig_url: artist.igUrl,
-      fb_url: artist.fbUrl,
-      web_url: artist.webUrl
     })
       .pipe(
         switchMap(resData => {

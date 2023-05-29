@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {UserPage} from './user.page';
 
@@ -18,12 +18,16 @@ const routes: Routes = [
           },
           {
             path: 'artists/:artistId',
-            loadChildren: () => import('./artist-profile/artist-profile.module').then(m => m.ArtistProfilePageModule)
-          },
-
-          {
-            path: 'albums/:albumId',
-            loadChildren: () => import('./album/album.module').then(m => m.AlbumPageModule)
+            children: [
+              {
+                path: '',
+                loadChildren: () => import('./artist-profile/artist-profile.module').then(m => m.ArtistProfilePageModule)
+              },
+              {
+                path: 'albums/:albumId',
+                loadChildren: () => import('./album/album.module').then(m => m.AlbumPageModule)
+              }
+            ]
           }
         ]
       },
@@ -39,10 +43,6 @@ const routes: Routes = [
             loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
           }
         ],
-      },
-      {
-        path: 'followed',
-        loadChildren: () => import('./followed/followed.module').then(m => m.FollowedPageModule)
       },
       {
         path: '',
