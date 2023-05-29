@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalController, NavController} from "@ionic/angular";
-import {RequestSongComponent} from "../request-song/request-song.component";
-import {AlbumService} from "../../../services/artist/album.service";
+import {LoadingController, ModalController, NavController} from "@ionic/angular";
 import {AlbumModel} from "../../../model/album.model";
 import {ActivatedRoute} from "@angular/router";
 import {SongModel} from "../../../model/song.model";
+import {ApiArtistService} from "../../../services/api-artist.service";
+import {RequestSongComponent} from "../request-song/request-song.component";
 
 @Component({
   selector: 'app-album-detail',
@@ -13,18 +13,16 @@ import {SongModel} from "../../../model/song.model";
 })
 export class AlbumDetailPage implements OnInit {
   album: AlbumModel;
-  albumId: any;
   songs: SongModel[];
 
   constructor(
+    private apiArtist: ApiArtistService,
+    private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
-    private albumService: AlbumService,
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController
   ) {
-    // setInterval(() => {
-    //   console.log(this.songs)
-    // }, 1000)
+
   }
 
   ngOnInit() {
@@ -35,51 +33,35 @@ export class AlbumDetailPage implements OnInit {
         return;
       }
 
-      // @ts-ignore
-      this.albumService.fetchAlbumById(paramMap.get('albumId'));
-
-      this.albumId = paramMap.get('albumId');
-
+      this.apiArtist.fetchAlbumById(paramMap.get('albumId'));
     });
 
-    this.albumService.fetchSongs(this.albumId).subscribe();
-
-    this.albumService.album.subscribe(album => this.album = album);
-    this.albumService.songs.subscribe(songs => this.songs = songs);
+    this.apiArtist.album.subscribe(album => this.album = album);
+    this.apiArtist.songs.subscribe(songs => this.songs = songs);
   }
 
-  onCreateModal() {
-    this.modalCtrl
-      .create({
-        component: RequestSongComponent,
-        componentProps: {albumId: this.albumId, album: this.album}
-      })
-      .then(modalEl => {
-        modalEl.present();
-        return modalEl.onDidDismiss();
-      })
-      .then(resData => {
-        console.log(resData.data, resData.role);
-        if (resData.role === 'confirm') {
-          console.log('BOOKED!')
-        }
-      })
+  onCreateSong() {
+    this.modalCtrl.create({
+      component: RequestSongComponent,
+      componentProps: {album: this.album}
+    }).then(modalEl => {
+      modalEl.present();
+    });
   }
 
   onDeleteAlbum() {
-    this.activatedRoute.paramMap.subscribe(paramMap => {
+    this.loadingCtrl.create({
+      message: 'Deleting user'
+    }).then(loadingEl => {
+      loadingEl.present();
 
-      if (!paramMap.has('albumId')) {
+      setTimeout(() => {
+        loadingEl.dismiss();
+
+        this.apiArtist.deleteAlbum(this.album.id).subscribe();
+
         this.navCtrl.navigateBack('/artist/tabs/albums');
-        return;
-      }
-
-      // @ts-ignore
-      this.albumService.deleteAlbum(paramMap.get('albumId')).subscribe(() => {
-        this.navCtrl.navigateBack('/artist/tabs/albums');
-      })
-
+      }, 1500);
     });
-
   }
 }

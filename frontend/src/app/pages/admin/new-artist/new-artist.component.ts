@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {LoadingController, ModalController} from "@ionic/angular";
-import {ApiAdminService} from "../../../services/admin/api-admin.service";
+import {ApiAdminService} from "../../../services/api-admin.service";
 import {ArtistModel} from "../../../model/artist.model";
 
 @Component({
@@ -19,7 +19,6 @@ export class NewArtistComponent implements OnInit {
   ) {
 
   }
-
 
   ngOnInit() {
     this.form = new FormGroup<any>({

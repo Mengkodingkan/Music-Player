@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {DashboardService} from "../../../services/artist/dashboard.service";
 import {SongModel} from "../../../model/song.model";
+import {ApiArtistService} from "../../../services/api-artist.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,16 +13,16 @@ export class DashboardPage implements OnInit {
   popularSong: SongModel[];
 
   constructor(
-    private dashboardService: DashboardService
+    private apiArtist: ApiArtistService
   ) {
 
   }
 
   ngOnInit() {
-    this.dashboardService.fetchData();
-    this.dashboardService.dInformation.subscribe(information => this.information = information);
-    this.dashboardService.dReqUpload.subscribe(reqUpload => this.reqUpload = reqUpload);
-    this.dashboardService.dPopSong.subscribe(popularSong => this.popularSong = popularSong);
+    this.apiArtist.fetchDataDashboard();
+    this.apiArtist.dashboardInformation.subscribe(data => this.information = data);
+    this.apiArtist.requestUpload.subscribe(reqUp => this.reqUpload = reqUp);
+    this.apiArtist.popularSongs.subscribe(popSong => this.popularSong = popSong);
   }
 
 }

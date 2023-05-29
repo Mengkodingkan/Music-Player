@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LoadingController, ModalController} from "@ionic/angular";
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserModel} from "../../../model/user.model";
-import {ApiAdminService} from "../../../services/admin/api-admin.service";
+import {ApiAdminService} from "../../../services/api-admin.service";
 
 @Component({
   selector: 'app-new-user',

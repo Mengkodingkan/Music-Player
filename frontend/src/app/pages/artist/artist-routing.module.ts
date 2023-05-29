@@ -20,10 +20,6 @@ const routes: Routes = [
             loadChildren: () => import('./albums/albums.module').then(m => m.AlbumsPageModule)
           },
           {
-            path: 'new',
-            loadChildren: () => import('./new-album/new-album.module').then(m => m.NewAlbumPageModule)
-          },
-          {
             path: ':albumId',
             children: [
               {

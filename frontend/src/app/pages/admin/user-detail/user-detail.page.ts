@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiAdminService} from "../../../services/admin/api-admin.service";
+import {ApiAdminService} from "../../../services/api-admin.service";
 import {UserModel} from "../../../model/user.model";
 import {ActivatedRoute} from "@angular/router";
 import {AlertController, LoadingController, NavController} from "@ionic/angular";
@@ -14,6 +14,7 @@ export class UserDetailPage implements OnInit {
   userId: any;
   form: FormGroup;
   user: UserModel;
+  interval: any;
 
   constructor(
     private apiAdmin: ApiAdminService,
@@ -43,10 +44,6 @@ export class UserDetailPage implements OnInit {
         updateOn: "blur"
       })
     });
-    setInterval(() => {
-      this.apiAdmin.fetchUserById(this.userId);
-      this.apiAdmin.user.subscribe(user => this.user = user);
-    }, 1000);
 
     this.apiAdmin.fetchUserById(this.userId);
     this.apiAdmin.user.subscribe(user => this.user = user);

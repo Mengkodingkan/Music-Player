@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {PlaylistService} from "../../../services/user/playlist.service";
 import {AlertController, IonItemSliding, ToastController} from "@ionic/angular";
-import {HowlerJsService} from "../../../services/user/howler-js.service";
+import {HowlerJsService} from "../../../services/howler-js.service";
 import {SongModel} from "../../../model/song.model";
+import {ApiUserService} from "../../../services/api-user.service";
 
 @Component({
   selector: 'app-playlist',
@@ -10,12 +10,12 @@ import {SongModel} from "../../../model/song.model";
   styleUrls: ['./playlist.page.scss'],
 })
 export class PlaylistPage implements OnInit {
-  data: SongModel[];
+  songs: SongModel[];
   alertMessage: any;
   currentSong: SongModel;
 
   constructor(
-    private playlistService: PlaylistService,
+    private apiUser: ApiUserService,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private howler: HowlerJsService
@@ -23,9 +23,9 @@ export class PlaylistPage implements OnInit {
   }
 
   ngOnInit() {
-    this.playlistService.fetchData();
+    this.apiUser.fetchPlaylist();
     this.howler.activeSong.subscribe(song => this.currentSong = song);
-    this.playlistService.data.subscribe(data => this.data = data);
+    this.apiUser.songs.subscribe(songs => this.songs = songs);
   }
 
   async onDelete(song: any, itemSliding: IonItemSliding) {
@@ -49,7 +49,7 @@ export class PlaylistPage implements OnInit {
           cssClass: 'delete',
           handler: () => {
             this.alertMessage = 'Song removed!';
-            this.playlistService.deleteSong(song.song_id);
+            // this.playlistService.deleteSong(song.song_id);
             itemSliding.close();
             this.toastCtrl.create({
               message: this.alertMessage,

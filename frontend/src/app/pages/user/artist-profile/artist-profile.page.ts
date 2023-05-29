@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NavController} from "@ionic/angular";
-import {ArtistsService} from "../../../services/user/artists.service";
 import {ArtistModel} from "../../../model/artist.model";
 import {AlbumModel} from "../../../model/album.model";
+import {ApiUserService} from "../../../services/api-user.service";
 
 @Component({
   selector: 'app-artist-profile',
@@ -17,7 +17,7 @@ export class ArtistProfilePage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
-    private artistsService: ArtistsService
+    private apiUser: ApiUserService
   ) {
 
   }
@@ -29,14 +29,11 @@ export class ArtistProfilePage implements OnInit {
         this.navCtrl.navigateBack('/user/tabs/home');
         return;
       }
-
-      // @ts-ignore
-      this.artistsService.fetchArtistById(paramMap.get('artistId'))
-
+      this.apiUser.fetchArtistById(paramMap.get('artistId'));
     });
 
-    this.artistsService.artist.subscribe(artist => this.artist = artist);
-    this.artistsService.albums.subscribe(albums => this.albums = albums);
+    this.apiUser.artist.subscribe(artist => this.artist = artist);
+    this.apiUser.albums.subscribe(albums => this.albums = albums);
   }
 
 }

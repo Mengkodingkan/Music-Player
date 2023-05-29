@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
-import {HowlerJsService} from "../../../services/user/howler-js.service";
-import {HomeService} from "../../../services/user/home.service";
+import {HowlerJsService} from "../../../services/howler-js.service";
 import {SongModel} from "../../../model/song.model";
 import {ArtistModel} from "../../../model/artist.model";
+import {ApiUserService} from "../../../services/api-user.service";
 
 register();
 
@@ -21,17 +21,17 @@ export class HomePage implements OnInit {
 
   constructor(
     private howler: HowlerJsService,
-    private homeService: HomeService
+    private apiUser: ApiUserService
   ) {
 
   }
 
   ngOnInit() {
-    this.homeService.fetchData();
+    this.apiUser.fetchHome();
 
     this.howler.activeSong.subscribe(activeSong => this.activeSong = activeSong);
-    this.homeService.songs.subscribe(songs => this.songs = songs);
-    this.homeService.artists.subscribe(artists => this.artists = artists);
+    this.apiUser.songs.subscribe(songs => this.songs = songs);
+    this.apiUser.artists.subscribe(artists => this.artists = artists);
   }
 
   onAddToQueue(song: SongModel) {

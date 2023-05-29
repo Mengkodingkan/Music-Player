@@ -11,7 +11,7 @@
       </ion-label>
     </ion-list-header>
 
-    <ion-item-sliding #itemSliding *ngFor="let song of data">
+    <ion-item-sliding #itemSliding *ngFor="let song of songs">
       <app-playlist-item [song]="song"></app-playlist-item>
       <ion-item-options>
         <ion-item-option (click)="onDelete(song, itemSliding)" color="light">

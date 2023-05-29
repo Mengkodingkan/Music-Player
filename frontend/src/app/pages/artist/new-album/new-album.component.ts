@@ -1,26 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
 import {LoadingController, ModalController} from "@ionic/angular";
-import {Router} from "@angular/router";
-import {AlbumService} from "../../../services/artist/album.service";
+import {ApiArtistService} from "../../../services/api-artist.service";
+import {FormControl, FormGroup} from "@angular/forms";
 import {AlbumModel} from "../../../model/album.model";
 
 @Component({
   selector: 'app-new-album',
-  templateUrl: './new-album.page.html',
-  styleUrls: ['./new-album.page.scss'],
+  templateUrl: './new-album.component.html',
+  styleUrls: ['./new-album.component.scss'],
 })
-export class NewAlbumPage implements OnInit {
+export class NewAlbumComponent implements OnInit {
   url: any;
   form: FormGroup;
 
   constructor(
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    private router: Router,
-    private albumService: AlbumService
+    private apiArtist: ApiArtistService
   ) {
-
   }
 
   ngOnInit() {
@@ -46,24 +43,30 @@ export class NewAlbumPage implements OnInit {
     }
   }
 
+  onCancel() {
+    this.modalCtrl.dismiss(null, 'cancel');
+  }
+
   onCreateAlbum() {
     this.loadingCtrl.create({
-      message: 'Creating...'
+      message: 'Creating album'
     }).then(loadingEl => {
       loadingEl.present();
 
-      let albumModel = new AlbumModel();
-      albumModel.title = this.form.value.title;
-      albumModel.image = this.form.value.image;
-      albumModel.image = albumModel.image.replace(/^.*[\\\/]/, '');
-
-      albumModel.publishDate = String(new Date().getFullYear());
-
-      this.albumService.createAlbum(albumModel).subscribe(() => {
+      setTimeout(() => {
         loadingEl.dismiss();
-        this.form.reset();
-        this.router.navigate(['/artist/tabs/albums']);
-      })
+
+        this.modalCtrl.dismiss({
+          message: 'Album created successfully'
+        }, 'confirm').then(() => {
+          let albumModel = new AlbumModel();
+          albumModel.title = this.form.value.title;
+          albumModel.image = this.form.value.image.replace(/^.*[\\\/]/, '');
+          albumModel.id = Math.random().toString();
+          albumModel.publishDate = "20-20-2021";
+          this.apiArtist.createAlbum(albumModel).subscribe();
+        });
+      }, 1500);
     });
   }
 }

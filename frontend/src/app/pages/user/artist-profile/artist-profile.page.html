@@ -16,7 +16,6 @@
           <ion-col size="10">
             <ion-text>{{artist.fullName}}</ion-text>
           </ion-col>
-          <ion-button class="ion-no-padding" fill="clear" mode="ios" size="small">Follow</ion-button>
         </ion-row>
       </ion-card-title>
 
@@ -29,9 +28,6 @@
             {{artist.bio}}
           </ion-text>
         </ion-col>
-        <ion-col class="ion-text-end" size="12">
-          data, fb, web
-        </ion-col>
       </ion-row>
     </ion-card-content>
   </ion-card>
@@ -40,7 +36,8 @@
     <ion-list-header>
       <h2>Albums</h2>
     </ion-list-header>
-    <ion-item *ngFor="let album of albums" [routerLink]="['/', 'user', 'tabs', 'home', 'albums', album.id]" button="">
+    <ion-item *ngFor="let album of albums"
+              [routerLink]="['/', 'user', 'tabs', 'home', 'artists', artist.id, 'albums', album.id]" button="">
       <ion-thumbnail slot="start">
         <ion-img [src]="album.image"></ion-img>
       </ion-thumbnail>

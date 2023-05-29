@@ -5,9 +5,6 @@ export class ArtistModel {
   private _password: string;
   private _fullName: string;
   private _bio: string;
-  private _igUrl: any;
-  private _fbUrl: any;
-  private _webUrl: any;
   private _registeredAt: string;
 
   get id(): any {
@@ -42,7 +39,6 @@ export class ArtistModel {
     this._fullName = value;
   }
 
-
   get bio(): string {
     return this._bio;
   }
@@ -50,32 +46,6 @@ export class ArtistModel {
   set bio(value: string) {
     this._bio = value;
   }
-
-
-  get igUrl(): any {
-    return this._igUrl;
-  }
-
-  set igUrl(value: any) {
-    this._igUrl = value;
-  }
-
-  get fbUrl(): any {
-    return this._fbUrl;
-  }
-
-  set fbUrl(value: any) {
-    this._fbUrl = value;
-  }
-
-  get webUrl(): any {
-    return this._webUrl;
-  }
-
-  set webUrl(value: any) {
-    this._webUrl = value;
-  }
-
 
   get password(): string {
     return this._password;

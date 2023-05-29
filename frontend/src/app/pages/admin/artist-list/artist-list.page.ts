@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiAdminService} from "../../../services/admin/api-admin.service";
+import {ApiAdminService} from "../../../services/api-admin.service";
 import {ArtistModel} from "../../../model/artist.model";
 import {ModalController} from "@ionic/angular";
 import {NewArtistComponent} from "../new-artist/new-artist.component";
