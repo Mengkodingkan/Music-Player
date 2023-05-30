@@ -1,0 +1,80 @@
+@startuml
+
+
+skinparam class {
+    BackgroundColor #fefece
+    BorderColor ac0e3e
+    ArrowColor ac0e3e
+}
+skinparam linetype polyline
+
+entity user {
+* id : varchar <<PK>>
+--
+* email : varchar
+* password : varchar
+* full_name : varchar
+* image : varchar
+}
+
+entity artist {
+* id : varchar <<PK>>
+--
+* email : varchar
+* password : varchar
+* full_name : varchar
+* bio : varchar
+}
+
+entity admin {
+* id : varchar <<PK>>
+--
+* username : varchar
+* password : varchar
+}
+
+entity album {
+* id : varchar <<PK>>
+--
+* album_title : varchar
+* album_image : varchar
+* publish_date : date
+--
+* artist_id : varchar <<FK>>
+}
+
+entity song {
+* id : varchar <<PK>>
+--
+* song_title : varchar
+* url : varchar
+* duration : int
+* like_count : int
+* status : enum(pending, reject, publish)
+* release_date : date
+--
+* album_id : varchar <<FK>>
+}
+
+entity playlist {
+* id : int <<PK>>
+--
+* playlist_name : varchar
+--
+* user_id : varchar <<FK>>
+}
+
+entity trx_playlist {
+* id : int <<PK>>
+--
+* playlist_id : varchar <<FK>>
+* song_id : varchar <<FK>>
+}
+
+artist ||--|{ album
+album ||--|{ song
+
+playlist ||--|{ trx_playlist
+trx_playlist }|--|| song
+user ||--|{ playlist
+@enduml
