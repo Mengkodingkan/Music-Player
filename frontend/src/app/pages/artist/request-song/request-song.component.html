@@ -1,13 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
       <ion-button (click)="onCancel()">
         <ion-icon name="close" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="onRequestSong()">
-        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>Request Song</ion-title>
@@ -16,14 +11,14 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <form [formGroup]="form">
-      <ion-item>
-        <ion-input label="Song Title" formControlName="title" labelPlacement="floating"
-                   placeholder="Enter text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input type="file" formControlName="audio"></ion-input>
-      </ion-item>
-    </form>
+    <ion-item>
+      <ion-input label="Song Title" labelPlacement="floating" placeholder="Enter text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="file"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-button mode="ios" size="small">Submit</ion-button>
+    </ion-item>
   </ion-list>
 </ion-content>
