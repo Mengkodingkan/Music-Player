@@ -13,24 +13,26 @@ entity user {
 --
 * email : varchar
 * password : varchar
+* role : enum(user, artist, admin)
+}
+
+entity artist_detail {
+* id : varchar <<PK>>
+--
 * full_name : varchar
 * image : varchar
+bio : varchar
+--
+* user_id : varchar <<FK>>
 }
 
-entity artist {
+entity user_detail {
 * id : varchar <<PK>>
 --
-* email : varchar
-* password : varchar
 * full_name : varchar
-* bio : varchar
-}
-
-entity admin {
-* id : varchar <<PK>>
+* image : varchar
 --
-* username : varchar
-* password : varchar
+* user_id : varchar <<FK>>
 }
 
 entity album {
@@ -71,7 +73,10 @@ entity trx_playlist {
 * song_id : varchar <<FK>>
 }
 
-artist ||--|{ album
+user ||--|| artist_detail
+user ||--|| user_detail
+
+user ||--|{ album
 album ||--|{ song
 
 playlist ||--|{ trx_playlist

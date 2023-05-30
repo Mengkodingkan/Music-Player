@@ -29,7 +29,7 @@ class Artist extends Model
     /**
      * Get the albums for the artist.
      */
-    public function albums()
+    public function album()
     {
         return $this->hasMany(Album::class);
     }
@@ -42,11 +42,4 @@ class Artist extends Model
         return $this->hasMany(Song::class);
     }
 
-    /**
-     * Get the user who follows the artist.
-     */
-    public function followers()
-    {
-        return $this->hasManyThrough(User::class, Followed::class, 'artist_id', 'id', 'id', 'user_id');
-    }
 }

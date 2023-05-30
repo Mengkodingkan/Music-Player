@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrxPlaylistTable extends Migration
+class CreateTrxPlaylistsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateTrxPlaylistTable extends Migration
      */
     public function up()
     {
-        Schema::create('trx_playlist', function (Blueprint $table) {
+        Schema::create('trx_playlists', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('playlist_id');
             $table->unsignedBigInteger('song_id');
-            $table->foreign('song_id')->references('id')->on('song')->onDelete('cascade');
-            $table->foreign('playlist_id')->references('id')->on('playlist')->onDelete('cascade');
-            $table->timestamps();
+            $table->foreign('song_id')->references('id')->on('songs')
+                ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('playlist_id')->references('id')->on('playlists')
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateTrxPlaylistTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trx_playlist');
+        Schema::dropIfExists('trx_playlists');
     }
 }

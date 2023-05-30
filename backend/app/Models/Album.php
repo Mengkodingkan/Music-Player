@@ -9,28 +9,18 @@ class Album extends Model
 {
     use HasFactory;
 
-    protected $table = 'album';
+    protected $table = 'albums';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'image',
-        'category',
-        'release_date',
-        'artist_id',
+        'album_title',
+        'album_image',
+        'published_date',
+        'artist_email',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
-
 
     /**
      * Get the user that owns the album.
@@ -43,7 +33,7 @@ class Album extends Model
     /**
      * Get the songs for the album.
      */
-    public function songs()
+    public function song()
     {
         return $this->hasMany(Song::class);
     }
