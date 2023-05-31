@@ -34,12 +34,17 @@ class UserController extends Controller
             $s = Song::find($song['song_id']);
             $s->load(['artist', 'album']);
 
+            $s['image'] = url('images/album/' . $s['image']);
+
             $popular_song[] = $s;
         }
         // $most_listened_song->load(['song.artist', 'song.album']);
 
         $albums = Album::all();
         $albums->load(['artist', 'songs']);
+        foreach ($albums as $album) {
+            $album['image'] = url('images/album/' . $album['image']);
+        }
 
         // get all playlist
         $playlist = Playlist::with('user', 'tracks')
@@ -47,6 +52,14 @@ class UserController extends Controller
             ->orWhere('user_id', $user_id)
             ->get();
         $playlist->load(['tracks.artist', 'tracks.album', 'tracks.genre']);
+
+        foreach ($playlist as $p) {
+            $p['image'] = url('images/playlist/' . $p['image']);
+
+            foreach ($p['tracks'] as $track) {
+                $track['image'] = url('images/album/' . $track['image']);
+            }
+        }
 
         return response()->json([
             'message' => 'Get discovery successful',
