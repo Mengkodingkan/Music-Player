@@ -25,8 +25,6 @@ class SongManagementController extends Controller
         } else {
             $songs = Song::all();
         }
-
-        $songs = Song::all();
         $songs->load(['album', 'artist', 'genre']);
 
         foreach ($songs as $song) {
