@@ -70,6 +70,15 @@ class AuthController extends Controller
                 ], 400);
             }
 
+            // get if user already exists
+            $user = User::where('email', $request->email)->first();
+            if ($user) {
+                return response()->json([
+                    'message' => 'Email already exists',
+                    'statusCode' => 400,
+                ], 400);
+            }
+
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
