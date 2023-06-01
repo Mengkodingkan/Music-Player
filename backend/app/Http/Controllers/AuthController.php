@@ -43,6 +43,8 @@ class AuthController extends Controller
                 'statusCode' => 200,
                 'token' => $token,
                 'role' => strtolower(Auth::user()->role),
+                'id' => Auth::user()->id,
+                'name' => Auth::user()->name,
             ], 200);
         } catch (\Exception $e) {
             var_dump($e->getMessage());
