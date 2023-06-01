@@ -117,12 +117,14 @@ class ArtistManagementController extends Controller
             ], 400);
         }
 
-        $email_exists = Artist::where('email', $data['email'])->first();
-        if ($email_exists && $email_exists->id != $id) {
-            return response()->json([
-                'message' => 'Email already exists',
-                'statusCode' => 400,
-            ], 400);
+        if (isset($data['email'])) {
+            $email_exists = Artist::where('email', $data['email'])->first();
+            if ($email_exists && $email_exists->id != $id) {
+                return response()->json([
+                    'message' => 'Email already exists',
+                    'statusCode' => 400,
+                ], 400);
+            }
         }
 
         $thumb = $request->file('image');
