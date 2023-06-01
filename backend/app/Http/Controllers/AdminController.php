@@ -2,36 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Artist;
 use App\Models\Song;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function dashboard(): JsonResponse
+    public function get_dashboard(Request $request)
     {
-        $totalSongRequest = Song::where('status', 'pending')->count();
-        $totalUsers = User::where('role', 'user')->count();
-        $totalArtist = User::where('role', 'artist')->count();
+        $song_request = Song::where('status', 'pending')->count();
+        $user_count = User::count();
+        $artist = Artist::count();
+
 
         return response()->json([
-            'data' => [
-                'totalSongRequest' => $totalSongRequest,
-                'totalUser' => $totalUsers,
-                'totalArtist' => $totalArtist
-            ]
-        ]);
-    }
-
-    public function getAllUsers(): JsonResponse
-    {
-        return response()->json([
-            'message' => 'Get all users successful',
+            'message' => 'Get dashboard successful',
             'statusCode' => 200,
-            'data' => User::where('role', 'user')->get(),
-        ]);
+            'data' => [
+                'song_request' => $song_request,
+                'user_count' => $user_count,
+                'artist' => $artist,
+            ]
+        ], 200);
     }
 }

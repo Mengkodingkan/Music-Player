@@ -97,6 +97,8 @@ Route::middleware('api.admin')->prefix('/admin')->group(function () {
         ], 200);
     });
 
+    Route::get('/dashboard', 'App\Http\Controllers\AdminController@get_dashboard');
+
     Route::prefix('/users')->group(function () {
         Route::get('/', [\App\Http\Controllers\AdminController::class, 'getAllUsers']);
         Route::get('/{id}', 'App\Http\Controllers\UserManagementController@get_user_by_id');

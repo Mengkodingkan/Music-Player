@@ -12,9 +12,19 @@ use Illuminate\Support\Facades\Validator;
 
 class SongManagementController extends Controller
 {
-    public function get_all_songs()
+    public function get_all_songs(Request $request)
     {
-        $songs = Song::all();
+        // get query
+        $query = $request->query('status');
+        if ($query === 'published') {
+            $songs = Song::where('status', 'published')->get();
+        } else if ($query === 'pending') {
+            $songs = Song::where('status', 'pending')->get();
+        } else if ($query === 'rejected') {
+            $songs = Song::where('status', 'rejected')->get();
+        } else {
+            $songs = Song::all();
+        }
         $songs->load(['album', 'artist', 'genre']);
 
         foreach ($songs as $song) {

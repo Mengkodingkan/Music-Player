@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,15 +24,14 @@ class AuthController extends Controller
                 ], 400);
             }
 
-            if (!Auth::attempt($v->validated()))
-                return response()->json([
+            if (!Auth::attempt($v->validated())) return response()->json([
                 'message' => 'Email or password is incorrect',
                 'statusCode' => 400,
             ], 400);
 
             $payload = [
                 'id' => Auth::user()->id,
-                'full_name' => Auth::user()->full_name,
+                'name' => Auth::user()->name,
                 'role' => strtolower(Auth::user()->role),
                 'iat' => time(),
                 'exp' => time() + 60 * 60 * 24 * 7,
@@ -43,11 +43,57 @@ class AuthController extends Controller
                 'statusCode' => 200,
                 'token' => $token,
                 'role' => strtolower(Auth::user()->role),
-            ]);
+            ], 200);
         } catch (\Exception $e) {
             var_dump($e->getMessage());
             return response()->json([
                 'message' => 'Login failed',
+                'statusCode' => 500,
+            ], 500);
+        }
+    }
+
+    public function register(Request $request) {
+        try {
+            $v = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'birthday' => 'required|date',
+                'password' => 'required|string',
+                'role' => 'required|string|in:artist,user',
+            ]);
+
+            if ($v->fails()) {
+                return response()->json([
+                    'message' => $v->errors()->first(),
+                    'statusCode' => 400,
+                ], 400);
+            }
+
+            // get if user already exists
+            $user = User::where('email', $request->email)->first();
+            if ($user) {
+                return response()->json([
+                    'message' => 'Email already exists',
+                    'statusCode' => 400,
+                ], 400);
+            }
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+
+            $user->role = $request->role;
+            $user->password = $request->password;
+            $user->save();
+
+            return response()->json([
+                'message' => 'Register successful',
+                'statusCode' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Register failed',
                 'statusCode' => 500,
             ], 500);
         }
