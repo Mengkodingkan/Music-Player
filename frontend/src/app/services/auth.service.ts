@@ -1,29 +1,34 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {
+  private _data = new BehaviorSubject<any>('');
+
+  get data() {
+    return this._data.asObservable();
   }
 
-  private _userIsAuthenticated = true;
-
-  get userIsAuthenticated() {
-    return this._userIsAuthenticated;
+  constructor(
+    private http: HttpClient
+  ) {
   }
 
-  private _userId = 'abc'
-
-  get userId() {
-    return this._userId;
-  }
-
-  login() {
-    this._userIsAuthenticated = true;
-  }
-
-  logout() {
-    this._userIsAuthenticated = false;
+  login(email: string, password: string) {
+    return this.http.post(environment.ApiURL + '/auth',
+      {
+        email,
+        password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).subscribe((resData: any) => {
+      this._data.next(resData);
+    });
   }
 }
