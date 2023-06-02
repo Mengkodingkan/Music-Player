@@ -36,7 +36,16 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+          },
+          {
+            path: 'request-songs',
+            loadChildren: () => import('./request-songs/request-songs.module').then(m => m.RequestSongsPageModule)
+          }
+        ]
       },
       {
         path: 'admin',

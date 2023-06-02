@@ -39,22 +39,18 @@ export class NewUserComponent implements OnInit {
   }
 
   onCreateUser() {
+    let userModel = new UserModel();
+    userModel.email = this.form.value.email;
+    userModel.password = this.form.value.password;
+    userModel.fullName = this.form.value.fullName;
+    this.apiAdmin.createUser(userModel).subscribe();
+
     this.loadingCtrl.create({
       message: 'Creating user'
     }).then(loadingEl => {
       loadingEl.present();
-
       setTimeout(() => {
         loadingEl.dismiss();
-
-        let userModel = new UserModel();
-        userModel.email = this.form.value.email;
-        userModel.password = this.form.value.password;
-        userModel.fullName = this.form.value.fullName;
-        userModel.registeredAt = "20-20-2021";
-        userModel.id = Math.random().toString();
-        this.apiAdmin.createUser(userModel).subscribe();
-
         this.modalCtrl.dismiss({
           message: 'User created successfully'
         }, 'confirm').then(() => {

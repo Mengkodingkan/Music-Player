@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ApiURL: 'https://ionic-booking-app-1-default-rtdb.firebaseio.com'
+  ApiURL: 'https://music.mengkodingkan.dev/api'
 };
 
 /*
