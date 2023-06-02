@@ -412,7 +412,7 @@ class ArtistController extends Controller
             'image' => 'required|mimes:jpg,jpeg,png',
             'genre_id' => 'required|exists:genre,id',
             'album_id' => 'exists:album,id',
-            'audio' => 'required|mimes:mpga,wav,ogg,mp3'
+            'audio' => 'required|mimes:mp3',
         ]);
 
         if ($v->fails()) {
