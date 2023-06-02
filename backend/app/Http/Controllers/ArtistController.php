@@ -446,17 +446,17 @@ class ArtistController extends Controller
             ], 404);
         }
 
-        $audio = $request->file('audio');
-        $audio_name = time() . '.' . $audio->extension();
-        $audio->move(public_path('audio'), $audio_name);
-
-
-        $image = $request->file('image');
-        $image_name = time() . '.' . $image->extension();
-        $image->move(public_path('images/song'), $image_name);
-
-        $shortid = ShortId::create();
         try {
+            $audio = $request->file('audio');
+            $audio_name = time() . '.' . $audio->extension();
+            $audio->move(public_path('audio'), $audio_name);
+
+
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->extension();
+            $image->move(public_path('images/song'), $image_name);
+
+            $shortid = ShortId::create();
             $song = new Song();
             $song->s_id = $shortid->generate();
             $song->title = $request['title'];
@@ -483,8 +483,6 @@ class ArtistController extends Controller
             ], 200);
         } catch (Exception $e) {
             var_dump($e->getMessage());
-            if (file_exists(public_path('audio/' . $audio_name))) unlink(public_path('audio/' . $audio_name));
-            if (file_exists(public_path('images/song/' . $image_name))) unlink(public_path('images/song/' . $image_name));
             return response()->json([
                 'message' => 'Create song failed',
                 'statusCode' => 500,
