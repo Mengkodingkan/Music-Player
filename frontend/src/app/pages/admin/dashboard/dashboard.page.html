@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card class="ion-text-center">
+  <ion-card class="ion-text-center" button="" [routerLink]="['request-songs']">
     <ion-card-header>
       <ion-card-title>
         Song Request
@@ -18,21 +18,11 @@
   <ion-card class="ion-text-center">
     <ion-card-header>
       <ion-card-title>
-        Artist Request
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <h1>{{data.artist_request}}</h1>
-    </ion-card-content>
-  </ion-card>
-  <ion-card class="ion-text-center">
-    <ion-card-header>
-      <ion-card-title>
         User Registered
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <h1>{{data.user_registered}}</h1>
+      <h1>{{data.user_count}}</h1>
     </ion-card-content>
   </ion-card>
   <ion-card class="ion-text-center">
@@ -42,7 +32,7 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <h1>{{data.artist_verified}}</h1>
+      <h1>{{data.artist}}</h1>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -41,23 +41,30 @@ export class ApiAdminService {
   }
 
   fetchDataDashboard() {
-    return this.http.get(environment.ApiURL + '/admin/dashboard/-NWXdzOHDXD4E3Wg3oZT.json', {})
+    return this.http.get(environment.ApiURL + '/admin/dashboard', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
-        this._data.next(resData.data[0].information);
+        this._data.next(resData.data);
       });
   }
 
   fetchAllUsers() {
-    return this.http.get(environment.ApiURL + '/users.json', {})
+    return this.http.get(environment.ApiURL + '/admin/users', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let users: UserModel[] = [];
-        for (let key in resData) {
+        for (let user of resData.data) {
           let userModel = new UserModel();
-          userModel.id = key;
-          userModel.email = resData[key].email;
-          userModel.password = resData[key].password;
-          userModel.fullName = resData[key].full_name;
-          userModel.registeredAt = resData[key].registered_at;
+          userModel.id = user.id;
+          userModel.email = user.email;
+          userModel.fullName = user.name;
+          userModel.registeredAt = new Date(user.created_at).toLocaleDateString();
           users.push(userModel);
         }
         this._users.next(users);
@@ -65,39 +72,42 @@ export class ApiAdminService {
   }
 
   fetchUserById(userId: string) {
-    return this.http.get(environment.ApiURL + '/users/' + userId + '.json', {})
+    return this.http.get(environment.ApiURL + `/admin/users/${userId}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let userModel = new UserModel();
-        userModel.id = userId;
+        userModel.id = resData.id;
         userModel.email = resData.email;
         userModel.password = resData.password;
-        userModel.fullName = resData.full_name;
-        userModel.registeredAt = resData.registered_at;
         this._user.next(userModel);
       });
   }
 
   createUser(user: UserModel) {
-    return this.http.post<{ name: string }>(environment.ApiURL + '/users.json', {
+    return this.http.post(environment.ApiURL + '/admin/users', {
+      name: user.fullName,
       email: user.email,
       password: user.password,
-      full_name: user.fullName,
-      registered_at: user.registeredAt,
-      user_id: user.id
-    }).pipe(
-      switchMap(resData => {
-        console.log(resData);
-        return this.users
-      }),
-      take(1),
-      tap(users => {
-        this._users.next(users.concat(user));
-      })
-    );
+      birthday: '2023-05-05',
+      role: 'user'
+    }, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .pipe(switchMap(() => {
+          return this.users
+        }), take(1), tap(users => {
+          this._users.next(users.concat(user));
+        })
+      );
   }
 
   updateUser(user: UserModel) {
-    return this.http.patch(environment.ApiURL + '/users/' + user.id + '.json', {
+    return this.http.patch(environment.ApiURL + `/admin/users/${user.id}`, {
       email: user.email,
       password: user.password
     })
@@ -114,29 +124,32 @@ export class ApiAdminService {
   }
 
   deleteUser(userId: string) {
-    return this.http.delete(environment.ApiURL + '/users/' + userId + '.json').pipe(
-      switchMap(() => {
+    return this.http.delete(environment.ApiURL + `/admin/users/${userId}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    }).pipe(switchMap(() => {
         return this.users
-      }),
-      take(1),
-      tap(users => {
+      }), take(1), tap(users => {
         this._users.next(users.filter(user => user.id !== userId));
       })
     );
   }
 
   fetchAllArtists() {
-    return this.http.get(environment.ApiURL + '/artists.json', {})
+    return this.http.get(environment.ApiURL + '/admin/artists', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let artists: ArtistModel[] = [];
-        for (let key in resData) {
+        for (let artist of resData.data) {
           let artistModel = new ArtistModel();
-          artistModel.id = key;
-          artistModel.email = resData[key].artist_email;
-          artistModel.password = resData[key].password;
-          artistModel.fullName = resData[key].full_name;
-          artistModel.registeredAt = resData[key].registered_at;
-          artistModel.bio = resData[key].bio;
+          artistModel.id = artist.id;
+          artistModel.email = artist.email;
+          artistModel.fullName = artist.name;
+          artistModel.registeredAt = new Date(artist.created_at).toLocaleDateString();
           artists.push(artistModel);
         }
         this._artists.next(artists);
@@ -144,21 +157,23 @@ export class ApiAdminService {
   }
 
   fetchArtistById(artistId: string) {
-    return this.http.get(environment.ApiURL + '/artists/' + artistId + '.json', {})
+    return this.http.get(environment.ApiURL + `/admin/artists/${artistId}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let artistModel = new ArtistModel();
         artistModel.id = artistId;
-        artistModel.email = resData.artist_email;
+        artistModel.email = resData.email;
         artistModel.password = resData.password;
-        artistModel.fullName = resData.full_name;
-        artistModel.registeredAt = resData.registered_at;
-        artistModel.bio = resData.bio;
+        artistModel.fullName = resData.name;
         this._artist.next(artistModel);
       });
   }
 
   createArtist(artist: ArtistModel) {
-    return this.http.post<{ name: string }>(environment.ApiURL + '/artists.json', {
+    return this.http.post(environment.ApiURL + '/artists.json', {
       artist_email: artist.email,
       password: artist.password,
       full_name: artist.fullName,

@@ -42,35 +42,36 @@ export class ApiUserService {
   }
 
   fetchHome() {
-    return this.http.get(environment.ApiURL + '/user/discovery/-NWcfV3KsCx3CQEaQZCh.json', {})
+    return this.http.get(environment.ApiURL + '/discovery', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         const songs: SongModel[] = [];
         const artists: ArtistModel[] = [];
-        for (let i of resData.data) {
-          if (i.songs) {
-            for (let song of i.songs) {
+        for (let i of resData.data.playlist) {
+          if (i.tracks) {
+            for (let song of i.tracks) {
               let songModel = new SongModel();
-              songModel.id = song.song_id;
-              songModel.title = song.song_title;
+              songModel.id = song.id;
+              songModel.title = song.title;
               songModel.url = song.song_url;
-              songModel.albumId = song.album.album_id;
-              songModel.likeCount = song.like_count;
-              songModel.albumImage = song.album.album_image;
+              songModel.albumId = song.id;
+              songModel.likeCount = Math.floor(Math.random() * 1000) + 1;
+              songModel.albumImage = song.image;
               songModel.artistId = song.artist.artist_id;
-              songModel.artistName = song.artist.artist_name;
+              songModel.artistName = song.artist.name;
               songs.push(songModel);
-            }
-          }
-          if (i.artists) {
-            for (let artist of i.artists) {
               let artistModel = new ArtistModel();
-              artistModel.id = artist.artist_id;
-              artistModel.image = artist.artist_image;
-              artistModel.fullName = artist.artist_name;
+              artistModel.id = song.artist.id;
+              artistModel.image = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+              artistModel.fullName = song.artist.name;
               artists.push(artistModel);
             }
           }
         }
+        console.log(songs);
         this._songs.next(songs);
         this._artists.next(artists);
       });
