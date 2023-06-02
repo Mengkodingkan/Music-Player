@@ -57,7 +57,7 @@ export class ApiArtistService {
   }
 
   fetchDataDashboard() {
-    return this.http.get(environment.ApiURL + '/artist/dashboard/-NWTq_xmcZCNuNxWFO-0.json', {})
+    return this.http.get(environment.ApiURL + '', {})
       .subscribe((resData: any) => {
         let reqSongs: SongModel[] = [];
         let popSongs: SongModel[] = [];

@@ -46,6 +46,8 @@ class ArtistManagementController extends Controller
         $v = Validator::make($data, [
             'name' => 'required|string',
             'email' => 'required|email',
+            'website' => 'required|string',
+            'image' => 'required|image|mimes:png,jpg,jpeg',
             'password' => 'required|string',
         ]);
 
@@ -65,8 +67,14 @@ class ArtistManagementController extends Controller
             ], 400);
         }
 
+        $thumb = $request->file('image');
+        $thumb_name = time() . '.' . $thumb->getClientOriginalExtension();
+        $thumb->move(public_path('images/artist'), $thumb_name);
+        $data['image'] = $thumb_name;
+
         try {
             $artist = Artist::create($data);
+            $artist['image'] = url('images/artist/' . $artist['image']);
 
             return response()->json([
                 'message' => 'Create artist successful',
@@ -74,6 +82,10 @@ class ArtistManagementController extends Controller
                 'data' => $artist,
             ], 201);
         } catch (Exception $e) {
+            // delete temp image
+            $thumb_path = public_path('images/artist/' . $thumb_name);
+            unlink($thumb_path);
+
             return response()->json([
                 'message' => 'Create artist failed: ' . $e->getMessage(),
                 'statusCode' => 500,

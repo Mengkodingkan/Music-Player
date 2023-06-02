@@ -29,7 +29,17 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
+  },
+  {
+    path: 'user-register',
+    loadChildren: () => import('./pages/user-register/user-register.module').then(m => m.UserRegisterPageModule)
+  },
+  {
+    path: 'artist-register',
+    loadChildren: () => import('./pages/artist-register/artist-register.module').then(m => m.ArtistRegisterPageModule)
   }
+
+
 
 ];
 
