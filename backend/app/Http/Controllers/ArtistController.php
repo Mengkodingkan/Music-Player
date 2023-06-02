@@ -534,4 +534,33 @@ class ArtistController extends Controller
             ], 500);
         }
     }
+
+    public function get_dashboard(Request $request)
+    {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $artist = Artist::where('user_id', $user_id)->first();
+
+        $song_request = $artist->songs()->where('status', 'pending')->count();
+        $publish_song = $artist->songs()->where('status', 'approved')->count();
+        $album = $artist->albums()->count();
+
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Get dashboard successful',
+            'statusCode' => 200,
+            'data' => [
+                'song_request' => $song_request,
+                'publish_song' => $publish_song,
+                'album' => $album,
+            ]
+        ], 200);
+    }
 }

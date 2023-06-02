@@ -70,6 +70,8 @@ Route::middleware('api.artist')->prefix('/artist')->group(function () {
         ], 200);
     });
 
+    Route::get('/dashboard', 'App\Http\Controllers\ArtistController@get_dashboard');
+
     Route::post('/register', 'App\Http\Controllers\ArtistController@register');
     Route::get('/followers', 'App\Http\Controllers\ArtistController@get_followers');
     Route::get('/followers/{id}', 'App\Http\Controllers\ArtistController@get_follower_by_id');
