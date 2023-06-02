@@ -416,8 +416,12 @@ class ArtistController extends Controller
         ]);
 
         if ($v->fails()) {
+            $errs = [];
+            foreach ($v->errors()->toArray() as $key => $value) {
+                $errs[] = $value[0];
+            }
             return response()->json([
-                'message' => 'Invalid credentials',
+                'message' => join(', ', $errs),
                 'statusCode' => 400,
             ], 400);
         }
