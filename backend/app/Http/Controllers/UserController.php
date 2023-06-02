@@ -141,7 +141,7 @@ class UserController extends Controller
 
         $trx = new view_song();
         $trx->user_id = $user_id;
-        $trx->song_id = $id;
+        $trx->song_id = $song->id;
         $trx->save();
 
         $file = $song['audio'];
@@ -152,7 +152,8 @@ class UserController extends Controller
         return response($data)->header('Content-Type', 'audio/' . $type);
     }
 
-    public function get_my_playlist(Request $request) {
+    public function get_my_playlist(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -166,7 +167,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function get_playlist_by_id(Request $request, $id) {
+    public function get_playlist_by_id(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -193,7 +195,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function create_playlist(Request $request) {
+    public function create_playlist(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -242,7 +245,8 @@ class UserController extends Controller
         }
     }
 
-    public function update_playlist(Request $request, $id) {
+    public function update_playlist(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -312,7 +316,8 @@ class UserController extends Controller
         }
     }
 
-    public function delete_playlist(Request $request, $id) {
+    public function delete_playlist(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -352,7 +357,8 @@ class UserController extends Controller
         }
     }
 
-    public function add_song_to_playlist(Request $request, $id) {
+    public function add_song_to_playlist(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -419,7 +425,8 @@ class UserController extends Controller
         }
     }
 
-    public function remove_song_from_playlist(Request $request, $id, $song_id) {
+    public function remove_song_from_playlist(Request $request, $id, $song_id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -471,7 +478,8 @@ class UserController extends Controller
         }
     }
 
-    public function get_following_artist(Request $request) {
+    public function get_following_artist(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -490,7 +498,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function follow(Request $request, $id) {
+    public function follow(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -538,7 +547,8 @@ class UserController extends Controller
         }
     }
 
-    public function unfollow(Request $request, $id) {
+    public function unfollow(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -575,7 +585,8 @@ class UserController extends Controller
         }
     }
 
-    public function get_liked_songs(Request $request) {
+    public function get_liked_songs(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -608,7 +619,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function like(Request $request, $id) {
+    public function like(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -660,7 +672,8 @@ class UserController extends Controller
         }
     }
 
-    public function unlike(Request $request, $id) {
+    public function unlike(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -706,7 +719,8 @@ class UserController extends Controller
         }
     }
 
-    public function get_all_albums(Request $request) {
+    public function get_all_albums(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -719,7 +733,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function get_album_by_id(Request $request, $id) {
+    public function get_album_by_id(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 

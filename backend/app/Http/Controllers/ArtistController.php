@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Artist;
 use App\Models\Genre;
 use App\Models\Song;
+use Carbon\Carbon;
 use DateTime;
 use Exception;
 
@@ -411,7 +412,8 @@ class ArtistController extends Controller
             'title' => 'required|string',
             'image' => 'required|mimes:jpg,jpeg,png',
             'genre_id' => 'required|exists:genre,id',
-            'album_id' => 'exists:album,id'
+            'album_id' => 'exists:album,id',
+            'audio' => 'required|mimes:mp3,wav,ogg,mpga',
         ]);
 
         if ($v->fails()) {
@@ -437,7 +439,7 @@ class ArtistController extends Controller
         }
 
         // check if genre exist
-        $genre = Genre::where('id', $request['genre_id'])->first();
+        $genre = Genre::where('id', $request->genre_id)->first();
         if (!$genre) {
             return response()->json([
                 'message' => 'Genre not found',
@@ -446,17 +448,9 @@ class ArtistController extends Controller
         }
 
         $audio = $request->file('audio');
-        $audio_mime = $audio->getMimeType();
-        if ($audio_mime == 'audio/mp4') {
-            // convert mp4 to mp3
-            $audio_name = time() . '.mp3';
-            FFMpeg::fromDisk('audio')->open($request->file('audio'))->export()
-                ->inFormat(new \FFMpeg\Format\Audio\Mp3())
-                ->save(public_path('audio/' . $audio_name));
-        } else {
-            $audio_name = time() . '.' . $audio->extension();
-            $audio->move(public_path('audio'), $audio_name);
-        }
+        $audio_name = time() . '.' . $audio->extension();
+        $audio->move(public_path('audio'), $audio_name);
+
 
         $image = $request->file('image');
         $image_name = time() . '.' . $image->extension();
@@ -476,8 +470,11 @@ class ArtistController extends Controller
             $song->status = 'pending';
 
             // get duration of audio
-            $duration = FFMpeg::fromDisk('audio')->open($audio_name)->getDurationInSeconds();
-            $song->duration = $duration;
+            $duration = FFMpeg::fromDisk('audio')
+                ->open($audio_name)
+                ->getDurationInSeconds();
+            // convert to time sql
+            $song->duration = Carbon::createFromTimestampUTC($duration)->toTimeString();
 
             $song->save();
 
@@ -533,7 +530,7 @@ class ArtistController extends Controller
                 'statusCode' => 200,
             ], 200);
         } catch (Exception $e) {
-            var_dump($e->getMessage());
+            var_dump($e);
             return response()->json([
                 'message' => 'Delete song failed',
                 'statusCode' => 500,
