@@ -13,4 +13,11 @@ export class RequestSongsPage implements OnInit {
   ngOnInit() {
   }
 
+  onAccepted(songId: any) {
+    console.log(songId)
+  }
+
+  onRejected(songId: any) {
+    console.log(songId)
+  }
 }
