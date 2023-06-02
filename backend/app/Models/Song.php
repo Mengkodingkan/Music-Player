@@ -18,6 +18,7 @@ class Song extends Model
      */
     protected $fillable = [
         'title',
+        's_id',
         'image',
         'audio',
         'duration',
