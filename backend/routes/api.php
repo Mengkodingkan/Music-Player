@@ -87,9 +87,6 @@ Route::middleware('api.artist')->prefix('/artist')->group(function () {
 });
 
 Route::middleware('api.admin')->prefix('/admin')->group(function () {
-
-    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard']);
-
     Route::get('/', function () {
         return response()->json([
             'message' => 'Welcome to the admin API',
@@ -100,7 +97,7 @@ Route::middleware('api.admin')->prefix('/admin')->group(function () {
     Route::get('/dashboard', 'App\Http\Controllers\AdminController@get_dashboard');
 
     Route::prefix('/users')->group(function () {
-        Route::get('/', [\App\Http\Controllers\AdminController::class, 'getAllUsers']);
+        Route::get('/', 'App\Http\Controllers\UserManagementController@get_all_users');
         Route::get('/{id}', 'App\Http\Controllers\UserManagementController@get_user_by_id');
         Route::post('/', 'App\Http\Controllers\UserManagementController@create_user');
         Route::put('/{id}', 'App\Http\Controllers\UserManagementController@update_user');

@@ -48,7 +48,6 @@ class ArtistManagementController extends Controller
             'email' => 'required|email',
             'website' => 'required|string',
             'image' => 'required|image|mimes:png,jpg,jpeg',
-            'password' => 'required|string',
         ]);
 
         if ($v->fails()) {

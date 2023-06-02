@@ -16,9 +16,9 @@ class AdminAuth
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
@@ -37,7 +37,7 @@ class AdminAuth
             $request->request->add([
                 'userauth' => [
                     'id' => $decoded->id,
-                    'name' => $decoded->full_name,
+                    'name' => $decoded->name,
                     'role' => $decoded->role,
                 ]
             ]);
@@ -58,7 +58,6 @@ class AdminAuth
                 'statusCode' => 401,
             ], 401);
         } catch (ErrorException $e) {
-            var_dump(123);
             return response()->json([
                 'message' => 'Invalid token',
                 'statusCode' => 401,
