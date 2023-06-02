@@ -9,7 +9,7 @@ class Song extends Model
 {
     use HasFactory;
 
-    protected $table = 'songs';
+    protected $table = 'song';
 
     /**
      * The attributes that are mass assignable.
@@ -17,13 +17,25 @@ class Song extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'song_title',
-        'url',
+        'title',
+        's_id',
+        'image',
+        'audio',
         'duration',
-        'status',
         'release_date',
+        'status',
+        'genre_id',
         'album_id',
+        'artist_id'
     ];
+
+    /**
+     * Get the genre that owns the song.
+     */
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
 
     /**
      * Get the album that owns the song.
@@ -31,5 +43,13 @@ class Song extends Model
     public function album()
     {
         return $this->belongsTo(Album::class);
+    }
+
+    /**
+     * Get the artist that owns the song.
+     */
+    public function artist()
+    {
+        return $this->belongsTo(Artist::class);
     }
 }
