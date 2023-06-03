@@ -5,6 +5,7 @@ import {SongModel} from "../model/song.model";
 import {ArtistModel} from "../model/artist.model";
 import {environment} from "../../environments/environment";
 import {AlbumModel} from "../model/album.model";
+import {UserModel} from "../model/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ApiUserService {
   private _album = new BehaviorSubject<AlbumModel>(new AlbumModel());
   private _albums = new BehaviorSubject<AlbumModel[]>([]);
   private _artist = new BehaviorSubject<ArtistModel>(new ArtistModel());
+  private _likeSongs = new BehaviorSubject<SongModel[]>([]);
 
   get songs() {
     return this._songs.asObservable();
@@ -36,9 +38,45 @@ export class ApiUserService {
     return this._artist.asObservable();
   }
 
+  get likeSongs() {
+    return this._likeSongs.asObservable();
+  }
+
   constructor(
     private http: HttpClient
   ) {
+  }
+
+  fetchUserById(id: string) {
+    return this.http.get(environment.ApiURL + '/user/' + id, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        // const artist = new ArtistModel();
+        // artist.id = resData.data.id;
+        // artist.fullName = resData.data.name;
+        // artist.bio = resData.data.bio;
+        // artist.image = resData.data.image;
+        // this._artist.next(artist);
+        console.log(resData);
+      });
+  }
+
+  updateProfile(user: UserModel) {
+    return this.http.put(environment.ApiURL + '/user', {
+      name: user.fullName,
+      email: user.email,
+      birthday: user.email
+    }, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        console.log(resData);
+      });
   }
 
   fetchHome() {
@@ -51,10 +89,9 @@ export class ApiUserService {
         const songs: SongModel[] = [];
         for (let song of resData.data.popular_song) {
           let songModel = new SongModel();
-          songModel.id = song.s_id;
+          songModel.id = song.id;
           songModel.title = song.title;
-          songModel.url = ` https://music.mengkodingkan.dev/audio/${song.audio}`;
-          // songModel.url = this.songPath(song.s_id);
+          songModel.url = `https://music.mengkodingkan.dev/audio/${song.audio}`;
           songModel.likeCount = Math.floor(Math.random() * 1000) + 1;
           songModel.albumImage = song.image;
           songModel.artistId = song.artist.id;
@@ -62,8 +99,6 @@ export class ApiUserService {
           songs.push(songModel);
         }
         this._songs.next(songs);
-
-        console.log(resData)
       });
   }
 
@@ -77,19 +112,19 @@ export class ApiUserService {
         const songs = [];
         for (let song of resData.data.tracks) {
           const songModel = new SongModel();
-          songModel.id = song.song_id;
-          songModel.title = song.song_title;
-          songModel.url = song.song_url;
-          songModel.albumId = song.album.album_id;
+          songModel.id = song.id;
+          songModel.title = song.title;
+          songModel.url = `https://music.mengkodingkan.dev/audio/${song.audio}`;
+          songModel.albumId = song.album_id;
           songModel.likeCount = song.like_count;
-          songModel.albumImage = song.album.album_image;
-          songModel.artistId = song.artist.artist_id;
-          songModel.artistName = song.artist.artist_name;
-          songModel.playlistId = song.playlist.id;
-          songModel.userId = song.playlist.user_id;
+          songModel.albumImage = song.image;
+          // songModel.artistId = song.artist.artist_id;
+          // songModel.artistName = song.artist.artist_name;
+          // songModel.playlistId = song.playlist.id;
+          // songModel.userId = song.playlist.user_id;
           songs.push(songModel);
         }
-        this._songs.next(songs);
+        this._likeSongs.next(songs);
       });
   }
 
@@ -149,24 +184,13 @@ export class ApiUserService {
       }
     }).pipe(
       switchMap(() => {
-        return this.songs;
+        return this.likeSongs;
       }),
       take(1),
       tap(songs => {
-        this._songs.next(songs.filter(song => song.id !== songId));
+        this._likeSongs.next(songs.filter(song => song.id !== songId));
       })
     );
   }
 
-  // songPath(songId: any) {
-  //   return this.http.get(environment.ApiURL + `/play/${songId}`, {
-  //     headers: {
-  //       'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  //       'Content-Type': '/audio'
-  //     }
-  //   })
-  //     .subscribe((resData: any) => {
-  //       console.log(resData);
-  //     });
-  // }
 }

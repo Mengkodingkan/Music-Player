@@ -53,6 +53,6 @@ export class PlayerCtrlComponent implements OnInit {
   }
 
   onLike() {
-    this.apiUser.favoriteSong(this.activeSong.id, 'like');
+    this.apiUser.favoriteSong(this.activeSong.id, 'like').subscribe();
   }
 }
