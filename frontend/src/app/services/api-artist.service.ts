@@ -10,7 +10,6 @@ import {ArtistModel} from "../model/artist.model";
   providedIn: 'root'
 })
 export class ApiArtistService {
-  private _dashboardInformation = new BehaviorSubject<any>('');
   private _requestUpload = new BehaviorSubject<SongModel[]>([]);
   private _popularSongs = new BehaviorSubject<SongModel[]>([]);
   private _albums = new BehaviorSubject<AlbumModel[]>([]);
@@ -18,14 +17,11 @@ export class ApiArtistService {
   private _songs = new BehaviorSubject<SongModel[]>([]);
   private _song = new BehaviorSubject<SongModel>(new SongModel());
   private _account = new BehaviorSubject<ArtistModel>(new ArtistModel());
+  private _data = new BehaviorSubject<any>('');
 
   constructor(
     private http: HttpClient
   ) {
-  }
-
-  get dashboardInformation() {
-    return this._dashboardInformation.asObservable();
   }
 
   get requestUpload() {
@@ -56,6 +52,10 @@ export class ApiArtistService {
     return this._account.asObservable();
   }
 
+  get data() {
+    return this._data.asObservable();
+  }
+
   fetchDataDashboard() {
     return this.http.get(environment.ApiURL + '/artist/dashboard', {
       headers: {
@@ -63,87 +63,60 @@ export class ApiArtistService {
       }
     })
       .subscribe((resData: any) => {
-        let reqSongs: SongModel[] = [];
-        let popSongs: SongModel[] = [];
-        for (let i of resData.data) {
-          if (i.information) {
-            this._dashboardInformation.next(i.information);
-          } else if (i.request_upload) {
-            for (let song of i.request_upload) {
-              let songModel = new SongModel();
-              songModel.id = song.song_id;
-              songModel.title = song.song_title;
-              songModel.url = song.url;
-              songModel.status = song.status;
-              songModel.likeCount = song.likeCount;
-              songModel.albumId = song.album.album_id;
-              songModel.albumTitle = song.album.album_title;
-              reqSongs.push(songModel)
-            }
-          } else if (i.popular_song) {
-            for (let song of i.popular_song) {
-              let songModel = new SongModel();
-              songModel.id = song.song_id;
-              songModel.title = song.song_title;
-              songModel.url = song.url;
-              songModel.status = song.status;
-              songModel.likeCount = song.like_count;
-              songModel.albumId = song.album.album_id;
-              songModel.albumTitle = song.album.album_title;
-              popSongs.push(songModel)
-            }
-          }
-        }
-        this._requestUpload.next(reqSongs);
-        this._popularSongs.next(popSongs);
+        this._data.next(resData.data);
       });
   }
 
-  createAlbum(album: AlbumModel) {
-    return this.http.post<{ name: string }>(environment.ApiURL + '/albums.json', {
-      album_id: album.id,
-      album_title: album.title,
-      album_image: album.image,
-      publish_date: album.publishDate
+  createAlbum(album: AlbumModel, file: any) {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('title', album.title);
+    formData.append('release_date', "2023-05-23");
+    formData.append('category', "ep");
+    return this.http.post(environment.ApiURL + '/artist/albums', formData, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
     }).pipe(
       switchMap(() => {
         return this.albums
-      }),
-      take(1),
-      tap(albums => {
+      }), take(1), tap(albums => {
           this._albums.next(albums.concat(album));
         }
       ));
   }
 
   fetchAllAlbums() {
-    return this.http.get<{ [key: string]: any }>(environment.ApiURL + '/albums.json', {})
+    return this.http.get(environment.ApiURL + '/artist/albums', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let albums: AlbumModel[] = [];
-        let songs: SongModel[] = [];
-        for (let key in resData) {
-          let album = new AlbumModel();
-          album.id = key;
-          album.title = resData[key].album_title;
-          album.image = resData[key].album_image;
-          album.publishDate = resData[key].publish_date;
-          albums.push(album);
+        // let songs: SongModel[] = [];
+        for (let album of resData.data) {
+          let albumModel = new AlbumModel();
+          albumModel.id = album.id;
+          albumModel.title = album.title;
+          albumModel.publishDate = album.publish_date;
+          albums.push(albumModel);
 
-          for (let song in resData[key].songs) {
-            let songModel = new SongModel();
-            songModel.id = song;
-            songModel.title = resData[key].songs[song].song_title;
-            songModel.url = resData[key].songs[song].url;
-            songModel.status = resData[key].songs[song].status;
-            songModel.likeCount = resData[key].songs[song].like_count;
-            songModel.albumId = resData[key].songs[song].album.album_id;
-            songModel.albumTitle = resData[key].songs[song].album.album_title;
-            songModel.duration = resData[key].songs[song].duration;
-            songModel.releaseDate = resData[key].songs[song].release_date;
-            songs.push(songModel);
-          }
+          // for (let song in resData[key].songs) {
+          //   let songModel = new SongModel();
+          //   songModel.id = song;
+          //   songModel.title = resData[key].songs[song].song_title;
+          //   songModel.url = resData[key].songs[song].url;
+          //   songModel.status = resData[key].songs[song].status;
+          //   songModel.likeCount = resData[key].songs[song].like_count;
+          //   songModel.albumId = resData[key].songs[song].album.album_id;
+          //   songModel.albumTitle = resData[key].songs[song].album.album_title;
+          //   songModel.duration = resData[key].songs[song].duration;
+          //   songModel.releaseDate = resData[key].songs[song].release_date;
+          //   songs.push(songModel);
+          // }
         }
-        this._songs.next(songs);
+        // this._songs.next(songs);
         this._albums.next(albums);
       });
   }
