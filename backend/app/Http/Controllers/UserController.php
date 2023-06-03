@@ -590,7 +590,8 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        $song = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->with('song')->first();
+        // get playlist liked songs
+        $song = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->first();
         if (!$song) {
             // create playlist
             $playlist = new Playlist();
@@ -610,7 +611,7 @@ class UserController extends Controller
             ], 404);
         }
 
-        $song->load('user', 'tracks.song');
+        $song->load('user', 'tracks');
 
         return response()->json([
             'message' => 'Get liked song successful',
