@@ -162,24 +162,34 @@ class ArtistController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        $artist = Artist::where('user_id', $user_id)->first();
+        $artist = Artist::with('albums')->where('user_id', $user_id)->first();
         if (!$artist) {
             return response()->json([
                 'message' => 'Artist not found',
                 'statusCode' => 404,
+                'data' => $artist,
             ], 404);
         }
 
+        $artist['image'] = url('images/artist' . $artist['image']);
         $album = $artist->albums()->where('id', $id)->first();
+
         if (!$album) {
             return response()->json([
                 'message' => 'Album not found',
                 'statusCode' => 404,
+                'data' => $album,
             ], 404);
         }
 
+        $album['image'] = url('images/album' . $album['image']);
+        $songs = Song::where('album_id', $album['id'])->get();
+
+        $album['songs'] = $songs;
+        $album['artist'] = $artist;
+
         return response()->json([
-            'message' => 'Get album successful',
+            'message' => 'Get album by id successful',
             'statusCode' => 200,
             'data' => $album,
         ], 200);
@@ -454,7 +464,7 @@ class ArtistController extends Controller
         }
 
         // check if genre exist
-        $genre = Genre::where('id', $request->genre_id)->first();
+        $genre = Genre::where('id', $request['genre_id'])->first();
         if (!$genre) {
             return response()->json([
                 'message' => 'Genre not found',
