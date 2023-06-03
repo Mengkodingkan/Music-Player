@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::get('/phpinfo', function () {
+    return phpinfo();
+});
 
 Route::get('/', function () {
     return response()->json([
@@ -66,6 +69,8 @@ Route::middleware('api.artist')->prefix('/artist')->group(function () {
             'statusCode' => 200,
         ], 200);
     });
+
+    Route::get('/dashboard', 'App\Http\Controllers\ArtistController@get_dashboard');
 
     Route::post('/register', 'App\Http\Controllers\ArtistController@register');
     Route::get('/followers', 'App\Http\Controllers\ArtistController@get_followers');

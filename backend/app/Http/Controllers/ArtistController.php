@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Artist;
 use App\Models\Genre;
 use App\Models\Song;
+use Carbon\Carbon;
 use DateTime;
 use Exception;
 
@@ -16,7 +17,8 @@ use Crisu83\ShortId\ShortId;
 
 class ArtistController extends Controller
 {
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -62,7 +64,6 @@ class ArtistController extends Controller
                 'message' => 'Register successful',
                 'statusCode' => 200,
             ], 200);
-
         } catch (\Exception $e) {
             if (file_exists(public_path('images/artist/' . $image_name))) {
                 unlink(public_path('images/artist/' . $image_name));
@@ -74,7 +75,8 @@ class ArtistController extends Controller
         }
     }
 
-    public function get_followers(Request $request) {
+    public function get_followers(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -95,7 +97,8 @@ class ArtistController extends Controller
         ], 200);
     }
 
-    public function get_follower_by_id(Request $request, $id) {
+    public function get_follower_by_id(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -122,7 +125,8 @@ class ArtistController extends Controller
         ], 200);
     }
 
-    public function get_all_albums(Request $request) {
+    public function get_all_albums(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -143,7 +147,8 @@ class ArtistController extends Controller
         ], 200);
     }
 
-    public function get_album_by_id(Request $request, $id) {
+    public function get_album_by_id(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -170,7 +175,8 @@ class ArtistController extends Controller
         ], 200);
     }
 
-    public function create_album(Request $request) {
+    public function create_album(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -213,7 +219,6 @@ class ArtistController extends Controller
                 'message' => 'Create album successful',
                 'statusCode' => 200,
             ], 200);
-
         } catch (Exception $e) {
             if (file_exists(public_path('images/album/' . $image_name))) {
                 unlink(public_path('images/album/' . $image_name));
@@ -225,7 +230,8 @@ class ArtistController extends Controller
         }
     }
 
-    public function update_album(Request $request, $id) {
+    public function update_album(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -269,7 +275,6 @@ class ArtistController extends Controller
             if (file_exists(public_path('images/album/' . $album->image))) {
                 unlink(public_path('images/album/' . $album->image));
             }
-
         }
 
         try {
@@ -283,7 +288,6 @@ class ArtistController extends Controller
                 'message' => 'Update album successful',
                 'statusCode' => 200,
             ], 200);
-
         } catch (Exception $e) {
             if ($hasImage) {
                 if (file_exists(public_path('images/album/' . $image_name))) {
@@ -297,7 +301,8 @@ class ArtistController extends Controller
         }
     }
 
-    public function delete_album(Request $request, $id) {
+    public function delete_album(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -328,7 +333,6 @@ class ArtistController extends Controller
                 'message' => 'Delete album successful',
                 'statusCode' => 200,
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Delete album failed',
@@ -337,7 +341,8 @@ class ArtistController extends Controller
         }
     }
 
-    public function get_all_songs(Request $request) {
+    public function get_all_songs(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -359,7 +364,8 @@ class ArtistController extends Controller
         ], 200);
     }
 
-    public function get_song_by_id(Request $request, $id) {
+    public function get_song_by_id(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -388,7 +394,8 @@ class ArtistController extends Controller
         ], 200);
     }
 
-    public function create_song(Request $request) {
+    public function create_song(Request $request)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -405,19 +412,22 @@ class ArtistController extends Controller
             'title' => 'required|string',
             'image' => 'required|mimes:jpg,jpeg,png',
             'genre_id' => 'required|exists:genre,id',
-            'album_id' => 'exists:albums,id|default:null',
-            'audio' => 'required|mimes:mpga,wav,ogg,mp3'
+            'album_id' => 'exists:album,id'
         ]);
 
         if ($v->fails()) {
+            $errs = [];
+            foreach ($v->errors()->toArray() as $key => $value) {
+                $errs[] = $value[0];
+            }
             return response()->json([
-                'message' => 'Invalid credentials',
+                'message' => join(', ', $errs),
                 'statusCode' => 400,
             ], 400);
         }
 
         // check if album exist
-        if ($request['album_id']) {
+        if ($request->album_id) {
             $album = $artist->albums()->where('id', $request['album_id'])->first();
             if (!$album) {
                 return response()->json([
@@ -428,7 +438,7 @@ class ArtistController extends Controller
         }
 
         // check if genre exist
-        $genre = Genre::where('id', $request['genre_id'])->first();
+        $genre = Genre::where('id', $request->genre_id)->first();
         if (!$genre) {
             return response()->json([
                 'message' => 'Genre not found',
@@ -436,16 +446,17 @@ class ArtistController extends Controller
             ], 404);
         }
 
-        $audio = $request->file('audio');
-        $audio_name = time() . '.' . $audio->extension();
-        $audio->move(public_path('audio'), $audio_name);
-
-        $image = $request->file('image');
-        $image_name = time() . '.' . $image->extension();
-        $image->move(public_path('images/song'), $image_name);
-
-        $shortid = ShortId::create();
         try {
+            $audio = $request->file('audio');
+            $audio_name = time() . '.' . $audio->extension();
+            $audio->move(public_path('audio'), $audio_name);
+
+
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->extension();
+            $image->move(public_path('images/song'), $image_name);
+
+            $shortid = ShortId::create();
             $song = new Song();
             $song->s_id = $shortid->generate();
             $song->title = $request['title'];
@@ -458,8 +469,11 @@ class ArtistController extends Controller
             $song->status = 'pending';
 
             // get duration of audio
-            $duration = FFMpeg::fromDisk('audio')->open($audio_name)->getDurationInSeconds();
-            $song->duration = $duration;
+            $duration = FFMpeg::fromDisk('audio')
+                ->open($audio_name)
+                ->getDurationInSeconds();
+            // convert to time sql
+            $song->duration = Carbon::createFromTimestampUTC($duration)->toTimeString();
 
             $song->save();
 
@@ -469,8 +483,6 @@ class ArtistController extends Controller
             ], 200);
         } catch (Exception $e) {
             var_dump($e->getMessage());
-            if (file_exists(public_path('audio/' . $audio_name))) unlink(public_path('audio/' . $audio_name));
-            if (file_exists(public_path('images/song/' . $image_name))) unlink(public_path('images/song/' . $image_name));
             return response()->json([
                 'message' => 'Create song failed',
                 'statusCode' => 500,
@@ -478,7 +490,8 @@ class ArtistController extends Controller
         }
     }
 
-    public function delete_song(Request $request, $id) {
+    public function delete_song(Request $request, $id)
+    {
         $user = $request['userauth'];
         $user_id = $user['id'];
 
@@ -513,13 +526,41 @@ class ArtistController extends Controller
                 'message' => 'Delete song successful',
                 'statusCode' => 200,
             ], 200);
-
         } catch (Exception $e) {
-            var_dump($e->getMessage());
+            var_dump($e);
             return response()->json([
                 'message' => 'Delete song failed',
                 'statusCode' => 500,
             ], 500);
         }
+    }
+
+    public function get_dashboard(Request $request)
+    {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $artist = Artist::where('user_id', $user_id)->first();
+
+        $song_request = $artist->songs()->where('status', 'pending')->count();
+        $publish_song = $artist->songs()->where('status', 'approved')->count();
+        $album = $artist->albums()->count();
+
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Get dashboard successful',
+            'statusCode' => 200,
+            'data' => [
+                'song_request' => $song_request,
+                'publish_song' => $publish_song,
+                'album' => $album,
+            ]
+        ], 200);
     }
 }
