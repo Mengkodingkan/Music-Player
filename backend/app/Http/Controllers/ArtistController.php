@@ -171,7 +171,7 @@ class ArtistController extends Controller
             ], 404);
         }
 
-        $artist['image'] = url('images/artist' . $artist['image']);
+        $artist['image'] = url('images/artist/' . $artist['image']);
         $album = $artist->albums()->where('id', $id)->first();
 
         if (!$album) {
@@ -182,7 +182,7 @@ class ArtistController extends Controller
             ], 404);
         }
 
-        $album['image'] = url('images/album' . $album['image']);
+        $album['image'] = url('images/album/' . $album['image']);
         $songs = Song::where('album_id', $album['id'])->get();
 
         $album['songs'] = $songs;
