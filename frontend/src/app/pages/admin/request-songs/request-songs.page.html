@@ -9,20 +9,20 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item>
+    <ion-item *ngFor="let song of pendingSongs">
       <ion-label>
-        <h2><strong>Song Title</strong></h2>
-        <small>Artist Name • Album Title</small>
+        <h2><strong>{{song.title}}</strong></h2>
+        <small>{{song.artistName}} • {{song.albumTitle}}</small>
       </ion-label>
       <ion-fab vertical="bottom" horizontal="end">
         <ion-fab-button size="small" color="warning">
           <ion-icon name="chevron-back-circle"></ion-icon>
         </ion-fab-button>
         <ion-fab-list side="start">
-          <ion-fab-button color="danger" (click)="onRejected(1)">
+          <ion-fab-button color="danger" (click)="onRejected(song.id)">
             <ion-icon name="remove-circle"></ion-icon>
           </ion-fab-button>
-          <ion-fab-button color="success" (click)="onAccepted(2)">
+          <ion-fab-button color="success" (click)="onAccepted(song.id)">
             <ion-icon name="checkmark"></ion-icon>
           </ion-fab-button>
         </ion-fab-list>

@@ -37,8 +37,11 @@ const routes: Routes = [
   {
     path: 'artist-register',
     loadChildren: () => import('./pages/artist-register/artist-register.module').then(m => m.ArtistRegisterPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
   }
-
 
 
 ];

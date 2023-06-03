@@ -35,6 +35,10 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'admins',
+        loadChildren: () => import('./admin-list/admin-list.module').then(m => m.AdminListPageModule)
+      },
+      {
         path: 'dashboard',
         children: [
           {
