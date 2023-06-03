@@ -757,4 +757,68 @@ class UserController extends Controller
             'data' => $album,
         ], 200);
     }
+
+    public function update_user(Request $request)
+    {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $v = Validator::make($request->all(), [
+            'name' => 'string',
+            'email' => 'email',
+            'password' => 'string',
+            'birthday' => 'date',
+            'image' => 'image|mimes:jpeg,png,jpg',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json([
+                'message' => 'Invalid input',
+                'statusCode' => 400,
+                'errors' => join(', ', $v->errors()->all()),
+            ], 400);
+        }
+
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        try {
+
+
+            $user->name = $request->name ?? $user->name;
+            $user->email = $request->email ?? $user->email;
+            $user->password = $request->password ?? $user->password;
+            $user->birthday = $request->birthday ?? $user->birthday;
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $image_name = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/user'), $image_name);
+
+                // delete old image
+                if (file_exists(public_path('images/user/' . $user->image))) unlink(public_path('images/user/' . $user->image));
+
+                $user->image = $image_name;
+            }
+
+            $user->save();
+
+            return response()->json([
+                'message' => 'Update user successful',
+                'statusCode' => 200,
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Update user failed',
+                'statusCode' => 500,
+                'errors' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
