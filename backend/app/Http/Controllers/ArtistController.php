@@ -138,8 +138,17 @@ class ArtistController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
-
+        $artist['image'] = url('images/artist' . $artist['image']);
         $albums = $artist->albums()->get();
+
+        // get song by artist_id
+        foreach ($albums as $album) {
+            $songs = Song::where('artist_id', $album['artist_id'])->get();
+
+            $album['songs'] = $songs;
+            $album['artist'] = $artist;
+            $album['image'] = url('images/album' . $album['image']);
+        }
 
         return response()->json([
             'message' => 'Get all albums successful',
