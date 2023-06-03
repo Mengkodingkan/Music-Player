@@ -12,6 +12,7 @@ import {AlbumModel} from "../../../model/album.model";
 export class NewAlbumComponent implements OnInit {
   url: any;
   form: FormGroup;
+  file: any;
 
   constructor(
     private modalCtrl: ModalController,
@@ -28,7 +29,7 @@ export class NewAlbumComponent implements OnInit {
       image: new FormControl(null, {
         updateOn: 'blur'
       })
-    })
+    });
   }
 
   readUrl(event: any) {
@@ -40,6 +41,7 @@ export class NewAlbumComponent implements OnInit {
       };
 
       reader.readAsDataURL(event.target.files[0]);
+      this.file = event.target.files[0];
     }
   }
 
@@ -61,10 +63,7 @@ export class NewAlbumComponent implements OnInit {
         }, 'confirm').then(() => {
           let albumModel = new AlbumModel();
           albumModel.title = this.form.value.title;
-          albumModel.image = this.form.value.image.replace(/^.*[\\\/]/, '');
-          albumModel.id = Math.random().toString();
-          albumModel.publishDate = "20-20-2021";
-          this.apiArtist.createAlbum(albumModel).subscribe();
+          this.apiArtist.createAlbum(albumModel, this.file).subscribe();
         });
       }, 1500);
     });

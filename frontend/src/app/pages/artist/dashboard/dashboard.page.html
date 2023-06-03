@@ -18,61 +18,18 @@
       <ion-card-content>
         <ion-list>
           <ion-item>
-            Published Songs : {{information.published_song}}
+            Published Songs : {{data.publish_song}}
           </ion-item>
 
           <ion-item>
-            Albums : {{information.albums}}
+            Albums : {{data.album}}
           </ion-item>
 
           <ion-item>
-            Followers : {{information.followers}}
+            Song Request : {{data.song_request}}
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
-
-    <h2>Request Upload</h2>
-    <ion-list>
-      <ion-item *ngFor="let song of reqUpload">
-        <ion-row>
-          <ion-col size="auto">
-            <strong>{{song.title}}</strong>
-          </ion-col>
-          <ion-col size="auto">
-            <small>{{song.albumTitle}}</small>
-          </ion-col>
-          <ion-col size="auto">
-            <ion-text color="danger" *ngIf="song.status === 'Rejected'">
-              <small>{{song.status}}</small>
-            </ion-text>
-            <ion-text color="primary" *ngIf="song.status === 'Pending'">
-              <small>{{song.status}}</small>
-            </ion-text>
-            <ion-text color="success" *ngIf="song.status === 'Published'">
-              <small>{{song.status}}</small>
-            </ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-item>
-    </ion-list>
-
-    <h2>Popular Songs</h2>
-    <ion-list>
-      <ion-item *ngFor="let song of popularSong">
-        <ion-row>
-          <ion-col size="auto">
-            <strong>{{song.title}}</strong>
-          </ion-col>
-          <ion-col size="auto">
-            <small>{{song.likeCount}}</small>
-          </ion-col>
-          <ion-col size="auto">
-            <small>{{song.albumTitle}}</small>
-          </ion-col>
-        </ion-row>
-      </ion-item>
-    </ion-list>
-
   </ion-content>
 </div>

@@ -13,9 +13,13 @@
       <ion-icon [name]="selectedTab === 'artists' ? 'star-half': 'star-half-outline'"></ion-icon>
       <ion-label>Artists</ion-label>
     </ion-tab-button>
+    <ion-tab-button tab="admins">
+      <ion-icon [name]="selectedTab === 'admins' ? 'cog': 'cog-outline'"></ion-icon>
+      <ion-label>Admins</ion-label>
+    </ion-tab-button>
     <ion-tab-button tab="admin">
       <ion-icon [name]="selectedTab === 'admin' ? 'cog': 'cog-outline'"></ion-icon>
-      <ion-label>Admin</ion-label>
+      <ion-label>Setting</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 
