@@ -590,7 +590,7 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        $song = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->with('songs')->first();
+        $song = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->with('song')->first();
         if (!$song) {
             // create playlist
             $playlist = new Playlist();
