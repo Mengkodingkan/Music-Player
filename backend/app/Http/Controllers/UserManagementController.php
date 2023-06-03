@@ -12,13 +12,22 @@ class UserManagementController extends Controller
     {
         // get query role from url
         $query = $request->query('role');
-        $users = User::where('role', $query)->get();
-
-        return response()->json([
-            'message' => 'Get all users successful',
-            'statusCode' => 200,
-            'data' => $users,
-        ], 200);
+        $users = null;
+        if (!$query) {
+            $users = User::all();
+            return response()->json([
+                'message' => 'Get all users successful',
+                'statusCode' => 200,
+                'data' => $users,
+            ], 200);
+        } else {
+            $users = User::where('role', $query)->get();
+            return response()->json([
+                'message' => 'Get all users successful',
+                'statusCode' => 200,
+                'data' => $users,
+            ], 200);
+        }
     }
 
     public function get_user_by_id($id)
