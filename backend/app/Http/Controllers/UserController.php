@@ -21,13 +21,23 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        // get most listened song
-        $most_listened_song = view_song::select('song_id')
-            ->where('user_id', $user_id)
-            ->groupBy('song_id')
-            ->orderByRaw('COUNT(*) DESC')
-            ->limit(5)
-            ->get();
+        // // get most listened song
+        // $most_listened_song = view_song::select('song_id')
+        //     ->where('user_id', $user_id)
+        //     ->groupBy('song_id')
+        //     ->orderByRaw('COUNT(*) DESC')
+        //     ->limit(5)
+        //     ->get();
+
+        $most_listened_song = TRX_Playlist::all();
+        $most_listened_song->load(['playlist']);
+
+        // get most liked song
+        $arr = [];
+        //
+        foreach ($most_listened_song as $song) {
+            $arr[] = $song['song_id'];
+        }
 
         $popular_song = [];
         foreach ($most_listened_song as $song) {
@@ -788,8 +798,6 @@ class UserController extends Controller
         }
 
         try {
-
-
             $user->name = $request->name ?? $user->name;
             $user->email = $request->email ?? $user->email;
             $user->password = $request->password ?? $user->password;
