@@ -8,9 +8,9 @@ import {ApiArtistService} from "../../../services/api-artist.service";
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  information: any;
   reqUpload: SongModel[];
   popularSong: SongModel[];
+  data: any;
 
   constructor(
     private apiArtist: ApiArtistService
@@ -20,7 +20,7 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
     this.apiArtist.fetchDataDashboard();
-    this.apiArtist.dashboardInformation.subscribe(data => this.information = data);
+    this.apiArtist.data.subscribe(data => this.data = data);
     this.apiArtist.requestUpload.subscribe(reqUp => this.reqUpload = reqUp);
     this.apiArtist.popularSongs.subscribe(popSong => this.popularSong = popSong);
   }

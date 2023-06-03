@@ -31,4 +31,34 @@ export class AuthService {
       this._data.next(resData);
     });
   }
+
+  registerUser(name: string, email: string, password: string) {
+    return this.http.post(environment.ApiURL + '/register',
+      {
+        name: name,
+        email: email,
+        password: password,
+        birthday: '1999-01-01',
+        role: 'user'
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).subscribe()
+  }
+
+  registerArtist(name: string, email: string, password: string) {
+    return this.http.post(environment.ApiURL + '/register',
+      {
+        name: name,
+        email: email,
+        password: password,
+        birthday: '1999-01-01',
+        role: 'artist'
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).subscribe()
+  }
 }

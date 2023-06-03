@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {UserModel} from "../model/user.model";
 import {ArtistModel} from "../model/artist.model";
+import {SongModel} from "../model/song.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ApiAdminService {
   private _user = new BehaviorSubject<UserModel>(new UserModel());
   private _artists = new BehaviorSubject<ArtistModel[]>([]);
   private _artist = new BehaviorSubject<ArtistModel>(new ArtistModel());
+  private _pendingSongs = new BehaviorSubject<SongModel[]>([]);
 
   get data() {
     return this._data.asObservable();
@@ -33,6 +35,10 @@ export class ApiAdminService {
 
   get artist() {
     return this._artist.asObservable();
+  }
+
+  get pendingSongs() {
+    return this._pendingSongs.asObservable();
   }
 
   constructor(
@@ -60,14 +66,17 @@ export class ApiAdminService {
       .subscribe((resData: any) => {
         let users: UserModel[] = [];
         for (let user of resData.data) {
-          let userModel = new UserModel();
-          userModel.id = user.id;
-          userModel.email = user.email;
-          userModel.fullName = user.name;
-          userModel.registeredAt = new Date(user.created_at).toLocaleDateString();
-          users.push(userModel);
+          if (user.role === 'User') {
+            let userModel = new UserModel();
+            userModel.id = user.id;
+            userModel.email = user.email;
+            userModel.fullName = user.name;
+            userModel.registeredAt = new Date(user.created_at).toLocaleDateString();
+            users.push(userModel);
+          }
         }
         this._users.next(users);
+        console.log(resData)
       });
   }
 
@@ -137,7 +146,7 @@ export class ApiAdminService {
   }
 
   fetchAllArtists() {
-    return this.http.get(environment.ApiURL + '/admin/artists', {
+    return this.http.get(environment.ApiURL + '/admin/users', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
@@ -145,12 +154,14 @@ export class ApiAdminService {
       .subscribe((resData: any) => {
         let artists: ArtistModel[] = [];
         for (let artist of resData.data) {
-          let artistModel = new ArtistModel();
-          artistModel.id = artist.id;
-          artistModel.email = artist.email;
-          artistModel.fullName = artist.name;
-          artistModel.registeredAt = new Date(artist.created_at).toLocaleDateString();
-          artists.push(artistModel);
+          if (artist.role === "Artist") {
+            let userModel = new ArtistModel();
+            userModel.id = artist.id;
+            userModel.email = artist.email;
+            userModel.fullName = artist.name;
+            userModel.registeredAt = new Date(artist.created_at).toLocaleDateString();
+            artists.push(userModel);
+          }
         }
         this._artists.next(artists);
       });
@@ -199,13 +210,72 @@ export class ApiAdminService {
       bio: artist.bio,
     })
       .pipe(
-        switchMap(resData => {
-          console.log(resData);
+        switchMap(() => {
           return this.artists
         }),
         take(1),
         tap(artists => {
           this._artists.next(artists.map(a => a.id !== artist.id ? a : artist));
+        })
+      );
+  }
+
+  fetchAllAdmin() {
+    return this.http.get(environment.ApiURL + '/admin/users', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        let users: UserModel[] = [];
+        for (let user of resData.data) {
+          if (user.role === 'Admin') {
+            let userModel = new UserModel();
+            userModel.id = user.id;
+            userModel.email = user.email;
+            userModel.fullName = user.name;
+            userModel.registeredAt = new Date(user.created_at).toLocaleDateString();
+            users.push(userModel);
+          }
+        }
+        this._users.next(users);
+      });
+  }
+
+  fetchPendingSongs() {
+    return this.http.get(environment.ApiURL + '/admin/songs?status=pending', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        let songs: SongModel[] = [];
+        for (let song of resData.data) {
+          let songModel = new SongModel();
+          songModel.id = song.id;
+          songModel.title = song.title;
+          songModel.artistName = song.artist.name;
+          songModel.status = song.status;
+          songModel.albumTitle = song.album.title;
+          songs.push(songModel);
+        }
+        this._pendingSongs.next(songs);
+      });
+  }
+
+  songApprovals(songId: string, status: string) {
+    return this.http.put(environment.ApiURL + `/admin/songs/${status}/${songId}`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .pipe(
+        switchMap(() => {
+          return this.pendingSongs
+        }),
+        take(1),
+        tap(songs => {
+          this._pendingSongs.next(songs.filter(song => song.id !== songId));
         })
       );
   }

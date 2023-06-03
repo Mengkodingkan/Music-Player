@@ -1,20 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { ArtistRegisterPageRoutingModule } from './artist-register-routing.module';
+import {ArtistRegisterPageRoutingModule} from './artist-register-routing.module';
 
-import { ArtistRegisterPage } from './artist-register.page';
+import {ArtistRegisterPage} from './artist-register.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ArtistRegisterPageRoutingModule
+    ArtistRegisterPageRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [ArtistRegisterPage]
 })
-export class ArtistRegisterPageModule {}
+export class ArtistRegisterPageModule {
+}
