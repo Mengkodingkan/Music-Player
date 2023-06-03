@@ -8,15 +8,21 @@ use Illuminate\Support\Facades\Validator;
 
 class UserManagementController extends Controller
 {
-    public function get_all_users() {
+    public function get_all_users(Request $request)
+    {
+        // get query role from url
+        $query = $request->query('role');
+        $users = User::where('role', $query)->get();
+
         return response()->json([
             'message' => 'Get all users successful',
             'statusCode' => 200,
-            'data' => User::all(),
+            'data' => $users,
         ], 200);
     }
 
-    public function get_user_by_id($id) {
+    public function get_user_by_id($id)
+    {
         $user = User::find($id);
         if (!$user) {
             return response()->json([
@@ -32,7 +38,8 @@ class UserManagementController extends Controller
         ], 200);
     }
 
-    public function create_user(Request $request) {
+    public function create_user(Request $request)
+    {
         $data = $request->all();
         $v = Validator::make($data, [
             'name' => 'required|string',
@@ -66,7 +73,8 @@ class UserManagementController extends Controller
         ], 201);
     }
 
-    public function update_user(Request $request, $id) {
+    public function update_user(Request $request, $id)
+    {
         $user = User::find($id);
         if (!$user) {
             return response()->json([
@@ -108,7 +116,8 @@ class UserManagementController extends Controller
         ], 200);
     }
 
-    public function delete_user(Request $request, $id) {
+    public function delete_user(Request $request, $id)
+    {
         $user = User::find($id);
         if (!$user) {
             return response()->json([
