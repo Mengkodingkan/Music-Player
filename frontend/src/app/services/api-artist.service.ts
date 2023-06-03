@@ -57,7 +57,11 @@ export class ApiArtistService {
   }
 
   fetchDataDashboard() {
-    return this.http.get(environment.ApiURL + '', {})
+    return this.http.get(environment.ApiURL + '/artist/dashboard', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let reqSongs: SongModel[] = [];
         let popSongs: SongModel[] = [];

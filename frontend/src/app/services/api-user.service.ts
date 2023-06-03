@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, switchMap, take, tap} from "rxjs";
 import {SongModel} from "../model/song.model";
 import {ArtistModel} from "../model/artist.model";
 import {environment} from "../../environments/environment";
@@ -49,39 +49,33 @@ export class ApiUserService {
     })
       .subscribe((resData: any) => {
         const songs: SongModel[] = [];
-        const artists: ArtistModel[] = [];
-        for (let i of resData.data.playlist) {
-          if (i.tracks) {
-            for (let song of i.tracks) {
-              let songModel = new SongModel();
-              songModel.id = song.id;
-              songModel.title = song.title;
-              songModel.url = song.song_url;
-              songModel.albumId = song.id;
-              songModel.likeCount = Math.floor(Math.random() * 1000) + 1;
-              songModel.albumImage = song.image;
-              songModel.artistId = song.artist.artist_id;
-              songModel.artistName = song.artist.name;
-              songs.push(songModel);
-              let artistModel = new ArtistModel();
-              artistModel.id = song.artist.id;
-              artistModel.image = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-              artistModel.fullName = song.artist.name;
-              artists.push(artistModel);
-            }
-          }
+        for (let song of resData.data.popular_song) {
+          let songModel = new SongModel();
+          songModel.id = song.s_id;
+          songModel.title = song.title;
+          songModel.url = ` https://music.mengkodingkan.dev/audio/${song.audio}`;
+          // songModel.url = this.songPath(song.s_id);
+          songModel.likeCount = Math.floor(Math.random() * 1000) + 1;
+          songModel.albumImage = song.image;
+          songModel.artistId = song.artist.id;
+          songModel.artistName = song.artist.name;
+          songs.push(songModel);
         }
-        console.log(songs);
         this._songs.next(songs);
-        this._artists.next(artists);
+
+        console.log(resData)
       });
   }
 
   fetchPlaylist() {
-    return this.http.get(environment.ApiURL + '/playlist/-NW0FapfrXvvrISwBDFc.json', {})
+    return this.http.get(environment.ApiURL + '/liked-songs', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         const songs = [];
-        for (let song of resData.data.songs) {
+        for (let song of resData.data.tracks) {
           const songModel = new SongModel();
           songModel.id = song.song_id;
           songModel.title = song.song_title;
@@ -147,4 +141,32 @@ export class ApiUserService {
         this._albums.next(albums);
       });
   }
+
+  favoriteSong(songId: any, are: any) {
+    return this.http.post(environment.ApiURL + `/${are}/${songId}`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    }).pipe(
+      switchMap(() => {
+        return this.songs;
+      }),
+      take(1),
+      tap(songs => {
+        this._songs.next(songs.filter(song => song.id !== songId));
+      })
+    );
+  }
+
+  // songPath(songId: any) {
+  //   return this.http.get(environment.ApiURL + `/play/${songId}`, {
+  //     headers: {
+  //       'Authorization': 'Bearer ' + localStorage.getItem('token'),
+  //       'Content-Type': '/audio'
+  //     }
+  //   })
+  //     .subscribe((resData: any) => {
+  //       console.log(resData);
+  //     });
+  // }
 }

@@ -1,7 +1,7 @@
 export class SongModel {
   private _id: any;
   private _title: string;
-  private _url: string;
+  private _url: any;
   private _likeCount: number;
   private _releaseDate: string;
   private _duration: number;
@@ -31,15 +31,13 @@ export class SongModel {
     this._title = value;
   }
 
-
-  get url(): string {
+  get url(): any {
     return this._url;
   }
 
-  set url(value: string) {
+  set url(value: any) {
     this._url = value;
   }
-
 
   get likeCount(): number {
     return this._likeCount;

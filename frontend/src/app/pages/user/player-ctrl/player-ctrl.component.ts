@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HowlerJsService} from "../../../services/howler-js.service";
 import {SongModel} from "../../../model/song.model";
+import {ApiUserService} from "../../../services/api-user.service";
 
 @Component({
   selector: 'app-player-ctrl',
@@ -16,8 +17,8 @@ export class PlayerCtrlComponent implements OnInit {
 
   constructor(
     private howler: HowlerJsService,
+    private apiUser: ApiUserService
   ) {
-
   }
 
   ngOnInit() {
@@ -51,4 +52,7 @@ export class PlayerCtrlComponent implements OnInit {
     this.howler.previous();
   }
 
+  onLike() {
+    this.apiUser.favoriteSong(this.activeSong.id, 'like');
+  }
 }
