@@ -52,6 +52,7 @@ Route::middleware('api.user')->group(function () {
         Route::get('/following', 'App\Http\Controllers\UserController@get_following_artist');
         Route::post('/follow/{id}', 'App\Http\Controllers\UserController@follow');
         Route::post('/unfollow/{id}', 'App\Http\Controllers\UserController@unfollow');
+        Route::post('/', 'App\Http\Controllers\UserController@update_user');
     });
 
     Route::get('/albums', 'App\Http\Controllers\UserController@get_all_albums');

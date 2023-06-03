@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Artist;
 use App\Models\Genre;
 use App\Models\Song;
+use App\Models\TRX_Playlist;
 use Carbon\Carbon;
 use DateTime;
 use Exception;
@@ -356,6 +357,12 @@ class ArtistController extends Controller
 
         $songs = $artist->songs()->get();
         $songs->load('album', 'genre', 'artist');
+
+        // get like count from Liked Songs Playlist
+        foreach ($songs as $song) {
+            $playlist  = TRX_Playlist::where('song_id', $song['id'])->count();
+            $song['like_count'] = $playlist;
+        }
 
         return response()->json([
             'message' => 'Get all songs successful',

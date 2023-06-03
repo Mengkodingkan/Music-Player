@@ -21,13 +21,23 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        // get most listened song
-        $most_listened_song = view_song::select('song_id')
-            ->where('user_id', $user_id)
-            ->groupBy('song_id')
-            ->orderByRaw('COUNT(*) DESC')
-            ->limit(5)
-            ->get();
+        // // get most listened song
+        // $most_listened_song = view_song::select('song_id')
+        //     ->where('user_id', $user_id)
+        //     ->groupBy('song_id')
+        //     ->orderByRaw('COUNT(*) DESC')
+        //     ->limit(5)
+        //     ->get();
+
+        $most_listened_song = TRX_Playlist::all();
+        $most_listened_song->load(['playlist']);
+
+        // get most liked song
+        $arr = [];
+        //
+        foreach ($most_listened_song as $song) {
+            $arr[] = $song['song_id'];
+        }
 
         $popular_song = [];
         foreach ($most_listened_song as $song) {
@@ -590,7 +600,8 @@ class UserController extends Controller
         $user = $request['userauth'];
         $user_id = $user['id'];
 
-        $song = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->with('song')->first();
+        // get playlist liked songs
+        $song = Playlist::where('user_id', $user_id)->where('name', 'Liked Songs')->first();
         if (!$song) {
             // create playlist
             $playlist = new Playlist();
@@ -609,8 +620,12 @@ class UserController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
+        $song->load('user', 'tracks');
 
-        $song->load('user', 'tracks.song');
+        foreach ($song['tracks'] as $track) {
+            $album = Album::find($track['album_id']);
+            $track['image'] = url('images/album/' . $album['image']);
+        }
 
         return response()->json([
             'message' => 'Get liked song successful',
@@ -751,5 +766,67 @@ class UserController extends Controller
             'statusCode' => 200,
             'data' => $album,
         ], 200);
+    }
+
+    public function update_user(Request $request)
+    {
+        $user = $request['userauth'];
+        $user_id = $user['id'];
+
+        $v = Validator::make($request->all(), [
+            'name' => 'string',
+            'email' => 'email',
+            'password' => 'string',
+            'birthday' => 'date',
+            'image' => 'image|mimes:jpeg,png,jpg',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json([
+                'message' => 'Invalid input',
+                'statusCode' => 400,
+                'errors' => join(', ', $v->errors()->all()),
+            ], 400);
+        }
+
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+                'statusCode' => 404,
+            ], 404);
+        }
+
+        try {
+            $user->name = $request->name ?? $user->name;
+            $user->email = $request->email ?? $user->email;
+            $user->password = $request->password ?? $user->password;
+            $user->birthday = $request->birthday ?? $user->birthday;
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $image_name = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/user'), $image_name);
+
+                // delete old image
+                if (file_exists(public_path('images/user/' . $user->image))) unlink(public_path('images/user/' . $user->image));
+
+                $user->image = $image_name;
+            }
+
+            $user->save();
+
+            return response()->json([
+                'message' => 'Update user successful',
+                'statusCode' => 200,
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Update user failed',
+                'statusCode' => 500,
+                'errors' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
