@@ -43,7 +43,7 @@ export class RequestSongComponent implements OnInit {
   onRequestSong() {
     this.fileName = this.form.value.audio.replace(/^.*[\\\/]/, '');
     this.howl = new Howl({
-      src: ['assets/songs/' + this.fileName]
+      src: [this.fileName]
     } as any);
 
     this.loadingCtrl.create({
@@ -57,13 +57,9 @@ export class RequestSongComponent implements OnInit {
         let songModel = new SongModel();
         songModel.title = this.form.value.title;
         songModel.url = this.fileName;
-        songModel.albumId = this.album.id;
-        songModel.duration = Math.ceil(this.howl.duration());
-        songModel.albumTitle = this.album.title;
-        songModel.likeCount = 0;
-        songModel.releaseDate = "2020-01-01";
+        // songModel.duration = Math.ceil(this.howl.duration());
+        // songModel.albumTitle = this.album.title;
         songModel.albumImage = this.album.image;
-        songModel.status = 'pending';
 
         this.apiArtist.createSong(this.album.id, songModel).subscribe();
 

@@ -10,7 +10,7 @@ import {ApiUserService} from "../../../services/api-user.service";
   styleUrls: ['./playlist.page.scss'],
 })
 export class PlaylistPage implements OnInit {
-  songs: SongModel[];
+  likeSongs: SongModel[];
   alertMessage: any;
   currentSong: SongModel;
 
@@ -25,7 +25,13 @@ export class PlaylistPage implements OnInit {
   ngOnInit() {
     this.apiUser.fetchPlaylist();
     this.howler.activeSong.subscribe(song => this.currentSong = song);
-    this.apiUser.songs.subscribe(songs => this.songs = songs);
+    this.apiUser.likeSongs.subscribe(songs => this.likeSongs = songs);
+  }
+
+  ionViewWillEnter() {
+    this.apiUser.fetchPlaylist();
+    this.howler.activeSong.subscribe(song => this.currentSong = song);
+    this.apiUser.likeSongs.subscribe(songs => this.likeSongs = songs);
   }
 
   async onDelete(song: any, itemSliding: IonItemSliding) {
@@ -44,12 +50,12 @@ export class PlaylistPage implements OnInit {
           },
         },
         {
-          text: 'Oke gann',
+          text: 'Yes',
           role: 'confirm',
           cssClass: 'delete',
           handler: () => {
             this.alertMessage = 'Song removed!';
-            // this.playlistService.deleteSong(song.song_id);
+            this.apiUser.favoriteSong(song.id, 'unlike').subscribe();
             itemSliding.close();
             this.toastCtrl.create({
               message: this.alertMessage,

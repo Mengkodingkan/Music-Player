@@ -44,6 +44,10 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: 'request-songs',
+    loadChildren: () => import('./request-songs/request-songs.module').then(m => m.RequestSongsPageModule)
   }
 
 ];
