@@ -36,6 +36,18 @@ class ArtistAuth
             }
 
             // check if artist exists
+            // if path include artist/register, then skip this check
+            if (strpos($request->path(), 'artist/register') !== false) {
+                $request->request->add([
+                    'userauth' => [
+                        'id' => $decoded->id,
+                        'name' => $decoded->name,
+                        'role' => $decoded->role,
+                    ]
+                ]);
+                return $next($request);
+            }
+
             $artist = Artist::where('user_id', $decoded->id)->first();
             if (!$artist) {
                 return response()->json([
