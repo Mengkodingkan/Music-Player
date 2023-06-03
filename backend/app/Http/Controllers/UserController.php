@@ -610,8 +610,12 @@ class UserController extends Controller
                 'statusCode' => 404,
             ], 404);
         }
-
         $song->load('user', 'tracks');
+
+        foreach ($song['tracks'] as $track) {
+            $album = Album::find($track['album_id']);
+            $track['image'] = url('images/album/' . $album['image']);
+        }
 
         return response()->json([
             'message' => 'Get liked song successful',
