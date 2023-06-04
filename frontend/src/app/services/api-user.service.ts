@@ -93,7 +93,7 @@ export class ApiUserService {
           songModel.title = song.title;
           songModel.url = `https://music.mengkodingkan.dev/audio/${song.audio}`;
           songModel.likeCount = Math.floor(Math.random() * 1000) + 1;
-          songModel.albumImage = song.image;
+          songModel.albumImage = !!song.image ? 'https://firebasestorage.googleapis.com/v0/b/music-player-b39d4.appspot.com/o/cameraman.jpg?alt=media&token=817afcb7-af61-40c5-bf2f-bce950b9e2f7&_gl=1*16ter7y*_ga*Njc1OTQ3NjI2LjE2ODQ1MTM2NTY.*_ga_CW55HF8NVT*MTY4NTg1MTM5NC4xOC4xLjE2ODU4NTE0MDYuMC4wLjA.' : song.image;
           songModel.artistId = song.artist.id;
           songModel.artistName = song.artist.name;
           songs.push(songModel);
