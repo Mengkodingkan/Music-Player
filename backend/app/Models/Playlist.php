@@ -4,43 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Playlist extends Model
 {
     use HasFactory;
 
-    protected $table = 'playlist';
+    protected $table = 'playlists';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name',
-        'description',
-        'thumbnail',
-        'playlist_status',
+        'playlist_name',
         'user_id',
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
-
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function song()
+    public function transactionPlaylist(): HasMany
     {
-        return $this->belongsToMany(Song::class, 'trx_playlist', 'playlist_id', 'song_id');
-    }
-
-    public function tracks()
-    {
-        return $this->hasManyThrough(Song::class, TRX_Playlist::class, 'playlist_id', 'id', 'id', 'song_id');
+        return $this->hasMany(TransactionPlaylist::class, 'playlist_id', 'id');
     }
 }

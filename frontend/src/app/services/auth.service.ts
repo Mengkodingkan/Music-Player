@@ -49,10 +49,9 @@ export class AuthService {
   registerUser(name: string, email: string, password: string) {
     return this.http.post(environment.ApiURL + '/register',
       {
-        name: name,
+        fullName: name,
         email: email,
         password: password,
-        birthday: '1999-01-01',
         role: 'user'
       }, {
         headers: {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -21,10 +22,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
-        'birthday',
-        'status',
-        'last_login',
     ];
 
     /**
@@ -34,48 +31,15 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * Get the user's role.
-     *
-     * @return string
-     */
-
-    public function getRoleAttribute($value)
+    public function setPasswordAttribute($password): void
     {
-        return ucfirst($value);
+        $this->attributes['password'] = bcrypt($password);
     }
 
-    public function setPasswordAttribute($value)
+    public function playlist(): HasMany
     {
-        $this->attributes['password'] = bcrypt($value);
+        return $this->hasMany(Playlist::class, 'user_id', 'id');
     }
-
-    public function song()
-    {
-        return $this->hasMany(Song::class, 'user_id');
-    }
-
-    public function playlist()
-    {
-        return $this->hasMany(Playlist::class, 'user_id');
-    }
-
-    public function trx_playlist()
-    {
-        return $this->hasMany(TRX_Playlist::class, 'user_id');
-    }
-
-
 }

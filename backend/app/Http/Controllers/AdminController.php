@@ -2,28 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Artist;
+use App\Http\Controllers\Controller;
 use App\Models\Song;
-use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function get_dashboard(Request $request)
+    public function approve($songId): JsonResponse
     {
-        $song_request = Song::where('status', 'pending')->count();
-        $user_count = User::count();
-        $artist = Artist::count();
-
-
+        $song = Song::where('id', $songId)->update([
+            'status' => 'published'
+        ]);
         return response()->json([
-            'message' => 'Get dashboard successful',
-            'statusCode' => 200,
-            'data' => [
-                'song_request' => $song_request,
-                'user_count' => $user_count,
-                'artist' => $artist,
-            ]
-        ], 200);
+            'message' => 'Successfully approved song',
+            'data' => $song
+        ], 201);
+    }
+
+    public function reject($songId): JsonResponse
+    {
+        $song = Song::where('id', $songId)->update([
+            'status' => 'rejected'
+        ]);
+        return response()->json([
+            'message' => 'Successfully rejected song',
+            'data' => $song
+        ], 201);
     }
 }

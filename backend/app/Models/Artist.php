@@ -4,49 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 class Artist extends Model
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
-    protected $table = 'artist';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'artists';
+
     protected $fillable = [
         'name',
         'email',
-        'instagram',
-        'facebook',
-        'twitter',
-        'website',
-        'image',
-        'about',
+        'password',
     ];
 
-    /**
-     * Get the albums for the artist.
-     */
-    public function albums()
+    protected $hidden = [
+        'password',
+    ];
+
+    public function setPasswordAttribute($password): void
     {
-        return $this->hasMany(Album::class);
+        $this->attributes['password'] = bcrypt($password);
     }
 
-    /**
-     * Get the songs for the artist.
-     */
-    public function songs()
+    public function album(): HasMany
     {
-        return $this->hasMany(Song::class);
-    }
-
-    /**
-     * Get the user who follows the artist.
-     */
-    public function followers()
-    {
-        return $this->hasManyThrough(User::class, Followed::class, 'artist_id', 'id', 'id', 'user_id');
+        return $this->hasMany(Album::class, 'artist_id', 'id');
     }
 }

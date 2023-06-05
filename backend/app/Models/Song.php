@@ -4,52 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Song extends Model
 {
     use HasFactory;
 
-    protected $table = 'song';
+    protected $table = 'songs';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'title',
-        's_id',
-        'image',
-        'audio',
+        'audio_path',
         'duration',
-        'release_date',
         'status',
-        'genre_id',
         'album_id',
-        'artist_id'
     ];
 
-    /**
-     * Get the genre that owns the song.
-     */
-    public function genre()
+    public function album(): BelongsTo
     {
-        return $this->belongsTo(Genre::class);
+        return $this->belongsTo(Album::class, 'album_id', 'id');
     }
 
-    /**
-     * Get the album that owns the song.
-     */
-    public function album()
+    public function transactionPlaylist(): HasMany
     {
-        return $this->belongsTo(Album::class);
-    }
-
-    /**
-     * Get the artist that owns the song.
-     */
-    public function artist()
-    {
-        return $this->belongsTo(Artist::class);
+        return $this->hasMany(TransactionPlaylist::class, 'song_id', 'id');
     }
 }
