@@ -23,15 +23,14 @@ export class HomePage implements OnInit {
     private howler: HowlService,
     private apiUser: ApiUserService
   ) {
-
   }
 
   ngOnInit() {
     this.apiUser.fetchHome();
 
     this.howler.activeSong.subscribe(activeSong => this.activeSong = activeSong);
-    this.apiUser.songs.subscribe(songs => this.songs = songs);
     this.apiUser.artists.subscribe(artists => this.artists = artists);
+    this.apiUser.songs.subscribe(songs => this.songs = songs);
   }
 
   onAddToQueue(song: SongModel) {

@@ -14,6 +14,7 @@ export class PlayerCtrlComponent implements OnInit {
   progressBar: number;
   start: number;
   end: number;
+  isLiked: boolean;
 
   constructor(
     private howler: HowlService,
@@ -24,9 +25,12 @@ export class PlayerCtrlComponent implements OnInit {
   ngOnInit() {
     this.howler.activeSong.subscribe(activeSong => this.activeSong = activeSong);
     this.howler.progressBar.subscribe(progressBar => this.progressBar = progressBar);
-    this.howler.isPause.subscribe(isPlaying => this.isPlaying = isPlaying);
+    this.howler.isPlaying.subscribe(isPlaying => this.isPlaying = isPlaying);
     this.howler.start.subscribe(start => this.start = start);
     this.howler.end.subscribe(end => this.end = end);
+    this.howler.isLiked.subscribe(isLike => this.isLiked = isLike);
+
+    this.isLiked = this.activeSong?.isLike;
   }
 
   durationHelper(second: any) {
@@ -52,7 +56,8 @@ export class PlayerCtrlComponent implements OnInit {
     this.howler.previous();
   }
 
-  onLike() {
-    this.apiUser.favoriteSong(this.activeSong.id, 'like').subscribe();
+  onLikeToggle(are: string) {
+    this.apiUser.favoriteSong(this.activeSong.id, are).subscribe();
+    this.isLiked = !this.isLiked;
   }
 }

@@ -96,6 +96,7 @@ export class ApiUserService {
           songModel.albumImage = song.album.image;
           songModel.artistId = song.artist.id;
           songModel.artistName = song.artist.fullName;
+          songModel.isLike = song.isLike;
           songs.push(songModel);
         }
         this._songs.next(songs);
@@ -120,7 +121,7 @@ export class ApiUserService {
           songModel.albumImage = song.album.image;
           songModel.artistId = song.artist.id;
           songModel.artistName = song.artist.fullName;
-          songModel.playlistId = song.playlist.id;
+          songModel.isLike = song.isLike;
           songs.push(songModel);
         }
         this._likeSongs.next(songs);
@@ -143,7 +144,7 @@ export class ApiUserService {
           songModel.title = song.song_title;
           songModel.url = song.song_url;
           songModel.releaseDate = song.release_date;
-          songModel.playlistId = song.playlist.id;
+          songModel.isLike = song.isLike;
           songModel.userId = song.playlist.user_id;
           songs.push(songModel);
         }
@@ -192,4 +193,38 @@ export class ApiUserService {
     );
   }
 
+  fetchSearch(query: string) {
+    return this.http.get(environment.ApiURL + `/user/search?q=${query}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        const songs = [];
+        const artists = [];
+        for (let song of resData.data.songs) {
+          const songModel = new SongModel();
+          songModel.id = song.id;
+          songModel.title = song.title;
+          songModel.url = song.audioUrl;
+          songModel.albumId = song.album.id;
+          songModel.likeCount = song.likes;
+          songModel.albumImage = song.album.image;
+          songModel.artistId = song.artist.id;
+          songModel.artistName = song.artist.fullName;
+          songModel.isLike = song.isLike;
+          songs.push(songModel);
+        }
+        for (let artist of resData.data.artists) {
+          const artistModel = new ArtistModel();
+          artistModel.id = artist.id;
+          artistModel.fullName = artist.full_name;
+          artistModel.image = artist.image;
+          artistModel.bio = artist.bio;
+          artists.push(artistModel);
+        }
+        this._songs.next(songs);
+        this._artists.next(artists);
+      });
+  }
 }

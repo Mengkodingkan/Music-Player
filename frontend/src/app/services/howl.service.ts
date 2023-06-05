@@ -8,10 +8,11 @@ import {SongModel} from "../model/song.model";
 })
 export class HowlService {
   private _activeSong = new BehaviorSubject<any>(null);
-  private _defaultIsPause = new BehaviorSubject<boolean>(false);
+  private _isPlaying = new BehaviorSubject<boolean>(false);
   private _progressBar = new BehaviorSubject<number>(0);
   private _start = new BehaviorSubject<number>(0);
   private _end = new BehaviorSubject<number>(0);
+  private _isLiked = new BehaviorSubject<boolean>(false);
 
   private progressInterval: any;
   private howlPlayer: any = null;
@@ -22,8 +23,8 @@ export class HowlService {
     return this._activeSong.asObservable();
   }
 
-  get isPause() {
-    return this._defaultIsPause.asObservable();
+  get isPlaying() {
+    return this._isPlaying.asObservable();
   }
 
   get progressBar() {
@@ -36,6 +37,10 @@ export class HowlService {
 
   get end() {
     return this._end.asObservable();
+  }
+
+  get isLiked() {
+    return this._isLiked.asObservable();
   }
 
   setCurrentIndex(index: number) {
@@ -52,18 +57,19 @@ export class HowlService {
     } else {
       this.howlPlayer?.stop();
     }
+    this._isLiked.next(song.isLike);
     this.howlPlayer = new Howl({
       src: [this.tracks[this.currentIndex].url],
       html5: true,
       onplay: () => {
-        this._defaultIsPause.next(false);
+        this._isPlaying.next(false);
         this._activeSong.next(song);
         this._end.next(Math.round(this.howlPlayer.duration()));
         this._start.next(Math.round(this.howlPlayer.seek()));
         this.startProgressInterval();
       },
       onend: () => {
-        this._defaultIsPause.next(true);
+        this._isPlaying.next(true);
         this.stopProgressInterval();
       }
     });
@@ -72,7 +78,7 @@ export class HowlService {
   }
 
   togglePlayer(pause: boolean) {
-    this._defaultIsPause.next(!pause);
+    this._isPlaying.next(!pause);
     if (pause) {
       this.howlPlayer.pause();
     } else {
@@ -85,11 +91,11 @@ export class HowlService {
     if (this.currentIndex >= this.tracks.length) {
       this.currentIndex = 0;
     }
-    console.log(this.currentIndex)
     this.playSong(this.tracks[this.currentIndex]);
   }
 
   previous() {
+    console.log(this.tracks);
     this.currentIndex--;
     if (this.currentIndex < 0) {
       this.currentIndex = this.tracks.length - 1;

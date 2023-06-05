@@ -8,11 +8,11 @@ export class SongModel {
   private _userId: any;
   private _albumId: any;
   private _artistId: any;
-  private _playlistId: any;
   private _status: string;
   private _albumImage: string;
   private _albumTitle: string;
   private _artistName: string;
+  private _isLike: boolean;
 
   get id(): any {
     return this._id;
@@ -83,16 +83,6 @@ export class SongModel {
     this._artistId = value;
   }
 
-
-  get playlistId(): any {
-    return this._playlistId;
-  }
-
-  set playlistId(value: any) {
-    this._playlistId = value;
-  }
-
-
   get userId(): any {
     return this._userId;
   }
@@ -135,5 +125,14 @@ export class SongModel {
 
   set duration(value: number) {
     this._duration = value;
+  }
+
+
+  get isLike(): boolean {
+    return this._isLike;
+  }
+
+  set isLike(value: boolean) {
+    this._isLike = value;
   }
 }

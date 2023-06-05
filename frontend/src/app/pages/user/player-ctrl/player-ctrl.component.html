@@ -20,7 +20,11 @@
 
           <ion-row class="ion-text-center ion-justify-content-end">
             <ion-col class="ion-no-padding" size="4">
-              <ion-button class="ion-no-padding" fill="clear" (click)="onLike()">
+              <ion-button class="ion-no-padding" fill="clear" *ngIf="isLiked"
+                          (click)="onLikeToggle('unlike')">
+                <ion-icon name="heart" size="large"></ion-icon>
+              </ion-button>
+              <ion-button class="ion-no-padding" fill="clear" *ngIf="!isLiked" (click)="onLikeToggle('like')">
                 <ion-icon name="heart-outline" size="large"></ion-icon>
               </ion-button>
             </ion-col>
