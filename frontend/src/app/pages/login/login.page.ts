@@ -54,17 +54,7 @@ export class LoginPage implements OnInit {
         this.isLoading = false;
         loadingEl.dismiss();
 
-        switch (this.data.role) {
-          case 'user':
-            this.router.navigateByUrl('/user/tabs/home');
-            break;
-          case 'artist':
-            this.router.navigateByUrl('/artist/tabs/dashboard');
-            break;
-          case 'admin':
-            this.router.navigateByUrl('/admin/tabs/dashboard');
-            break;
-        }
+        this.data.role == 'user' ? this.router.navigateByUrl('/user/tabs/home') : this.router.navigateByUrl('/admin/tabs/dashboard');
 
         if (this.data.statusCode != 200) {
 
@@ -78,8 +68,8 @@ export class LoginPage implements OnInit {
           return;
         }
         localStorage.setItem('token', this.data.token);
-        localStorage.setItem('id', this.data.id);
-        localStorage.setItem('role', this.data.role);
+        localStorage.setItem('id', this.data.data.userId);
+        localStorage.setItem('role', this.data.data.role);
         this.form.reset()
       }, 1500);
     });

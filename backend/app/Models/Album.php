@@ -4,47 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Album extends Model
 {
     use HasFactory;
 
-    protected $table = 'album';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'albums';
+
     protected $fillable = [
         'title',
         'image',
-        'category',
-        'release_date',
         'artist_id',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
-
-
-    /**
-     * Get the user that owns the album.
-     */
-    public function artist()
+    public function artist(): BelongsTo
     {
-        return $this->belongsTo(Artist::class);
+        return $this->belongsTo(Artist::class, 'artist_id', 'id');
     }
 
-    /**
-     * Get the songs for the album.
-     */
-    public function songs()
+    public function songs(): HasMany
     {
-        return $this->hasMany(Song::class);
+        return $this->hasMany(Song::class, 'album_id', 'id');
     }
 }

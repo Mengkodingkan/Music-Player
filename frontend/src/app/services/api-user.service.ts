@@ -80,22 +80,23 @@ export class ApiUserService {
   }
 
   fetchHome() {
-    return this.http.get(environment.ApiURL + '/discovery', {
+    return this.http.get(environment.ApiURL + '/user/home', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
     })
       .subscribe((resData: any) => {
         const songs: SongModel[] = [];
-        for (let song of resData.data.popular_song) {
+        for (let song of resData.data) {
           let songModel = new SongModel();
           songModel.id = song.id;
           songModel.title = song.title;
-          songModel.url = `https://music.mengkodingkan.dev/audio/${song.audio}`;
-          songModel.likeCount = Math.floor(Math.random() * 1000) + 1;
-          songModel.albumImage = !!song.image ? 'https://firebasestorage.googleapis.com/v0/b/music-player-b39d4.appspot.com/o/cameraman.jpg?alt=media&token=817afcb7-af61-40c5-bf2f-bce950b9e2f7&_gl=1*16ter7y*_ga*Njc1OTQ3NjI2LjE2ODQ1MTM2NTY.*_ga_CW55HF8NVT*MTY4NTg1MTM5NC4xOC4xLjE2ODU4NTE0MDYuMC4wLjA.' : song.image;
+          songModel.url = song.audioUrl;
+          songModel.likeCount = song.likes;
+          songModel.albumImage = song.album.image;
           songModel.artistId = song.artist.id;
-          songModel.artistName = song.artist.name;
+          songModel.artistName = song.artist.fullName;
+          songModel.isLike = song.isLike;
           songs.push(songModel);
         }
         this._songs.next(songs);
@@ -103,25 +104,24 @@ export class ApiUserService {
   }
 
   fetchPlaylist() {
-    return this.http.get(environment.ApiURL + '/liked-songs', {
+    return this.http.get(environment.ApiURL + '/user/songs/like', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
     })
       .subscribe((resData: any) => {
         const songs = [];
-        for (let song of resData.data.tracks) {
+        for (let song of resData.data) {
           const songModel = new SongModel();
           songModel.id = song.id;
           songModel.title = song.title;
-          songModel.url = `https://music.mengkodingkan.dev/audio/${song.audio}`;
-          songModel.albumId = song.album_id;
-          songModel.likeCount = song.like_count;
-          songModel.albumImage = song.image;
-          // songModel.artistId = song.artist.artist_id;
-          // songModel.artistName = song.artist.artist_name;
-          // songModel.playlistId = song.playlist.id;
-          // songModel.userId = song.playlist.user_id;
+          songModel.url = song.audioUrl;
+          songModel.albumId = song.album.id;
+          songModel.likeCount = song.likes;
+          songModel.albumImage = song.album.image;
+          songModel.artistId = song.artist.id;
+          songModel.artistName = song.artist.fullName;
+          songModel.isLike = song.isLike;
           songs.push(songModel);
         }
         this._likeSongs.next(songs);
@@ -144,7 +144,7 @@ export class ApiUserService {
           songModel.title = song.song_title;
           songModel.url = song.song_url;
           songModel.releaseDate = song.release_date;
-          songModel.playlistId = song.playlist.id;
+          songModel.isLike = song.isLike;
           songModel.userId = song.playlist.user_id;
           songs.push(songModel);
         }
@@ -178,7 +178,7 @@ export class ApiUserService {
   }
 
   favoriteSong(songId: any, are: any) {
-    return this.http.post(environment.ApiURL + `/${are}/${songId}`, {}, {
+    return this.http.post(environment.ApiURL + `/user/${are}/${songId}`, {}, {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
@@ -193,4 +193,38 @@ export class ApiUserService {
     );
   }
 
+  fetchSearch(query: string) {
+    return this.http.get(environment.ApiURL + `/user/search?q=${query}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        const songs = [];
+        const artists = [];
+        for (let song of resData.data.songs) {
+          const songModel = new SongModel();
+          songModel.id = song.id;
+          songModel.title = song.title;
+          songModel.url = song.audioUrl;
+          songModel.albumId = song.album.id;
+          songModel.likeCount = song.likes;
+          songModel.albumImage = song.album.image;
+          songModel.artistId = song.artist.id;
+          songModel.artistName = song.artist.fullName;
+          songModel.isLike = song.isLike;
+          songs.push(songModel);
+        }
+        for (let artist of resData.data.artists) {
+          const artistModel = new ArtistModel();
+          artistModel.id = artist.id;
+          artistModel.fullName = artist.full_name;
+          artistModel.image = artist.image;
+          artistModel.bio = artist.bio;
+          artists.push(artistModel);
+        }
+        this._songs.next(songs);
+        this._artists.next(artists);
+      });
+  }
 }

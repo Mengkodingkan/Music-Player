@@ -16,7 +16,9 @@ export class RequestSongComponent implements OnInit {
 
   form: FormGroup;
   howl: Howl;
-  fileName: string;
+  file: any;
+  duration: any;
+  formData: FormData = new FormData();
 
   constructor(
     private modalCtrl: ModalController,
@@ -36,37 +38,47 @@ export class RequestSongComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+
+      reader.onload = (event: any) => {
+        this.file = event.target.result;
+
+        const sound = new Howl({
+          src: [this.file],
+          onload: () => {
+            this.duration = Math.ceil(sound.duration());
+            this.formData.append('duration', this.duration);
+          }
+        });
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      this.file = event.target.files[0];
+      this.formData.append('audio', this.file, this.file.name);
+    }
+  }
+
   onCancel() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
 
   onRequestSong() {
-    this.fileName = this.form.value.audio.replace(/^.*[\\\/]/, '');
-    this.howl = new Howl({
-      src: [this.fileName]
-    } as any);
-
+    this.formData.append('title', this.form.value.title);
     this.loadingCtrl.create({
       message: 'Requesting song'
     }).then(loadingEl => {
       loadingEl.present();
-
       setTimeout(() => {
+        const song = new SongModel();
+        song.title = this.form.value.title;
+        song.duration = this.duration;
+        this.apiArtist.createSong(this.album.id, song, this.formData);
         loadingEl.dismiss();
-
-        let songModel = new SongModel();
-        songModel.title = this.form.value.title;
-        songModel.url = this.fileName;
-        // songModel.duration = Math.ceil(this.howl.duration());
-        // songModel.albumTitle = this.album.title;
-        songModel.albumImage = this.album.image;
-
-        this.apiArtist.createSong(this.album.id, songModel).subscribe();
-
-
         this.modalCtrl.dismiss({
           message: 'Song requested successfully'
         }, 'confirm');
+        this.form.reset();
       }, 1500);
     });
   }

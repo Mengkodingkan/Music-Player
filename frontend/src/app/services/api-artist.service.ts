@@ -72,17 +72,22 @@ export class ApiArtistService {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('title', album.title);
-    formData.append('release_date', "2023-05-23");
-    formData.append('category', "ep");
     return this.http.post(environment.ApiURL + '/artist/albums', formData, {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
     }).pipe(
-      switchMap(() => {
-        return this.albums
-      }), take(1), tap(albums => {
-          this._albums.next(albums.concat(album));
+      switchMap((resData: any) => {
+        const albumModel = new AlbumModel();
+        albumModel.id = resData.data.id;
+        albumModel.title = resData.data.title;
+        albumModel.image = resData.data.image;
+        this._album.next(albumModel);
+        return this.albums;
+      }), take(1), tap((albums: any) => {
+          let albumModel = new AlbumModel();
+          this.album.subscribe(album => albumModel = album);
+          this._albums.next(albums.concat(albumModel));
         }
       ));
   }
@@ -100,25 +105,24 @@ export class ApiArtistService {
           let albumModel = new AlbumModel();
           albumModel.id = album.id;
           albumModel.title = album.title;
-          albumModel.publishDate = album.publish_date;
+          albumModel.image = album.image;
           albums.push(albumModel);
 
           for (let song of album.songs) {
-            let songModel = new SongModel();
-            songModel.id = song.id;
-            songModel.title = song.title;
-            songModel.url = `https://music.mengkodingkan.dev/audio/${song.audio}`;
-            songModel.status = song.status;
-            songModel.albumId = album.id;
-            songModel.albumTitle = album.title;
-            songModel.duration = song.duration;
-            songModel.releaseDate = song.release_date;
-            songs.push(songModel);
+            if (song.status === 'published') {
+              let songModel = new SongModel();
+              songModel.id = song.id;
+              songModel.title = song.title;
+              songModel.url = song.audioUrl;
+              songModel.duration = song.duration;
+              songModel.albumId = song.albumId;
+              songModel.releaseDate = new Date(song.release).toLocaleDateString();
+              songs.push(songModel);
+            }
           }
-          console.log(album.songs);
         }
-        this._songs.next(songs);
         this._albums.next(albums);
+        this._songs.next(songs);
       });
   }
 
@@ -129,34 +133,36 @@ export class ApiArtistService {
       }
     })
       .subscribe((resData: any) => {
-        // let songs: SongModel[] = [];
-        let album = new AlbumModel();
-        album.id = resData.data.id;
-        album.title = resData.data.title;
-        album.image = resData.data.image;
-        album.publishDate = new Date(resData.data.release_date).getFullYear().toString();
+        let albumModel = new AlbumModel();
+        albumModel.id = resData.data.id;
+        albumModel.title = resData.data.title;
+        albumModel.image = resData.data.image;
+        albumModel.publishDate = new Date(resData.data.publishDate).getFullYear().toString();
 
-        // for (let song in resData.songs) {
-        //   let songModel = new SongModel();
-        //   songModel.id = song;
-        //   songModel.title = resData.songs[song].song_title;
-        //   songModel.url = resData.songs[song].url;
-        //   songModel.status = resData.songs[song].status;
-        //   songModel.likeCount = resData.songs[song].like_count;
-        //   songModel.albumId = resData.songs[song].album.album_id;
-        //   songModel.albumTitle = resData.songs[song].album.album_title;
-        //   songModel.duration = resData.songs[song].duration;
-        //   songModel.releaseDate = resData.songs[song].release_date;
-        //   songs.push(songModel);
-        // }
-        // this._songs.next(songs);
-        console.log(resData);
-        this._album.next(album);
+        let songs: SongModel[] = [];
+        for (let song of resData.data.songs) {
+          if (song.status === 'published') {
+            let songModel = new SongModel();
+            songModel.id = song.id;
+            songModel.title = song.title;
+            songModel.url = song.audioUrl;
+            songModel.duration = song.duration;
+            songModel.albumId = song.albumId;
+            songModel.releaseDate = new Date(song.release).toLocaleDateString();
+            songs.push(songModel);
+          }
+        }
+        this._album.next(albumModel);
+        this._songs.next(songs);
       });
   }
 
   deleteAlbum(albumId: any) {
-    return this.http.delete(environment.ApiURL + '/albums/' + albumId + '.json', {}).pipe(
+    return this.http.delete(environment.ApiURL + `/artist/albums/${albumId}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    }).pipe(
       switchMap(() => {
         return this.albums
       }),
@@ -167,26 +173,12 @@ export class ApiArtistService {
     )
   }
 
-  createSong(albumId: string, song: SongModel) {
-
-    return this.http.post(environment.ApiURL + '/artist/songs', {
-      title: song.title,
-      image: song.albumImage,
-      audio: song.url,
-      // duration: song.duration,
-      genre_id: 1,
-      album_id: albumId
-    }, {
+  createSong(albumId: any, song: SongModel, formData: FormData) {
+    return this.http.post(environment.ApiURL + `/artist/albums/${albumId}/songs`, formData, {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
-    }).pipe(
-      switchMap(() => {
-        return this.songs
-      }), take(1), tap(songs => {
-          this._songs.next(songs.concat(song));
-        }
-      ));
+    }).subscribe();
   }
 
   fetchSongById(albumId: any, songId: any) {

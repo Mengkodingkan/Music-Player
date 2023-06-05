@@ -22,7 +22,6 @@ export class AlbumDetailPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController
   ) {
-
   }
 
   ngOnInit() {

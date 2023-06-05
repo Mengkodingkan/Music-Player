@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NavController} from "@ionic/angular";
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlService} from "../../../services/howl.service";
 import {SongModel} from "../../../model/song.model";
 import {AlbumModel} from "../../../model/album.model";
 import {ArtistModel} from "../../../model/artist.model";
@@ -21,7 +21,7 @@ export class AlbumPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
     private apiUser: ApiUserService,
-    private howler: HowlerJsService
+    private howler: HowlService
   ) {
     setInterval(() => {
       console.log(this.songs)
@@ -50,6 +50,6 @@ export class AlbumPage implements OnInit {
     // arr.splice(index, 1);
     // arr.unshift(song);
 
-    this.howler.addToQueue(song);
+    this.howler.playSong(song);
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonItemSliding, ToastController} from "@ionic/angular";
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlService} from "../../../services/howl.service";
 import {SongModel} from "../../../model/song.model";
 import {ApiUserService} from "../../../services/api-user.service";
 
@@ -18,7 +18,7 @@ export class PlaylistPage implements OnInit {
     private apiUser: ApiUserService,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private howler: HowlerJsService
+    private howler: HowlService
   ) {
   }
 

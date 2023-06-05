@@ -20,7 +20,11 @@
 
           <ion-row class="ion-text-center ion-justify-content-end">
             <ion-col class="ion-no-padding" size="4">
-              <ion-button class="ion-no-padding" fill="clear" (click)="onLike()">
+              <ion-button class="ion-no-padding" fill="clear" *ngIf="isLiked"
+                          (click)="onLikeToggle('unlike')">
+                <ion-icon name="heart" size="large"></ion-icon>
+              </ion-button>
+              <ion-button class="ion-no-padding" fill="clear" *ngIf="!isLiked" (click)="onLikeToggle('like')">
                 <ion-icon name="heart-outline" size="large"></ion-icon>
               </ion-button>
             </ion-col>
@@ -31,7 +35,7 @@
           <ion-row>
 
             <ion-col class="ion-text-center">
-              <ion-button (click)="onNext()" fill="clear">
+              <ion-button (click)="onPrevious()" fill="clear">
                 <ion-icon name="play-skip-back-circle" size="large"></ion-icon>
               </ion-button>
               <ion-button (click)="onPlayer(false)" *ngIf="isPlaying" fill="clear">
@@ -40,7 +44,7 @@
               <ion-button (click)="onPlayer(true)" *ngIf="!isPlaying" fill="clear">
                 <ion-icon name="pause-circle" size="large" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button (click)="onPrevious()" fill="clear">
+              <ion-button (click)="onNext()" fill="clear">
                 <ion-icon name="play-skip-forward-circle" size="large"></ion-icon>
               </ion-button>
 

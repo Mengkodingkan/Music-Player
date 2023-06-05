@@ -21,8 +21,22 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post(environment.ApiURL + '/auth',
       {
-        email,
-        password,
+        email: email,
+        password: password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).subscribe((resData: any) => {
+      this._data.next(resData);
+    });
+  }
+
+  loginArtist(email: string, password: string) {
+    return this.http.post(environment.ApiURL + '/artist-auth',
+      {
+        email: email,
+        password: password,
       }, {
         headers: {
           'Content-Type': 'application/json'
@@ -35,10 +49,9 @@ export class AuthService {
   registerUser(name: string, email: string, password: string) {
     return this.http.post(environment.ApiURL + '/register',
       {
-        name: name,
+        fullName: name,
         email: email,
         password: password,
-        birthday: '1999-01-01',
         role: 'user'
       }, {
         headers: {

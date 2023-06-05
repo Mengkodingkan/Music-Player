@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  ApiURL: 'https://music.mengkodingkan.dev/api',
-  FireBaseUrl: 'https://music-player-b39d4-default-rtdb.firebaseio.com/',
+  ApiURL: 'http://backend-music-player.test/api',
 };
 
 /*
