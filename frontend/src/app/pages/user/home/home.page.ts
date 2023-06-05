@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import {register} from 'swiper/element/bundle';
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlService} from "../../../services/howl.service";
 import {SongModel} from "../../../model/song.model";
 import {ArtistModel} from "../../../model/artist.model";
 import {ApiUserService} from "../../../services/api-user.service";
@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
   index: any;
 
   constructor(
-    private howler: HowlerJsService,
+    private howler: HowlService,
     private apiUser: ApiUserService
   ) {
 
@@ -36,11 +36,12 @@ export class HomePage implements OnInit {
 
   onAddToQueue(song: SongModel) {
 
-    // const arr = [...song];
-    // const index = arr.findIndex((item: any) => item.id === song.id);
-    // arr.splice(index, 1);
-    // arr.unshift(song);
-
-    this.howler.addToQueue(song);
+    const arr = [...this.songs];
+    const index = arr.findIndex((item: any) => item.id === song.id);
+    arr.splice(index, 1);
+    arr.unshift(song);
+    this.howler.setCurrentIndex(0);
+    this.howler.setTracks(arr);
+    this.howler.playSong(song);
   }
 }

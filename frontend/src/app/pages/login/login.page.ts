@@ -78,8 +78,8 @@ export class LoginPage implements OnInit {
           return;
         }
         localStorage.setItem('token', this.data.token);
-        localStorage.setItem('id', this.data.id);
-        localStorage.setItem('role', this.data.role);
+        localStorage.setItem('id', this.data.data.userId);
+        localStorage.setItem('role', this.data.data.role);
         this.form.reset()
       }, 1500);
     });

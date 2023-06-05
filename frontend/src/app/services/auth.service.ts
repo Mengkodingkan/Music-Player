@@ -21,13 +21,14 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post(environment.ApiURL + '/auth',
       {
-        email,
-        password,
+        email: email,
+        password: password,
       }, {
         headers: {
           'Content-Type': 'application/json'
         }
       }).subscribe((resData: any) => {
+      console.log(resData);
       this._data.next(resData);
     });
   }

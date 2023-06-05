@@ -6,59 +6,7 @@ import {SongModel} from "../model/song.model";
 @Injectable({
   providedIn: 'root'
 })
-export class HowlerJsService {
-
-  queues: any[] = [];
-
-  // @ts-ignore
-  howlPlayer: Howl = null;
-  //
-  // playSong() {
-  //   // check queues
-  //   const s = this.queues;
-  //   const songs = s.map((a: any) => a.song_url);
-  //   const howler = new Howl({
-  //     src: songs
-  //   });
-  //
-  //   howler.play();
-  //   if (!this.eventActive)
-  //     this.onEvent();
-  //   this.howler = howler;
-  // }
-  //
-  // addToQueueAndPlay(item: any) {
-  //   // check is queue not empty
-  //   if (this.queues.length > 0) {
-  //     this.queues = [];
-  //     this.isPlaying = false;
-  //     this.howler.stop();
-  //   }
-  //
-  //   if (Array.isArray(item))
-  //     this.queues.push(...item);
-  //   else
-  //     this.queues.push(item);
-  //
-  //   if (!this.isPlaying) {
-  //     this.playSong();
-  //     this.isPlaying = true;
-  //   }
-  // }
-  //
-  // onEvent() {
-  //   this.howler?.on('end', () => {
-  //     this.queues.shift();
-  //     if (this.queues.length > 0) {
-  //       this.howler.play();
-  //     } else {
-  //       this.isPlaying = false;
-  //     }
-  //   });
-  //   this.eventActive = true;
-  // }
-
-  private _isLiked = new BehaviorSubject<boolean>(false);
+export class HowlService {
   private _activeSong = new BehaviorSubject<any>(null);
   private _defaultIsPause = new BehaviorSubject<boolean>(false);
   private _progressBar = new BehaviorSubject<number>(0);
@@ -66,16 +14,9 @@ export class HowlerJsService {
   private _end = new BehaviorSubject<number>(0);
 
   private progressInterval: any;
-  private currentIndex: number = 0;
-  private playlist: any;
-
-  constructor() {
-
-  }
-
-  get isLiked() {
-    return this._isLiked.asObservable();
-  }
+  private howlPlayer: any = null;
+  private tracks: SongModel[] = [];
+  private currentIndex: number;
 
   get activeSong() {
     return this._activeSong.asObservable();
@@ -97,15 +38,22 @@ export class HowlerJsService {
     return this._end.asObservable();
   }
 
-  addToQueue(song: SongModel) {
+  setCurrentIndex(index: number) {
+    this.currentIndex = index;
+  }
+
+  setTracks(tracks: SongModel[]) {
+    this.tracks = tracks;
+  }
+
+  playSong(song: SongModel) {
     if (this._activeSong.getValue() === song) {
       return;
     } else {
       this.howlPlayer?.stop();
     }
-
     this.howlPlayer = new Howl({
-      src: [song.url],
+      src: [this.tracks[this.currentIndex].url],
       html5: true,
       onplay: () => {
         this._defaultIsPause.next(false);
@@ -133,11 +81,20 @@ export class HowlerJsService {
   }
 
   next() {
-
+    this.currentIndex++;
+    if (this.currentIndex >= this.tracks.length) {
+      this.currentIndex = 0;
+    }
+    console.log(this.currentIndex)
+    this.playSong(this.tracks[this.currentIndex]);
   }
 
   previous() {
-
+    this.currentIndex--;
+    if (this.currentIndex < 0) {
+      this.currentIndex = this.tracks.length - 1;
+    }
+    this.playSong(this.tracks[this.currentIndex]);
   }
 
   seekTo(event: any) {
@@ -158,10 +115,6 @@ export class HowlerJsService {
 
   stopProgressInterval() {
     clearInterval(this.progressInterval);
-  }
-
-  toggleLike(unlike: boolean) {
-    this._isLiked.next(!unlike);
   }
 
 }

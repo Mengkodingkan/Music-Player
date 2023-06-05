@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlService} from "../../../services/howl.service";
 import {SongModel} from "../../../model/song.model";
 
 @Component({
@@ -13,7 +13,7 @@ export class PlaylistItemComponent implements OnInit {
   activeSong: SongModel;
 
   constructor(
-    private howler: HowlerJsService
+    private howler: HowlService
   ) {
   }
 
@@ -23,6 +23,6 @@ export class PlaylistItemComponent implements OnInit {
   }
 
   onAddToQueue(song: SongModel) {
-    this.howler.addToQueue(song);
+    this.howler.playSong(song);
   }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HowlerJsService} from "../../../services/howler-js.service";
+import {HowlService} from "../../../services/howl.service";
 import {SongModel} from "../../../model/song.model";
 import {ApiUserService} from "../../../services/api-user.service";
 
@@ -16,7 +16,7 @@ export class PlayerCtrlComponent implements OnInit {
   end: number;
 
   constructor(
-    private howler: HowlerJsService,
+    private howler: HowlService,
     private apiUser: ApiUserService
   ) {
   }
