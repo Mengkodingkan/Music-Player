@@ -1,9 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button color="primary" fill="clear" mode="ios" routerLink="/artist-login">
-        Login for artist
-        <ion-icon name="arrow-forward-outline"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-button color="primary" fill="clear" mode="ios" routerLink="/login">
+        <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -22,9 +21,6 @@
                    labelPlacement="floating" minLength="8" formControlName="password" placeholder="password"
                    required="" type="password"></ion-input>
         <ion-buttons>
-          <ion-button color="primary" fill="clear" mode="ios" type="button" routerLink="/user-register">Switch to
-            Signup
-          </ion-button>
           <ion-button color="primary" fill="solid" mode="ios" type="submit" (click)="onLogin()">Login</ion-button>
         </ion-buttons>
       </ion-card-content>

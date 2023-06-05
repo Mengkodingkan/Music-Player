@@ -5,11 +5,11 @@ import {LoadingController, ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-artist-login',
+  templateUrl: './artist-login.page.html',
+  styleUrls: ['./artist-login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class ArtistLoginPage implements OnInit {
   form: FormGroup;
   isLoading = false;
   data: any;
@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
 
   onLogin() {
     this.isLoading = true;
-    this.authService.login(this.form.value.email, this.form.value.password);
+    this.authService.loginArtist(this.form.value.email, this.form.value.password);
     this.authService.data.subscribe(data => this.data = data);
 
     this.loadingCtrl.create({
@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
         this.isLoading = false;
         loadingEl.dismiss();
 
-        this.data.role == 'user' ? this.router.navigateByUrl('/user/tabs/home') : this.router.navigateByUrl('/admin/tabs/dashboard');
+        this.router.navigateByUrl('/artist/tabs/dashboard');
 
         if (this.data.statusCode != 200) {
 
@@ -64,14 +64,16 @@ export class LoginPage implements OnInit {
             color: 'danger'
           }).then(toastEl => {
             toastEl.present();
+            this.form.reset();
           });
           return;
         }
         localStorage.setItem('token', this.data.token);
         localStorage.setItem('id', this.data.data.userId);
         localStorage.setItem('role', this.data.data.role);
-        this.form.reset()
+        this.form.reset();
       }, 1500);
     });
   }
+
 }

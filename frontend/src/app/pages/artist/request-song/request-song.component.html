@@ -10,15 +10,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item>
-      <ion-input label="Song Title" labelPlacement="floating" placeholder="Enter text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="file"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-button mode="ios" size="small">Submit</ion-button>
-    </ion-item>
-  </ion-list>
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="title" label="Song Title" labelPlacement="floating"
+                   placeholder="Enter text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="audio" type="file" (change)="onFileSelected($event)"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button mode="ios" size="small" (click)="onRequestSong()">Submit</ion-button>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>

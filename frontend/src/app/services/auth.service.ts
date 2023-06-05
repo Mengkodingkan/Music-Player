@@ -28,7 +28,20 @@ export class AuthService {
           'Content-Type': 'application/json'
         }
       }).subscribe((resData: any) => {
-      console.log(resData);
+      this._data.next(resData);
+    });
+  }
+
+  loginArtist(email: string, password: string) {
+    return this.http.post(environment.ApiURL + '/artist-auth',
+      {
+        email: email,
+        password: password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).subscribe((resData: any) => {
       this._data.next(resData);
     });
   }

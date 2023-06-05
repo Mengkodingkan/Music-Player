@@ -13,13 +13,11 @@ import {NewAlbumComponent} from "../new-album/new-album.component";
 export class AlbumsPage implements OnInit {
   albums: AlbumModel[];
   songs: SongModel[];
-  a: any;
 
   constructor(
     private modalCtrl: ModalController,
     private apiArtist: ApiArtistService
   ) {
-
   }
 
   ngOnInit() {
