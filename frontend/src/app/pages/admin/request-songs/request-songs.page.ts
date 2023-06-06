@@ -17,18 +17,23 @@ export class RequestSongsPage implements OnInit {
 
   ngOnInit() {
     this.apiAdmin.fetchPendingSongs();
-    this.apiAdmin.pendingSongs.subscribe(songs => this.pendingSongs = songs)
+    this.apiAdmin.pendingSongs.subscribe(songs => this.pendingSongs = songs);
   }
 
   onAccepted(songId: any) {
-    this.apiAdmin.songApprovals(songId, 'approve').subscribe(resData => {
-      console.log(resData)
-    });
+    this.apiAdmin.songApprovals(songId, 'approve').subscribe();
   }
 
   onRejected(songId: any) {
-    this.apiAdmin.songApprovals(songId, 'reject').subscribe(resData => {
-      console.log(resData)
-    });
+    this.apiAdmin.songApprovals(songId, 'reject').subscribe();
   }
+
+  handleRefresh(event: any) {
+    this.apiAdmin.fetchPendingSongs();
+    this.apiAdmin.pendingSongs.subscribe(songs => this.pendingSongs = songs);
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
+
 }

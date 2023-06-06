@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ApiURL: 'http://backend-music-player.test/api',
+  ApiURL: 'http://backend.test/api',
 };
 
 /*
