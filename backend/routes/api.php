@@ -30,6 +30,7 @@ Route::middleware(['api.user'])->prefix('user')->group(function () {
 
 Route::middleware(['api.artist'])->prefix('artist')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\ArtistController::class, 'dashboard']);
+    Route::get('/account', [\App\Http\Controllers\ArtistController::class, 'getAccount']);
 
     Route::prefix('/albums')->group(function () {
 
