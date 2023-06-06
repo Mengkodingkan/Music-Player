@@ -95,7 +95,6 @@ export class HowlService {
   }
 
   previous() {
-    console.log(this.tracks);
     this.currentIndex--;
     if (this.currentIndex < 0) {
       this.currentIndex = this.tracks.length - 1;

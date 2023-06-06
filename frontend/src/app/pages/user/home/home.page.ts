@@ -26,8 +26,11 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.apiUser.fetchHome();
+    this.ionViewWillEnter();
+  }
 
+  ionViewWillEnter() {
+    this.apiUser.fetchHome();
     this.howler.activeSong.subscribe(activeSong => this.activeSong = activeSong);
     this.apiUser.artists.subscribe(artists => this.artists = artists);
     this.apiUser.songs.subscribe(songs => this.songs = songs);

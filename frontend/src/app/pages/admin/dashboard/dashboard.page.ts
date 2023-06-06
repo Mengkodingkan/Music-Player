@@ -15,14 +15,17 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
+    this.ionViewWillEnter();
+  }
+
+  ionViewWillEnter() {
     this.apiAdmin.fetchDataDashboard();
     this.apiAdmin.data.subscribe(data => this.data = data)
   }
 
   handleRefresh(event: any) {
     setTimeout(() => {
-      this.apiAdmin.fetchDataDashboard();
-      this.apiAdmin.data.subscribe(data => this.data = data);
+      this.ionViewWillEnter();
       event.target.complete();
     }, 1000);
   }
