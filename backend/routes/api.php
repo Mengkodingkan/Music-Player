@@ -29,6 +29,8 @@ Route::middleware(['api.user'])->prefix('user')->group(function () {
 });
 
 Route::middleware(['api.artist'])->prefix('artist')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\ArtistController::class, 'dashboard']);
+
     Route::prefix('/albums')->group(function () {
 
         // CRUD Album
@@ -48,4 +50,7 @@ Route::middleware(['api.artist'])->prefix('artist')->group(function () {
 
 Route::middleware(['api.admin'])->prefix('admin')->group(function () {
     Route::post('/approve/{songId}', [\App\Http\Controllers\AdminController::class, 'approve']);
+    Route::post('/reject/{songId}', [\App\Http\Controllers\AdminController::class, 'reject']);
+    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard']);
+    Route::get('/pending', [\App\Http\Controllers\AdminController::class, 'getPendingSong']);
 });

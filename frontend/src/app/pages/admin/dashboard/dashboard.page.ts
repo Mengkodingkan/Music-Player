@@ -19,4 +19,12 @@ export class DashboardPage implements OnInit {
     this.apiAdmin.data.subscribe(data => this.data = data)
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.apiAdmin.fetchDataDashboard();
+      this.apiAdmin.data.subscribe(data => this.data = data);
+      event.target.complete();
+    }, 1000);
+  }
+
 }

@@ -23,7 +23,7 @@ class ArtistMiddleware
             $token = $request->bearerToken();
             $decode = JWT::decode($token, new Key(env('JWT_SECRET_KEY'), 'HS256'));
             $request->merge([
-                'userId' => $decode->artistId,
+                'artistId' => $decode->id,
                 'role' => $decode->role,
             ]);
             return $decode->role == 'artist' ? $next($request) : response()->json('Access Denied', 401);

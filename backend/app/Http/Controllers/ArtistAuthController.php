@@ -19,35 +19,41 @@ class ArtistAuthController extends Controller
     public function artistAuth(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:artists,email',
+            'email' => 'required|email',
             'password' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 400);
+            try {
+                return messageError($validator->messages()->toArray());
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => $e->getMessage()
+                ], 401);
+            }
         }
-
-        $artist = Artist::where('email', $validator->validate()['email'])->first();
-
-        $payload = [
-            'artistId' => $artist['id'],
-            'role' => 'artist',
-            'iat' => now()->timestamp,
-            'exp' => now()->timestamp + 172000000
-        ];
-
-        $token = JWT::encode($payload, env('JWT_SECRET_KEY'), 'HS256');
-
+        if (Auth::guard('artist')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $artist = Artist::where('email', $request->email)->first();
+            $payload = [
+                'artistId' => $artist->id,
+                'email' => $artist->email,
+                'role' => $artist->role
+            ];
+            $token = JWT::encode($payload, env('JWT_SECRET_KEY'), 'HS256');
+            return response()->json([
+                'message' => 'Successful login',
+                'statusCode' => 200,
+                'data' => [
+                    'fullName' => $artist->full_name,
+                    'artistId' => $artist->id,
+                    'role' => $artist->role
+                ],
+                'token' => $token
+            ], 200);
+        }
         return response()->json([
-            'message' => 'Successful login',
-            'statusCode' => 200,
-            'data' => [
-                'fullName' => $artist['full_name'],
-                'artistId' => $artist['id'],
-                'role' => 'artist'
-            ],
-            'token' => $token
-        ], 200);
+            'message' => 'Invalid email or password'
+        ], 401);
     }
 
     public function artistRegister(Request $request): JsonResponse
@@ -62,10 +68,7 @@ class ArtistAuthController extends Controller
             ]);
 
             if ($v->fails()) {
-                return response()->json([
-                    'message' => $v->errors()->first(),
-                    'statusCode' => 400,
-                ], 400);
+                return messageError($v->messages()->toArray());
             }
 
             // get if artist already exists
@@ -95,7 +98,7 @@ class ArtistAuthController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Register failed',
+                'message' => $e->getMessage(),
                 'statusCode' => 500,
             ], 500);
         }

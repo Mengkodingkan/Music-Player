@@ -243,7 +243,7 @@ export class ApiAdminService {
   }
 
   fetchPendingSongs() {
-    return this.http.get(environment.ApiURL + '/admin/songs?status=pending', {
+    return this.http.get(environment.ApiURL + '/admin/pending', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
@@ -254,7 +254,7 @@ export class ApiAdminService {
           let songModel = new SongModel();
           songModel.id = song.id;
           songModel.title = song.title;
-          songModel.artistName = song.artist.name;
+          songModel.artistName = song.album.artist.fullName;
           songModel.status = song.status;
           songModel.albumTitle = song.album.title;
           songs.push(songModel);
@@ -264,7 +264,7 @@ export class ApiAdminService {
   }
 
   songApprovals(songId: string, status: string) {
-    return this.http.put(environment.ApiURL + `/admin/songs/${status}/${songId}`, {}, {
+    return this.http.post(environment.ApiURL + `/admin/${status}/${songId}`, {}, {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }

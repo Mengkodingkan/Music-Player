@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Artist extends Model
+class Artist extends Authenticatable
 {
     use HasApiTokens, HasFactory;
 
     protected $table = 'artists';
 
     protected $fillable = [
-        'name',
+        'full_name',
+        'image',
+        'bio',
         'email',
         'password',
     ];
@@ -31,5 +34,10 @@ class Artist extends Model
     public function album(): HasMany
     {
         return $this->hasMany(Album::class, 'artist_id', 'id');
+    }
+
+    public function song(): HasMany
+    {
+        return $this->hasMany(Song::class, 'artist_id', 'id');
     }
 }

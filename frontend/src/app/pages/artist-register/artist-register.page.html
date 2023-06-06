@@ -3,9 +3,11 @@
     <ion-card-title>Sign up artist</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <form [formGroup]="form">
+    <form [formGroup]="formGroup">
       <ion-input class="ion-margin-bottom" fill="outline"
-                 label="Your Name" labelPlacement="floating" formControlName="name" required=""></ion-input>
+                 label="Your Name" labelPlacement="floating" formControlName="fullName" required=""></ion-input>
+      <ion-img [src]="fileUrl"></ion-img>
+      <ion-input type="file" (change)="fileReader($event)"></ion-input>
       <ion-input class="ion-margin-bottom" fill="outline"
                  label="Email" labelPlacement="floating" formControlName="email" placeholder="example@gmail.com"
                  required="" type="email"></ion-input>
