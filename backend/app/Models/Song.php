@@ -17,9 +17,16 @@ class Song extends Model
         'title',
         'audio_path',
         'duration',
+        'likes',
         'status',
+        'artist_id',
         'album_id',
     ];
+
+    public function artist(): BelongsTo
+    {
+        return $this->belongsTo(Artist::class, 'artist_id', 'id');
+    }
 
     public function album(): BelongsTo
     {

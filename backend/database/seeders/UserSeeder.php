@@ -16,11 +16,11 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'full_name' => 'User 2',
-            'email' => 'user2@coba.com',
-            'password' => 'user',
-            'role' => 'user',
-            'image' => 'default.png',
+            'full_name' => 'Admin',
+            'email' => 'admin@coba.com',
+            'password' => 'admin',
+            'role' => 'admin',
+//            'image' => 'default.png',
         ]);
     }
 }

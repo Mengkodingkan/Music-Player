@@ -13,6 +13,25 @@ use Illuminate\Validation\ValidationException;
 
 class ArtistController extends Controller
 {
+    public function dashboard(Request $request): JsonResponse
+    {
+        $artistId = $request->artistId;
+        $countAlbums = Album::where('artist_id', $artistId)->count();
+        $countSongPublished = Song::where('artist_id', $artistId)->where('status', 'published')->count();
+        $countSongPending = Song::where('artist_id', $artistId)->where('status', 'pending')->count();
+        $popularSongs = Song::where('artist_id', $artistId)->orderBy('likes', 'desc')->limit(5)->get();
+        $data = [
+            'countAlbums' => $countAlbums,
+            'countSongPublished' => $countSongPublished,
+            'countSongPending' => $countSongPending,
+            'popularSongs' => $popularSongs,
+        ];
+        return response()->json([
+            'message' => 'Dashboard retrieved successfully',
+            'data' => $data,
+        ]);
+    }
+
     /**
      * @throws \Exception
      */
@@ -38,7 +57,7 @@ class ArtistController extends Controller
         $album = Album::create([
             'title' => $albumData['title'],
             'image' => 'uploads/' . $fileName,
-            'artist_id' => $request->userId,
+            'artist_id' => $request->artistId,
         ]);
 
         return response()->json([
@@ -54,7 +73,7 @@ class ArtistController extends Controller
 
     public function getAllAlbums(Request $request): JsonResponse
     {
-        $artistId = $request->userId;
+        $artistId = $request->artistId;
         $albums = Album::where('artist_id', $artistId)->get();
         $data = [];
         foreach ($albums as $album) {
@@ -89,7 +108,7 @@ class ArtistController extends Controller
 
     public function getAlbumById(Request $request, $albumId): JsonResponse
     {
-        $artistId = $request->userId;
+        $artistId = $request->artistId;
         if (Album::where('artist_id', $artistId)->where('id', $albumId)->doesntExist()) {
             return response()->json([
                 'message' => 'Album not found',
@@ -180,6 +199,8 @@ class ArtistController extends Controller
      */
     public function createSong(Request $request, $albumId): JsonResponse
     {
+        $artistId = $request->artistId;
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'audio' => 'required|mimes:mp3,mpeg',
@@ -202,6 +223,7 @@ class ArtistController extends Controller
             'audio_path' => 'uploads/' . $fileName,
             'duration' => $songData['duration'],
             'album_id' => $albumId,
+            'artist_id' => $artistId,
         ]);
 
         return response()->json([
@@ -212,7 +234,7 @@ class ArtistController extends Controller
 
     public function getAllSongs(Request $request, $albumId): JsonResponse
     {
-        $artistId = $request->userId;
+        $artistId = $request->artistId;
         if (Album::where('artist_id', $artistId)->where('id', $albumId)->doesntExist()) {
             return response()->json([
                 'message' => 'Album not found',
@@ -230,7 +252,7 @@ class ArtistController extends Controller
 
     public function getSongById(Request $request, $albumId, $songId): JsonResponse
     {
-        $artistId = $request->userId;
+        $artistId = $request->artistId;
 
         if (Album::where('artist_id', $artistId)->where('id', $albumId)->doesntExist()) {
             return response()->json([
@@ -256,7 +278,7 @@ class ArtistController extends Controller
 
     public function deleteSong(Request $request, $albumId, $songId): JsonResponse
     {
-        $artistId = $request->userId;
+        $artistId = $request->artistId;
         if (Album::where('artist_id', $artistId)->where('id', $albumId)->doesntExist()) {
             return response()->json([
                 'message' => 'Album not found',

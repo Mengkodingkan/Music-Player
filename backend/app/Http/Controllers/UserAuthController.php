@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Playlist;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\JsonResponse;
@@ -27,6 +28,9 @@ class UserAuthController extends Controller
             try {
                 return messageError($validator->messages()->toArray());
             } catch (\Exception $e) {
+                return response()->json([
+                    'message' => $e->getMessage()
+                ], 401);
             }
         }
 
@@ -89,6 +93,11 @@ class UserAuthController extends Controller
             $user->role = $request->role;
             $user->password = $request->password;
             $user->save();
+
+            $playlist = Playlist::create([
+                'user_id' => $user->id,
+                'playlist_name' => 'Like Song'
+            ]);
 
             return response()->json([
                 'message' => 'Register successful',
