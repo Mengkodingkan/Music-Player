@@ -10,8 +10,6 @@ import {ArtistModel} from "../model/artist.model";
   providedIn: 'root'
 })
 export class ApiArtistService {
-  private _requestUpload = new BehaviorSubject<SongModel[]>([]);
-  private _popularSongs = new BehaviorSubject<SongModel[]>([]);
   private _albums = new BehaviorSubject<AlbumModel[]>([]);
   private _album = new BehaviorSubject<AlbumModel>(new AlbumModel());
   private _songs = new BehaviorSubject<SongModel[]>([]);
@@ -23,14 +21,6 @@ export class ApiArtistService {
     private http: HttpClient
   ) {
 
-  }
-
-  get requestUpload() {
-    return this._requestUpload.asObservable();
-  }
-
-  get popularSongs() {
-    return this._popularSongs.asObservable();
   }
 
   get albums() {
@@ -116,6 +106,7 @@ export class ApiArtistService {
               songModel.url = song.audioUrl;
               songModel.duration = song.duration;
               songModel.albumId = song.albumId;
+              songModel.likeCount = song.likes;
               songModel.releaseDate = new Date(song.release).toLocaleDateString();
               songs.push(songModel);
             }
@@ -182,23 +173,40 @@ export class ApiArtistService {
   }
 
   fetchSongById(albumId: any, songId: any) {
-    return this.http.get<{
-      [key: string]: SongModel
-    }>(environment.ApiURL + '/albums/' + albumId + '/songs/' + songId + '.json', {})
+    return this.http.get(environment.ApiURL + `/artist/albums/${albumId}/songs/${songId}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
       .subscribe((resData: any) => {
         let song = new SongModel();
-        song.id = songId;
-        song.title = resData.song_title;
-        song.url = resData.url;
-        song.status = resData.status;
-        song.likeCount = resData.like_count;
-        song.albumId = resData.album.album_id;
-        song.albumTitle = resData.album.album_title;
-        song.duration = resData.duration;
-        song.releaseDate = resData.release_date;
+        song.id = resData.data.id;
+        song.title = resData.data.title;
+        song.url = resData.data.audioUrl;
+        song.status = resData.data.status;
+        song.likeCount = resData.data.likes;
+        song.albumId = resData.data.albumId;
+        song.albumTitle = resData.data.albumTitle;
+        song.duration = resData.data.duration;
+        song.releaseDate = resData.data.release;
         this._song.next(song);
       });
   }
 
-
+  fetchAccount() {
+    return this.http.get(environment.ApiURL + '/artist/account', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .subscribe((resData: any) => {
+        let account = new ArtistModel();
+        account.id = resData.data.id;
+        account.fullName = resData.data.fullName;
+        account.email = resData.data.email;
+        account.image = resData.data.image;
+        account.bio = resData.data.bio;
+        this._account.next(account);
+      });
+  }
 }

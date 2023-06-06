@@ -1,31 +1,3 @@
-<ion-menu contentId="main-content-2">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Settings</ion-title>
-      <ion-buttons slot="end">
-        <ion-button color="danger" (click)="onLogout()">
-          <ion-icon name="log-out-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-card>
-      <ion-card-content>
-        <ion-list lines="none">
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/'" detail="false" routerDirection="root"
-                      routerLinkActive="selected">
-              <ion-icon name="shield" slot="start"></ion-icon>
-              <ion-label><strong>Privacy and Security</strong></ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
-</ion-menu>
-
 <ion-tabs (ionTabsDidChange)="setSelectedTab()">
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="dashboard">
