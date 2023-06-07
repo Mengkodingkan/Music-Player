@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActionSheetController, AlertController, ModalController} from "@ionic/angular";
 import {ChangePictureComponent} from "../change-picture/change-picture.component";
+import {ApiArtistService} from "../../../services/api-artist.service";
+import {ArtistModel} from "../../../model/artist.model";
 
 @Component({
   selector: 'app-account',
@@ -8,15 +10,19 @@ import {ChangePictureComponent} from "../change-picture/change-picture.component
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
+  account: ArtistModel;
 
   constructor(
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private apiArtist: ApiArtistService
   ) {
   }
 
   ngOnInit() {
+    this.apiArtist.fetchAccount();
+    this.apiArtist.account.subscribe(account => this.account = account);
   }
 
   onButtonChange() {

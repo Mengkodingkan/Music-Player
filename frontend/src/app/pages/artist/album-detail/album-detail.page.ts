@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {SongModel} from "../../../model/song.model";
 import {ApiArtistService} from "../../../services/api-artist.service";
 import {RequestSongComponent} from "../request-song/request-song.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-album-detail',
@@ -13,7 +14,8 @@ import {RequestSongComponent} from "../request-song/request-song.component";
 })
 export class AlbumDetailPage implements OnInit {
   album: AlbumModel;
-  songs: SongModel[];
+  loadedSongs: SongModel[];
+  private songSubs: Subscription;
 
   constructor(
     private apiArtist: ApiArtistService,
@@ -25,6 +27,10 @@ export class AlbumDetailPage implements OnInit {
   }
 
   ngOnInit() {
+    this.ionViewWillEnter();
+  }
+
+  ionViewWillEnter() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
 
       if (!paramMap.has('albumId')) {
@@ -36,7 +42,7 @@ export class AlbumDetailPage implements OnInit {
     });
 
     this.apiArtist.album.subscribe(album => this.album = album);
-    this.apiArtist.songs.subscribe(songs => this.songs = songs);
+    this.songSubs = this.apiArtist.songs.subscribe(songs => this.loadedSongs = songs);
   }
 
   onCreateSong() {
@@ -62,5 +68,11 @@ export class AlbumDetailPage implements OnInit {
         this.navCtrl.navigateBack('/artist/tabs/albums');
       }, 1500);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.songSubs) {
+      this.songSubs.unsubscribe();
+    }
   }
 }

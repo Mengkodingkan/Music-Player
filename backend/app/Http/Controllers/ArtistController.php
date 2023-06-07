@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Album;
+use App\Models\Artist;
 use App\Models\Song;
 use App\Models\TransactionPlaylist;
 use Illuminate\Http\JsonResponse;
@@ -200,6 +201,12 @@ class ArtistController extends Controller
     public function createSong(Request $request, $albumId): JsonResponse
     {
         $artistId = $request->artistId;
+        if (Album::where('artist_id', $artistId)->where('id', $albumId)->doesntExist()) {
+            return response()->json([
+                'message' => 'Album not found',
+                'data' => null,
+            ], 404);
+        }
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
@@ -269,10 +276,21 @@ class ArtistController extends Controller
         }
 
         $song = Song::where('album_id', $albumId)->where('id', $songId)->first();
+        $album = Album::find($albumId);
 
         return response()->json([
             'message' => 'Song retrieved successfully',
-            'data' => $song,
+            'data' => [
+                'id' => $song->id,
+                'title' => $song->title,
+                'likes' => $song->likes,
+                'duration' => $song->duration,
+                'status' => $song->status,
+                'release' => $song->created_at,
+                'audioUrl' => url($song->audio_path),
+                'albumId' => $song->album_id,
+                'albumTitle' => $album->title,
+            ]
         ]);
     }
 
@@ -299,6 +317,23 @@ class ArtistController extends Controller
 
         return response()->json([
             'message' => 'Song deleted successfully',
+        ]);
+    }
+
+    public function getAccount(Request $request): JsonResponse
+    {
+        $artistId = $request->artistId;
+        $artist = Artist::find($artistId);
+
+        return response()->json([
+            'message' => 'Account retrieved successfully',
+            'data' => [
+                'id' => $artist->id,
+                'fullName' => $artist->full_name,
+                'bio' => $artist->bio,
+                'email' => $artist->email,
+                'image' => url($artist->image),
+            ],
         ]);
     }
 }

@@ -23,9 +23,7 @@ export class PlaylistPage implements OnInit {
   }
 
   ngOnInit() {
-    this.apiUser.fetchPlaylist();
-    this.howler.activeSong.subscribe(song => this.currentSong = song);
-    this.apiUser.likeSongs.subscribe(songs => this.likeSongs = songs);
+    this.ionViewWillEnter();
   }
 
   ionViewWillEnter() {

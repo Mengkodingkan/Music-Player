@@ -15,30 +15,26 @@
     </ion-label>
   </ion-list-header>
 
-  <ion-card *ngFor="let album of albums">
+  <ion-card *ngFor="let album of loadedAlbums">
     <ion-card-header>
       <h3 routerLink="{{album.id}}">{{album.title}}</h3>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
-        <div *ngFor="let song of songs">
-          <ion-item button="" [routerLink]="[album.id, 'song', song.id]" *ngIf="song.albumId === album.id">
-            <ion-label>
-              <ion-row>
-                <ion-col>
-                  <h2>{{song.title}}</h2>
-                </ion-col>
-                <ion-col class="ion-text-center">
-                  <small>{{song.duration}}</small>
-                </ion-col>
-                <ion-col class="ion-text-center">
-                  <small>{{song.releaseDate}}</small>
-                </ion-col>
-              </ion-row>
-            </ion-label>
-          </ion-item>
-        </div>
-      </ion-list>
+      <div *ngFor="let song of loadedSongs">
+        <ion-label>
+          <ion-row [routerLink]="[album.id, 'song', song.id]" *ngIf="song.albumId === album.id">
+            <ion-col>
+              <h2>{{song.title}}</h2>
+            </ion-col>
+            <ion-col class="ion-text-center">
+              <small>{{durationHelper(song.duration)}}</small>
+            </ion-col>
+            <ion-col class="ion-text-center">
+              <small>{{song.likeCount}} likes</small>
+            </ion-col>
+          </ion-row>
+        </ion-label>
+      </div>
     </ion-card-content>
   </ion-card>
 

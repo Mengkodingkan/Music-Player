@@ -59,5 +59,6 @@ export class PlayerCtrlComponent implements OnInit {
   onLikeToggle(are: string) {
     this.apiUser.favoriteSong(this.activeSong.id, are).subscribe();
     this.isLiked = !this.isLiked;
+    this.activeSong.isLike = this.isLiked;
   }
 }
