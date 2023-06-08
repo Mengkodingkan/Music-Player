@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ApiURL: 'http://backend.test/api',
+  ApiURL: 'https://music.mengkodingkan.dev/api',
 };
 
 /*

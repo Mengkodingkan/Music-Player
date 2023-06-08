@@ -20,7 +20,9 @@ class UserSeeder extends Seeder
             'email' => 'admin@coba.com',
             'password' => 'admin',
             'role' => 'admin',
-//            'image' => 'default.png',
+            'image' => 'default.png',
         ]);
+
+        User::factory()->count(50)->create();
     }
 }
