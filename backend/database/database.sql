@@ -6,6 +6,7 @@ DELETE FROM users WHERE id = 58;
 
 -- SELECT WHERE, ORDER BY
 SELECT * FROM users WHERE full_name LIKE '%Test%';
+SELECT id FROM users WHERE mod(id, 2) = 0;
 SELECT * FROM users WHERE full_name LIKE '%Test%' ORDER BY full_name ASC;
 
 -- Case and Character Manipulation
@@ -18,11 +19,22 @@ SELECT REPLACE(full_name, ' ', '_') AS replace_string FROM users;
 SELECT ROUND(id) AS round_id, MOD(id, 2) AS mod_id FROM users;
 
 -- Join
-SELECT * FROM users JOIN playlists ON users.id = playlists.user_id;
+SELECT s.title, s.duration, s.likes, s.status, a.title album_title, ar.full_name artist_name
+FROM songs s
+JOIN albums a ON s.album_id = a.id
+INNER JOIN artists ar ON s.artist_id = ar.id;
+
+SELECT p.playlist_name, u.full_name, u.email FROM playlists p
+LEFT JOIN users u ON p.user_id = u.id;
+
+SELECT p.playlist_name, u.full_name, u.email FROM playlists p
+RIGHT JOIN users u ON u.id = p.user_id
 
 -- Group Functions
 SELECT COUNT(*) AS total_users FROM users;
 SELECT COUNT(*) AS total_users FROM users WHERE role = 'user';
+SELECT AVG(likes) AS avg_likes FROM songs;
+SELECT SUM(likes) AS total_likes FROM songs;
 
 
 -- sub-queries users, playlists
