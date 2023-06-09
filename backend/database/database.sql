@@ -1,7 +1,7 @@
--- users, playlists sub-queries
+-- sub-queries table users, playlists
 SELECT *
 FROM users
-WHERE id IN (SELECT user_id FROM playlists WHERE playlists.id < 3);
+WHERE id IN (SELECT user_id FROM playlists WHERE playlists.id < 5);
 
 -- VIEW users full_name
 CREATE VIEW users_full_name AS
@@ -22,6 +22,7 @@ INSERT INTO TestTable VALUES (NULL);
 CREATE USER 'marleess'@'localhost' IDENTIFIED BY 'coba';
 GRANT SELECT ON music_player.users TO 'marleess'@'localhost';
 SELECT * FROM mysql.user;
+REVOKE SELECT ON music_player.users FROM 'marleess'@'localhost';
 
 -- REGEXP
 SELECT * FROM users WHERE full_name REGEXP '^Mrs.';
