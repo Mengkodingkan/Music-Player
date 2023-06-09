@@ -57,6 +57,15 @@ CREATE TABLE TestTable
 );
 INSERT INTO TestTable VALUES (NULL);
 
+-- TRIGGERS
+-- CREATE TRIGGER before_insert_users
+-- BEFORE INSERT ON users
+-- FOR EACH ROW
+-- BEGIN
+--     SET NEW.created_at = NOW();
+-- END;
+
+
 -- User Privileges
 CREATE USER 'marleess'@'localhost' IDENTIFIED BY 'coba';
 GRANT SELECT ON music_player.users TO 'marleess'@'localhost';
